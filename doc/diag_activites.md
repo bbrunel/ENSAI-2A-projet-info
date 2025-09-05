@@ -20,25 +20,42 @@ Pour afficher ce diagramme dans VScode :
 stateDiagram
     login : Se connecter
     menu_joueur : Menu Joueur
+    menu_ingr : Gestion des ingrédients
     logon : Créer un compte
-    player_list : Lister les joueurs
-    poke_list : Lister les pokemons
+    gerer_ingr : Gérer les ingrédients
+    Consulter_les_ingrédients : Consulter les ingrédients
+    Ajouter_un_ingrédient : Ajouter un ingrédient
+    Supprimer_un_ingrédient : Supprimer un ingrédient
+    recettes : Propositions de recettes
+    rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
     
     [*] --> Accueil
     
+    Accueil --> Rechercher
+
     Accueil --> login
     login --> menu_joueur
     
     Accueil --> logon
     
-    Accueil --> quitter
-    quitter --> [*]
+    Accueil --> Quitter
+    Quitter --> [*]
     
     state menu_joueur {
-    	[*] --> player_list
-    	[*] --> poke_list
+    	[*] --> gerer_ingr
+      [*] --> recettes
+      [*] --> rec_ingr_manquant
     	[*] --> logout
-        logout --> [*]:retour accueil
+      logout --> [*]:retour accueil
+    }
+
+  gerer_ingr --> menu_ingr
+
+    state menu_ingr {
+      [*] --> Consulter_les_ingrédients
+      [*] --> Ajouter_un_ingrédient
+      [*] --> Supprimer_un_ingrédient
+        
     }
 ```
