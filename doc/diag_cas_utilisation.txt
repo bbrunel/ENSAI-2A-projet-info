@@ -5,24 +5,40 @@
 
 left to right direction
 
-actor "Utilisateur"      as user
 actor "Administrateur"   as admin
-actor "Joueur"           as joueur
+actor "Utilisateur"      as user
+actor "Visiteur"         as viewer
 
-rectangle {
-  usecase "S'inscrire"        as inscription
-  usecase "S'authentifier"    as authentification
-  usecase "Quitter"           as quitter
-  usecase "Lister joueurs"    as lister_joueurs
+rectangle "Compte utilisateur" {
+  usecase "Se connecter"      as log_in
+  usecase "Se déconnecter"    as log_out
+  usecase "Lister utilisateurs" as list_users
+  usecase "Créer un compte"   as sign_up
 }
 
-joueur --> quitter
+rectangle "Recettes" {
+  usecase "Rechercher/filtrer des recettes" as recipe
+  usecase "Lister les cocktails faisables" as feasible_recipe
+}
 
-user --> inscription
-user --> authentification
-user --> quitter
+rectangle "Ingrédients" {
+  usecase "Ajouter" as add_ingredient
+  usecase "Supprimer" as del_ingredient
+  usecase "Consulter" as view_ingredient
 
-admin --> quitter
-admin --> lister_joueurs
+}
 
+viewer --> sign_up
+viewer --> recipe
+user --> recipe
+user --> log_in
+user --> log_out
+user --> add_ingredient
+user --> del_ingredient
+user --> view_ingredient
+user --> feasible_recipe
+
+admin --> list_users
+admin --> log_in
+admin --> log_out
 @enduml
