@@ -161,4 +161,4 @@ cython_debug/
 .env
 logs/*
 
-diag_gantt_files/*
+doc/diag_gantt_files/*
