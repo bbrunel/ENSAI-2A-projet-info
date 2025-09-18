@@ -10,7 +10,7 @@ Pour afficher ce diagramme dans VScode :
 
 * à gauche aller dans **Extensions** (ou CTRL + SHIFT + X)
 * rechercher `mermaid`
-  * installer l'extension **Markdown Preview Mermaid Support**
+  * installer l'extension **Markdown Preview Mevrmaid Support**
 * revenir sur ce fichier
   * faire **CTRL + K**, puis **V**
 

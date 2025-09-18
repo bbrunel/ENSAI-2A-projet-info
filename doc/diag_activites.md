@@ -5,7 +5,7 @@
 Ce diagramme est codé avec [mermaid](https://mermaid.js.org/syntax/stateDiagram.html) :
 
 - avantage : facile à coder
-- inconvénient : on ne maîtrise pas bien l'affichage
+- inconvénient : on ne maîtrise pas bien l'affichagev
 
 Pour afficher ce diagramme dans VScode :
 
