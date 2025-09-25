@@ -30,6 +30,7 @@ stateDiagram
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
     admin : Accès administrateur
+    admin_out : Se déconnecter
     list_joueurs : Lister les joueurs
     
     [*] --> Accueil
@@ -39,6 +40,7 @@ stateDiagram
     Accueil --> logon
 
     Accueil --> admin
+    admin --> menu_admin
 
     Accueil --> login
     login --> menu_joueur
@@ -46,7 +48,10 @@ stateDiagram
     Accueil --> Quitter
     Quitter --> [*]
 
-    admin --> list_joueurs
+    state menu_admin {
+      [*] --> list_joueurs
+      [*] --> admin_out
+    }
     
     state menu_joueur {
     	[*] --> gerer_ingr
@@ -62,6 +67,8 @@ stateDiagram
       [*] --> Consulter_les_ingrédients
       [*] --> Ajouter_un_ingrédient
       [*] --> Supprimer_un_ingrédient
+      [*] --> Retour
+      Retour --> [*]
         
     }
 ```
