@@ -186,3 +186,40 @@ stateDiagram
         
     }
 ```
+
+## 5e diagramme : menu administrateur
+
+
+```mermaid
+stateDiagram
+    login : Se connecter
+    menu_utilisateur : Menu utilisateur
+    logon : Créer un compte
+    logout : Se déconnecter
+    admin : Accès administrateur
+    admin_out : Se déconnecter
+    list_utilisateurs : Consulter la liste des utilisateurs
+    menu_admin : Menu administrateur
+    
+    [*] --> Accueil
+    
+    Accueil --> Rechercher
+
+    Accueil --> login
+    login --> menu_utilisateur
+    
+    Accueil --> logon
+
+    Accueil --> admin
+    admin --> menu_admin
+    
+    Accueil --> Quitter
+    Quitter --> [*]
+
+    state menu_admin {
+      [*] --> list_utilisateurs
+      [*] --> admin_out
+      admin_out --> [*]: Retour accueil
+    }
+
+```
