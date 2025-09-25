@@ -68,7 +68,7 @@ stateDiagram
       [*] --> Ajouter_un_ingrédient
       [*] --> Supprimer_un_ingrédient
       [*] --> Retour
-      Retour --> [*]
+      Retour --> menu_joueur
         
     }
 ```
