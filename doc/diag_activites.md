@@ -198,27 +198,13 @@ stateDiagram
 
 ```mermaid
 stateDiagram
-    login : Se connecter
-    menu_utilisateur : Menu utilisateur
-    logon : Créer un compte
-    logout : Se déconnecter
     admin : Accès administrateur
     admin_out : Se déconnecter
     list_utilisateurs : Consulter la liste des utilisateurs
     menu_admin : Menu administrateur
-    Saisie_u : Saisie
     Saisie_a : Saisie
     
     [*] --> Accueil
-    
-    Accueil --> Rechercher
-
-    Accueil --> login
-    login --> Saisie
-    Saisie_u --> menu_utilisateur: Saisie valide
-    Saisie_u --> login: Saisie invalide
-    
-    Accueil --> logon
 
     Accueil --> admin
     admin --> Saisie
