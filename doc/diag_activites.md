@@ -42,9 +42,9 @@ stateDiagram
     Accueil --> Rechercher
 
     Accueil --> login
-    login --> Saisie
-    Saisie --> menu_utilisateur: Saisie valide
-    Saisie --> login: Saisie invalide
+    login --> Saisie_u
+    Saisie_u --> menu_utilisateur: Saisie valide
+    Saisie_u --> login: Saisie invalide
     
     Accueil --> logon
 
