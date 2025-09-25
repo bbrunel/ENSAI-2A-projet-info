@@ -82,7 +82,33 @@ stateDiagram
     }
 ```
 
-## 2e diagramme : centré sur la connexion
+## 2e diagramme : accueil
+
+```mermaid
+stateDiagram
+    login : Se connecter
+    menu_utilisateur : Menu utilisateur
+    logon : Créer un compte
+    logout : Se déconnecter
+    admin : Accès administrateur
+    menu_admin : Menu administrateur
+    
+    [*] --> Accueil
+    
+    Accueil --> Rechercher
+
+    Accueil --> login
+    
+    Accueil --> logon
+
+    Accueil --> admin
+    
+    Accueil --> Quitter
+    Quitter --> [*]
+
+```
+
+## 3e diagramme : centré sur la connexion
 
 ```mermaid
 stateDiagram
@@ -125,7 +151,7 @@ stateDiagram
     }
 ```
 
-## 3e diagramme : menu utilisateurs
+## 4e diagramme : menu utilisateurs
 
 ```mermaid
 stateDiagram
@@ -157,7 +183,7 @@ stateDiagram
 
 ```
 
-## 4e diagramme : menu ingrédients
+## 5e diagramme : menu ingrédients
 
 ```mermaid
 stateDiagram
@@ -193,7 +219,7 @@ stateDiagram
     }
 ```
 
-## 5e diagramme : menu administrateur
+## 6e diagramme : menu administrateur
 
 
 ```mermaid
@@ -209,9 +235,6 @@ stateDiagram
     admin --> Saisie
     Saisie --> menu_admin: Saisie valide
     Saisie --> admin: Saisie invalide
-    
-    Accueil --> Quitter
-    Quitter --> [*]
 
     state menu_admin {
       [*] --> list_utilisateurs
