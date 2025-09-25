@@ -14,14 +14,14 @@ sequenceDiagram
    participant DAO
    participant Database@{"type":"database"}
    User->>API: search for cocktails they can make
-   API->>Service: calls find_doable_cocktails from UserService
-   Service->>DAO: calls list_user_ingredients from UserDAO
+   API->>Service: call find_doable_cocktails from UserService
+   Service->>DAO: call list_user_ingredients from UserDAO
    DAO->>Database: retrieve persistent data
    Database->>DAO: send data (list of dictionnaries)
-   DAO->>Business Object: instantiate a business object for each ingredient
+   DAO->>Business Object: instantiates a business object for each ingredient
    Business Object->>DAO: return Ingredient object
-   DAO->>Service: returne list of ingredients (business objects)
-   Service->>DAO: calls find_cocktails_by_ingredients from CocktailDAO
+   DAO->>Service: return list of ingredients (business objects)
+   Service->>DAO: call find_cocktails_by_ingredients from CocktailDAO
    DAO->>Database: retrieve persistent data
    Database->>DAO: send data (list of dictionnaries)
    DAO->>Business Object: instantiate a business object for each cocktail
