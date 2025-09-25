@@ -19,7 +19,7 @@ Pour afficher ce diagramme dans VScode :
 ```mermaid
 stateDiagram
     login : Se connecter
-    menu_joueur : Menu Joueur
+    menu_utilisateur : Menu utilisateur
     menu_ingr : Gestion des ingrédients
     logon : Créer un compte
     gerer_ingr : Gérer les ingrédients
@@ -31,7 +31,7 @@ stateDiagram
     logout : Se déconnecter
     admin : Accès administrateur
     admin_out : Se déconnecter
-    list_joueurs : Consulter la liste des utilisateurs
+    list_utilisateurs : Consulter la liste des utilisateurs
     menu_admin : Menu administrateur
     
     [*] --> Accueil
@@ -39,7 +39,7 @@ stateDiagram
     Accueil --> Rechercher
 
     Accueil --> login
-    login --> menu_joueur
+    login --> menu_utilisateur
     
     Accueil --> logon
 
@@ -50,12 +50,12 @@ stateDiagram
     Quitter --> [*]
 
     state menu_admin {
-      [*] --> list_joueurs
+      [*] --> list_utilisateurs
       [*] --> admin_out
       admin_out --> [*]: Retour accueil
     }
     
-    state menu_joueur {
+    state menu_utilisateur {
     	[*] --> gerer_ingr
       [*] --> recettes
       [*] --> rec_ingr_manquant
@@ -70,7 +70,7 @@ stateDiagram
       [*] --> Ajouter_un_ingrédient
       [*] --> Supprimer_un_ingrédient
       [*] --> Retour
-      Retour --> [*]: Retour menu joueur
+      Retour --> [*]: Retour menu utilisateur
         
     }
 ```
