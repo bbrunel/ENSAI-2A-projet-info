@@ -149,10 +149,6 @@ stateDiagram
 
     gerer_ingr --> menu_ingr
 
-    state menu_ingr {
-
-    }
-
 ```
 
 ## 4e diagramme : menu ingrédients
