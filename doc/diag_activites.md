@@ -34,18 +34,24 @@ stateDiagram
     admin_out : Se déconnecter
     list_utilisateurs : Consulter la liste des utilisateurs
     menu_admin : Menu administrateur
+    Saisie_a : Saisie
+    Saisie_u : Saisie
     
     [*] --> Accueil
     
     Accueil --> Rechercher
 
     Accueil --> login
-    login --> menu_utilisateur
+    login --> Saisie
+    Saisie --> menu_utilisateur: Saisie valide
+    Saisie --> login: Saisie invalide
     
     Accueil --> logon
 
     Accueil --> admin
-    admin --> menu_admin
+    admin --> Saisie_a
+    Saisie_a --> menu_admin: Saisie valide
+    Saisie_a --> admin: Saisie invalide
     
     Accueil --> Quitter
     Quitter --> [*]
@@ -64,7 +70,7 @@ stateDiagram
       logout --> [*]:Retour accueil
     }
 
-  gerer_ingr --> menu_ingr
+    gerer_ingr --> menu_ingr
 
     state menu_ingr {
       [*] --> Consulter_les_ingrédients
@@ -200,6 +206,8 @@ stateDiagram
     admin_out : Se déconnecter
     list_utilisateurs : Consulter la liste des utilisateurs
     menu_admin : Menu administrateur
+    Saisie_u : Saisie
+    Saisie_a : Saisie
     
     [*] --> Accueil
     
@@ -207,15 +215,15 @@ stateDiagram
 
     Accueil --> login
     login --> Saisie
-    Saisie --> menu_utilisateur: Saisie valide
-    Saisie --> login: Saisie invalide
+    Saisie_u --> menu_utilisateur: Saisie valide
+    Saisie_u --> login: Saisie invalide
     
     Accueil --> logon
 
     Accueil --> admin
     admin --> Saisie
-    Saisie --> menu_admin: Saisie valide
-    Saisie --> admin: Saisie invalide
+    Saisie_a --> menu_admin: Saisie valide
+    Saisie_a --> admin: Saisie invalide
     
     Accueil --> Quitter
     Quitter --> [*]
