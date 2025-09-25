@@ -32,15 +32,15 @@ stateDiagram
     admin : Accès administrateur
     
     [*] --> Accueil
-
-    Accueil --> login
-    login --> menu_joueur
     
     Accueil --> Rechercher
     
     Accueil --> logon
 
     Accueil --> admin
+
+    Accueil --> login
+    login --> menu_joueur
     
     Accueil --> Quitter
     Quitter --> [*]
