@@ -51,6 +51,7 @@ stateDiagram
     state menu_admin {
       [*] --> list_joueurs
       [*] --> admin_out
+      admin_out --> [*]: Retour accueil
     }
     
     state menu_joueur {
