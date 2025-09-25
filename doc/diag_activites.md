@@ -32,6 +32,7 @@ stateDiagram
     admin : Accès administrateur
     admin_out : Se déconnecter
     list_joueurs : Lister les joueurs
+    menu_admin : Menu administrateur
     
     [*] --> Accueil
     
