@@ -202,14 +202,13 @@ stateDiagram
     admin_out : Se déconnecter
     list_utilisateurs : Consulter la liste des utilisateurs
     menu_admin : Menu administrateur
-    Saisie_a : Saisie
     
     [*] --> Accueil
 
     Accueil --> admin
     admin --> Saisie
-    Saisie_a --> menu_admin: Saisie valide
-    Saisie_a --> admin: Saisie invalide
+    Saisie --> menu_admin: Saisie valide
+    Saisie --> admin: Saisie invalide
     
     Accueil --> Quitter
     Quitter --> [*]
