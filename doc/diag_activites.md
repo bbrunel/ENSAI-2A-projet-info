@@ -113,7 +113,6 @@ stateDiagram
       [*] --> logon
       [*] --> admin
       [*] --> Quitter
-      Quitter --> [*]
     }
 
     login --> Saisie_u
@@ -123,6 +122,8 @@ stateDiagram
     admin --> Saisie_a
     Saisie_a --> menu_admin: Saisie valide
     Saisie_a --> admin: Saisie invalide
+
+    Quitter --> [*]
 
     state menu_admin {
       [*] --> list_utilisateurs
