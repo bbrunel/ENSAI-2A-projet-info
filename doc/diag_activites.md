@@ -87,11 +87,8 @@ stateDiagram
 ```mermaid
 stateDiagram
     login : Se connecter
-    menu_utilisateur : Menu utilisateur
     logon : Créer un compte
-    logout : Se déconnecter
     admin : Accès administrateur
-    menu_admin : Menu administrateur
     
     [*] --> Accueil
     
