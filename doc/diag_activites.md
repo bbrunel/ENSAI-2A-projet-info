@@ -113,6 +113,7 @@ stateDiagram
       [*] --> logon
       [*] --> admin
       [*] --> Quitter
+      Quitter --> [*]
     }
 
     login --> Saisie_u
@@ -122,8 +123,6 @@ stateDiagram
     admin --> Saisie_a
     Saisie_a --> menu_admin: Saisie valide
     Saisie_a --> admin: Saisie invalide
-
-    Quitter --> [*]
 
     state menu_admin {
       [*] --> list_utilisateurs
@@ -160,6 +159,28 @@ stateDiagram
     admin : Accès administrateur
     
     [*] --> Accueil
+
+    state Accueil {
+      [*] --> Rechercher
+      [*] --> login
+      [*] --> logon
+      [*] --> admin
+      [*] --> Quitter
+      Quitter --> [*]
+    }
+
+```
+
+
+## 2e diagramme : accueil
+
+```mermaid
+stateDiagram
+    login : Se connecter
+    logon : Créer un compte
+    admin : Accès administrateur
+    
+    [*] --> Accueil
     
     Accueil --> Rechercher
 
@@ -173,6 +194,7 @@ stateDiagram
     Quitter --> [*]
 
 ```
+
 
 ## 3e diagramme : centré sur la connexion
 
