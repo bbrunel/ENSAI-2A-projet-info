@@ -125,9 +125,6 @@ stateDiagram
     menu_utilisateur : Menu utilisateur
     menu_ingr : Gestion des ingrédients
     gerer_ingr : Gérer les ingrédients
-    Consulter_les_ingrédients : Consulter les ingrédients
-    Ajouter_un_ingrédient : Ajouter un ingrédient
-    Supprimer_un_ingrédient : Supprimer un ingrédient
     recettes : Propositions de recettes
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
