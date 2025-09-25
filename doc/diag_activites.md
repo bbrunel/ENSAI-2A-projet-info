@@ -89,6 +89,10 @@ stateDiagram
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
     
+    [*] --> Accueil
+
+    Accueil --> login
+    
     login --> menu_utilisateur: Saisie valide
     login --> login: Saisie invalide
 
