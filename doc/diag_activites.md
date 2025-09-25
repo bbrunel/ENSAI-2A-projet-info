@@ -116,3 +116,73 @@ stateDiagram
         
     }
 ```
+
+
+
+```mermaid
+stateDiagram
+    login : Se connecter
+    menu_utilisateur : Menu utilisateur
+    menu_ingr : Gestion des ingrédients
+    gerer_ingr : Gérer les ingrédients
+    Consulter_les_ingrédients : Consulter les ingrédients
+    Ajouter_un_ingrédient : Ajouter un ingrédient
+    Supprimer_un_ingrédient : Supprimer un ingrédient
+    recettes : Propositions de recettes
+    rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
+    logout : Se déconnecter
+    
+    [*] --> Accueil
+
+    Accueil --> login
+
+    login --> Saisie
+    Saisie --> menu_utilisateur: Saisie valide
+    Saisie --> login: Saisie invalide
+
+    state menu_utilisateur {
+    	[*] --> gerer_ingr
+      [*] --> recettes
+      [*] --> rec_ingr_manquant
+    	[*] --> logout
+      logout --> [*]:Retour accueil
+    }
+
+  gerer_ingr --> menu_ingr
+```
+
+
+
+```mermaid
+stateDiagram
+    login : Se connecter
+    menu_utilisateur : Menu utilisateur
+    menu_ingr : Gestion des ingrédients
+    gerer_ingr : Gérer les ingrédients
+    Consulter_les_ingrédients : Consulter les ingrédients
+    Ajouter_un_ingrédient : Ajouter un ingrédient
+    Supprimer_un_ingrédient : Supprimer un ingrédient
+    
+    [*] --> Accueil
+
+    Accueil --> login
+
+    login --> Saisie
+    Saisie --> menu_utilisateur: Saisie valide
+    Saisie --> login: Saisie invalide
+
+    state menu_utilisateur {
+    	[*] --> gerer_ingr
+    }
+
+  gerer_ingr --> menu_ingr
+
+    state menu_ingr {
+      [*] --> Consulter_les_ingrédients
+      [*] --> Ajouter_un_ingrédient
+      [*] --> Supprimer_un_ingrédient
+      [*] --> Retour
+      Retour --> [*]: Retour menu utilisateur
+        
+    }
+```
