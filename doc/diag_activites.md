@@ -92,9 +92,10 @@ stateDiagram
     [*] --> Accueil
 
     Accueil --> login
-    
-    login --> menu_utilisateur: Saisie valide
-    login --> login: Saisie invalide
+
+    login --> Saisie
+    Saisie --> menu_utilisateur: Saisie valide
+    Saisie --> login: Saisie invalide
 
     state menu_utilisateur {
     	[*] --> gerer_ingr
