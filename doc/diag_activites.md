@@ -29,15 +29,18 @@ stateDiagram
     recettes : Propositions de recettes
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
+    admin : Accès administrateur
     
     [*] --> Accueil
-    
-    Accueil --> Rechercher
 
     Accueil --> login
     login --> menu_joueur
     
+    Accueil --> Rechercher
+    
     Accueil --> logon
+
+    Accueil --> admin
     
     Accueil --> Quitter
     Quitter --> [*]
