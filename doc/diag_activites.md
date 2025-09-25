@@ -43,7 +43,8 @@ stateDiagram
     admin --> menu_admin
 
     Accueil --> login
-    login --> menu_joueur
+    login --> menu_joueur: Saisie valide
+    login --> login: Saisie invalide
     
     Accueil --> Quitter
     Quitter --> [*]
@@ -58,7 +59,7 @@ stateDiagram
       [*] --> recettes
       [*] --> rec_ingr_manquant
     	[*] --> logout
-      logout --> [*]:retour accueil
+      logout --> [*]:Retour accueil
     }
 
   gerer_ingr --> menu_ingr
@@ -68,7 +69,7 @@ stateDiagram
       [*] --> Ajouter_un_ingrédient
       [*] --> Supprimer_un_ingrédient
       [*] --> Retour
-      Retour --> [*]
+      Retour --> [*]: Retour menu joueur
         
     }
 ```
