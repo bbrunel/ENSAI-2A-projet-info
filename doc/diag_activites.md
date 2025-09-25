@@ -206,12 +206,16 @@ stateDiagram
     Accueil --> Rechercher
 
     Accueil --> login
-    login --> menu_utilisateur
+    login --> Saisie
+    Saisie --> menu_utilisateur: Saisie valide
+    Saisie --> login: Saisie invalide
     
     Accueil --> logon
 
     Accueil --> admin
-    admin --> menu_admin
+    admin --> Saisie
+    Saisie --> menu_admin: Saisie valide
+    Saisie --> admin: Saisie invalide
     
     Accueil --> Quitter
     Quitter --> [*]
