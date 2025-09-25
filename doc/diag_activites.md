@@ -81,7 +81,6 @@ stateDiagram
     login : Se connecter
     menu_utilisateur : Menu utilisateur
     menu_ingr : Gestion des ingrédients
-    logon : Créer un compte
     gerer_ingr : Gérer les ingrédients
     Consulter_les_ingrédients : Consulter les ingrédients
     Ajouter_un_ingrédient : Ajouter un ingrédient
@@ -89,13 +88,9 @@ stateDiagram
     recettes : Propositions de recettes
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
-    admin : Accès administrateur
-    admin_out : Se déconnecter
-    list_utilisateurs : Consulter la liste des utilisateurs
-    menu_admin : Menu administrateur
     
     login --> menu_utilisateur
-        
+
     state menu_utilisateur {
     	[*] --> gerer_ingr
       [*] --> recettes
