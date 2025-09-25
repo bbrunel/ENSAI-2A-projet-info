@@ -30,14 +30,15 @@ gantt
     relecture                    :active,    2025-10-05, 2025-10-07
     
     section Code
-    coder une v0                 :active,    2025-09-20, 15d
+    coder une v0                 :active,    2025-09-29, 15d
     lister classes à coder       :active,    2025-10-07, 7d
 
     section Teamwork
     étude préalable              :done,      2025-08-29, 14d
-    diagramme cas d'utilisation  :done,      2025-09-05,
-    diagramme d'activités        :done,      2025-09-05,
-    rédaction dossier d'analyse  :milestone, 2025-09-25,
+    diagramme cas d'utilisation  :done,      2025-09-05, 2025-09-27
+    diagramme d'activités        :done,      2025-09-05, 2025-09-27
+    diagramme de séquences       :done,      2025-09-05, 2025-09-27
+    rédaction dossier d'analyse  :milestone, 2025-09-22, 2025-09-27
     
 
     %%Stats univariées retraités   :done,         2021-11-28, 3d
