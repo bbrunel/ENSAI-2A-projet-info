@@ -15,6 +15,7 @@ Pour afficher ce diagramme dans VScode :
 - revenir sur ce fichier
   - faire **CTRL + K**, puis **V**
 
+## 1er diagramme : global
 
 ```mermaid
 stateDiagram
@@ -75,6 +76,7 @@ stateDiagram
     }
 ```
 
+## 2e diagramme : centré sur la connexion
 
 ```mermaid
 stateDiagram
@@ -117,7 +119,7 @@ stateDiagram
     }
 ```
 
-
+## 3e diagramme : menu utilisateurs
 
 ```mermaid
 stateDiagram
@@ -145,10 +147,15 @@ stateDiagram
       logout --> [*]:Retour accueil
     }
 
-  gerer_ingr --> menu_ingr
+    gerer_ingr --> menu_ingr
+
+    state menu_ingr {
+
+    }
+
 ```
 
-
+## 4e diagramme : menu ingrédients
 
 ```mermaid
 stateDiagram
