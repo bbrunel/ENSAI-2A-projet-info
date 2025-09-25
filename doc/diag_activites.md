@@ -36,14 +36,14 @@ stateDiagram
     [*] --> Accueil
     
     Accueil --> Rechercher
+
+    Accueil --> login
+    login --> menu_joueur
     
     Accueil --> logon
 
     Accueil --> admin
     admin --> menu_admin
-
-    Accueil --> login
-    login --> menu_joueur
     
     Accueil --> Quitter
     Quitter --> [*]
