@@ -43,8 +43,7 @@ stateDiagram
     admin --> menu_admin
 
     Accueil --> login
-    login --> menu_joueur: Saisie valide
-    login --> login: Saisie invalide
+    login --> menu_joueur
     
     Accueil --> Quitter
     Quitter --> [*]
