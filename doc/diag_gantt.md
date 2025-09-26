@@ -17,19 +17,19 @@ gantt
     Suivi 7                      :milestone, 2025-11-17
 
     section Dossier d'analyse
-    Analyse sujet                :done,      2025-09-01, 15d
+    Analyse sujet                :active,      2025-09-01, 15d
     Diagrammes                   :active,    2025-09-08, 15d
     Rédaction dossier d'analyse  :active,    2025-09-20, 2025-09-27
     Relecture                    :active,    2025-09-26, 2025-09-27
     Rendu                        :milestone, 2025-09-27,
     
     section Rapport final et code
-    Mise en place Git            :done,      2025-09-01, 7d
+    Git                          :active,      2025-09-01, 7d
     Coder une v0                 :active,    2025-09-29, 15d
     Gestion base de données      :active,    2025-09-29, 7d
     Lister classes à coder       :active,    2025-10-07, 7d
     Rédaction rapport final      :active,    2025-10-22, 2025-11-22
-    Rendu                         :milestone, 2025-11-22,
+    Rendu                        :milestone, 2025-11-22,
 
     section Soutenance
     Préparation soutenance       :active,    2025-11-23, 2025-12-10
