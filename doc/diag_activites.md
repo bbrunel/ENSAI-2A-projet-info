@@ -104,12 +104,13 @@ stateDiagram
     menu_admin : Menu administrateur
     Saisie_a : Saisie
     Saisie_u : Saisie
-    Rechercher : Rechercher une recette
+    Rechercher_a : Rechercher une recette
+    Rechercher_u : Rechercher une recette
     
     [*] --> Accueil
 
     state Accueil {
-      [*] --> Rechercher
+      [*] --> Rechercher_a
       [*] --> login
       [*] --> logon
       [*] --> admin
@@ -136,7 +137,7 @@ stateDiagram
     	[*] --> gerer_ingr
       [*] --> recettes
       [*] --> rec_ingr_manquant
-      [*] --> Rechercher
+      [*] --> Rechercher_u
     	[*] --> logout
       logout --> [*]:Retour accueil
     }
