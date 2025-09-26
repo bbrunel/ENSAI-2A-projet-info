@@ -9,7 +9,7 @@ actor "Administrateur"   as admin
 actor "Utilisateur"      as user
 actor "Visiteur"         as viewer
 
-rectangle "Compte utilisateur" {
+rectangle "Accès comptes" {
   usecase "Se connecter"      as log_in
   usecase "Se déconnecter"    as log_out
   usecase "Lister utilisateurs" as list_users
@@ -19,26 +19,31 @@ rectangle "Compte utilisateur" {
 rectangle "Recettes" {
   usecase "Rechercher/filtrer des recettes" as recipe
   usecase "Lister les cocktails faisables" as feasible_recipe
-}
+  usecase "Lister les cocktails presque faisables" as af_recipe
+
 
 rectangle "Ingrédients" {
-  usecase "Ajouter" as add_ingredient
-  usecase "Supprimer" as del_ingredient
-  usecase "Consulter" as view_ingredient
+  usecase "Ajouter un ingrédient" as add_ingredient
+  usecase "Supprimer un ingrédient" as del_ingredient
+  usecase "Consulter la liste des ingrédients" as view_ingredient
 
 }
 
-viewer --> sign_up
-viewer --> recipe
+}
+
+sign_up <-- viewer
+recipe <-- viewer
+
 user --> recipe
 user --> log_in
 user --> log_out
+user --> feasible_recipe
+user --> af_recipe
 user --> add_ingredient
 user --> del_ingredient
 user --> view_ingredient
-user --> feasible_recipe
 
-admin --> list_users
-admin --> log_in
-admin --> log_out
+list_users <-- admin
+log_in <-- admin
+log_out <-- admin
 @enduml
