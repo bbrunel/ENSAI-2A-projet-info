@@ -104,6 +104,7 @@ stateDiagram
     menu_admin : Menu administrateur
     Saisie_a : Saisie
     Saisie_u : Saisie
+    Rechercher : Rechercher une recette
     
     [*] --> Accueil
 
@@ -135,6 +136,7 @@ stateDiagram
     	[*] --> gerer_ingr
       [*] --> recettes
       [*] --> rec_ingr_manquant
+      [*] --> Rechercher
     	[*] --> logout
       logout --> [*]:Retour accueil
     }
@@ -173,7 +175,7 @@ stateDiagram
 ```
 
 
-## 2e diagramme : accueil
+## 2e diagramme : accueil sans menu
 
 ```mermaid
 stateDiagram
@@ -211,6 +213,7 @@ stateDiagram
     recettes : Propositions de recettes
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
+    Rechercher : Rechercher une recette
     
     [*] --> Accueil
 
@@ -224,6 +227,7 @@ stateDiagram
     	[*] --> gerer_ingr
       [*] --> recettes
       [*] --> rec_ingr_manquant
+      [*] --> Rechercher
     	[*] --> logout
       logout --> [*]:Retour accueil
     }
@@ -251,6 +255,7 @@ stateDiagram
     recettes : Propositions de recettes
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
+    Rechercher : Rechercher une recette
     
     [*] --> Accueil
 
@@ -264,6 +269,7 @@ stateDiagram
     	[*] --> gerer_ingr
       [*] --> recettes
       [*] --> rec_ingr_manquant
+      [*] --> Rechercher
     	[*] --> logout
       logout --> [*]:Retour accueil
     }
