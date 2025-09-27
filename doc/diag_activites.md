@@ -178,7 +178,7 @@ stateDiagram
 ```
 
 
-## 2e diagramme : accueil sans menu
+## 2e diagramme : accueil sans menu *
 
 ```mermaid
 stateDiagram
@@ -269,7 +269,7 @@ stateDiagram
 ```
 
 
-## 3e diagramme : ingrédients et favoris
+## 3e diagramme : ingrédients et favoris *
 
 ```mermaid
 stateDiagram
@@ -323,7 +323,7 @@ stateDiagram
 
 ```
 
-## 4e diagramme : menu utilisateurs
+## 4e diagramme : menu utilisateurs *
 
 ```mermaid
 stateDiagram
@@ -335,6 +335,10 @@ stateDiagram
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
     Rechercher : Rechercher une recette
+    modif_compte : Modifier les informations de connexion
+    gerer_fav : Favoris
+    menu_fav : Gestions des favoris
+    
     
     [*] --> Accueil
 
@@ -350,6 +354,7 @@ stateDiagram
       [*] --> recettes
       [*] --> rec_ingr_manquant
       [*] --> Rechercher
+      [*] --> modif_compte
     	[*] --> logout
       logout --> [*]:Retour accueil
     }
@@ -358,14 +363,6 @@ stateDiagram
 
     gerer_fav --> menu_fav
 
-    state menu_ingr {
-      [*] --> Consulter_les_ingrédients
-      [*] --> Ajouter_un_ingrédient
-      [*] --> Supprimer_un_ingrédient
-      [*] --> Retour
-      Retour --> [*]: Retour menu utilisateur
-        
-    }
 
 
 ```
@@ -417,7 +414,7 @@ stateDiagram
     }
 ```
 
-## 6e diagramme : menu administrateur
+## 6e diagramme : menu administrateur *
 
 
 ```mermaid
