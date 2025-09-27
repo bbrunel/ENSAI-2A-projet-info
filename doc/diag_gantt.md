@@ -24,12 +24,12 @@ gantt
     
     section Rapport final et code
     Git                          :done,    2025-09-01, 7d
+    Code                         :active,    2025-09-29, 2025-11-22
     Coder une v0                 :active,    2025-09-29, 15d
     Gestion base de données      :active,    2025-09-29, 7d
-    Lister classes à coder       :active,    2025-10-07, 7d
-    Code                         :active,    2025-10-13, 2025-11-22
+    Code des classes             :active,    2025-10-07, 2025-11-22
     Tests unitaires              :active,    2025-10-13, 2025-11-22
-    Rédaction rapport final      :active,    2025-10-22, 2025-11-22
+    Rédaction                    :active,    2025-10-22, 2025-11-22
     Rendu                        :milestone, 2025-11-22,
 
     section Soutenance
