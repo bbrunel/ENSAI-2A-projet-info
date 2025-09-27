@@ -218,7 +218,7 @@ stateDiagram
     logout : Se déconnecter
     Rechercher : Rechercher une recette
     gerer_fav : Favoris
-    menu_fav : Gestions des favoris
+    menu_fav : Gestion des favoris
     add_fav : Mettre en favori
     supp_fav : Supprimer des favoris
     list_fav : Consulter les favoris
@@ -281,7 +281,7 @@ stateDiagram
     Ajouter_un_ingrédient : Ajouter un ingrédient
     Supprimer_un_ingrédient : Supprimer un ingrédient
     gerer_fav : Favoris
-    menu_fav : Gestions des favoris
+    menu_fav : Gestion des favoris
     add_fav : Mettre en favori
     supp_fav : Supprimer des favoris
     list_fav : Consulter les favoris
@@ -337,7 +337,7 @@ stateDiagram
     Rechercher : Rechercher une recette
     modif_compte : Modifier les informations de connexion
     gerer_fav : Favoris
-    menu_fav : Gestions des favoris
+    menu_fav : Gestion des favoris
     
     
     [*] --> Accueil
