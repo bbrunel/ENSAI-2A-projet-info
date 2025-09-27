@@ -106,6 +106,7 @@ stateDiagram
     Saisie_u : Saisie
     Rechercher_a : Rechercher une recette
     Rechercher_u : Rechercher une recette
+    Supp : Supprimer un compte
     
     [*] --> Accueil
 
@@ -129,6 +130,7 @@ stateDiagram
 
     state menu_admin {
       [*] --> list_utilisateurs
+      [*] --> Supp
       [*] --> admin_out
       admin_out --> [*]: Retour accueil
     }
@@ -215,6 +217,14 @@ stateDiagram
     rec_ingr_manquant : Recettes pour lesquelles il manque peu d'ingrédients
     logout : Se déconnecter
     Rechercher : Rechercher une recette
+    gerer_fav : Favoris
+    menu_fav : Gestions des favoris
+    add_fav : Mettre en favori
+    supp_fav : Supprimer des favoris
+    list_fav : Consulter les favoris
+    Retour_f : Retour
+    modif_compte : Modifier les informations de connexion
+
     
     [*] --> Accueil
 
@@ -226,23 +236,91 @@ stateDiagram
 
     state menu_utilisateur {
     	[*] --> gerer_ingr
+      [*] --> gerer_fav
       [*] --> recettes
       [*] --> rec_ingr_manquant
       [*] --> Rechercher
+      [*] --> modif_compte
     	[*] --> logout
       logout --> [*]:Retour accueil
     }
 
   gerer_ingr --> menu_ingr
 
-    state menu_ingr {
-      [*] --> Consulter_les_ingrédients
-      [*] --> Ajouter_un_ingrédient
-      [*] --> Supprimer_un_ingrédient
-      [*] --> Retour
-      Retour --> [*]: Retour menu utilisateur
-        
+  gerer_fav --> menu_fav
+
+  state menu_ingr {
+    [*] --> Consulter_les_ingrédients
+    [*] --> Ajouter_un_ingrédient
+    [*] --> Supprimer_un_ingrédient
+    [*] --> Retour
+    Retour --> [*]: Retour menu utilisateur
+      
+  }
+    state menu_fav {
+      [*] --> list_fav
+      [*] --> add_fav
+      [*] --> supp_fav
+      [*] --> Retour_f
+      Retour_f --> [*]: Retour menu utilisateur
     }
+
+
+```
+
+
+## 3e diagramme : ingrédients et favoris
+
+```mermaid
+stateDiagram
+    login : Se connecter
+    menu_utilisateur : Menu utilisateur
+    menu_ingr : Gestion des ingrédients
+    gerer_ingr : Gérer les ingrédients
+    Consulter_les_ingrédients : Consulter les ingrédients
+    Ajouter_un_ingrédient : Ajouter un ingrédient
+    Supprimer_un_ingrédient : Supprimer un ingrédient
+    gerer_fav : Favoris
+    menu_fav : Gestions des favoris
+    add_fav : Mettre en favori
+    supp_fav : Supprimer des favoris
+    list_fav : Consulter les favoris
+    Retour_f : Retour
+
+    
+    [*] --> Accueil
+
+    Accueil --> login
+
+    login --> Saisie
+    Saisie --> menu_utilisateur: Saisie valide
+    Saisie --> login: Saisie invalide
+
+    menu_utilisateur --> gerer_ingr
+    menu_utilisateur --> gerer_fav
+
+
+  gerer_ingr --> menu_ingr
+
+  gerer_fav --> menu_fav
+
+  state menu_ingr {
+    [*] --> Consulter_les_ingrédients
+    [*] --> Ajouter_un_ingrédient
+    [*] --> Supprimer_un_ingrédient
+    [*] --> Retour
+    Retour --> [*]: Retour menu utilisateur
+      
+  }
+    state menu_fav {
+      [*] --> list_fav
+      [*] --> add_fav
+      [*] --> supp_fav
+      [*] --> Retour_f
+      Retour_f --> [*]: Retour menu utilisateur
+    }
+
+
 ```
 
 ## 4e diagramme : menu utilisateurs
@@ -268,6 +346,7 @@ stateDiagram
 
     state menu_utilisateur {
     	[*] --> gerer_ingr
+      [*] --> gerer_fav
       [*] --> recettes
       [*] --> rec_ingr_manquant
       [*] --> Rechercher
@@ -276,6 +355,18 @@ stateDiagram
     }
 
     gerer_ingr --> menu_ingr
+
+    gerer_fav --> menu_fav
+
+    state menu_ingr {
+      [*] --> Consulter_les_ingrédients
+      [*] --> Ajouter_un_ingrédient
+      [*] --> Supprimer_un_ingrédient
+      [*] --> Retour
+      Retour --> [*]: Retour menu utilisateur
+        
+    }
+
 
 ```
 
@@ -301,9 +392,12 @@ stateDiagram
 
     state menu_utilisateur {
     	[*] --> gerer_ingr
+      [*] --> gerer_fav
     }
 
   gerer_ingr --> menu_ingr
+
+  gerer_fav --> menu_fav
 
     state menu_ingr {
       [*] --> Consulter_les_ingrédients
@@ -312,6 +406,14 @@ stateDiagram
       [*] --> Retour
       Retour --> [*]: Retour menu utilisateur
         
+    }
+
+    state menu_fav {
+      [*] --> list_fav
+      [*] --> add_fav
+      [*] --> supp_fav
+      [*] --> Retour_f
+      Retour_f --> [*]: Retour menu utilisateur
     }
 ```
 
@@ -324,6 +426,8 @@ stateDiagram
     admin_out : Se déconnecter
     list_utilisateurs : Consulter la liste des utilisateurs
     menu_admin : Menu administrateur
+    supp_compte : Supprimer un compte
+    modif_compte : Modifier les informations de connexion
     
     [*] --> Accueil
 
@@ -333,7 +437,9 @@ stateDiagram
     Saisie --> admin: Saisie invalide
 
     state menu_admin {
+      [*] --> modif_compte
       [*] --> list_utilisateurs
+      [*] --> supp_compte
       [*] --> admin_out
       admin_out --> [*]: Retour accueil
     }
