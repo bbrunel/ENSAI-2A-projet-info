@@ -12,5 +12,5 @@ while i <= ord('z'):
     i += 1
 
 print(len(data))
-with open('coktails.json', 'w') as f:
+with open('cocktails.json', 'w') as f:
     f.write(json.dumps(data))
