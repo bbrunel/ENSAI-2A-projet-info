@@ -46,5 +46,5 @@ CREATE TABLE favorites (
    id_recipe int NOT NULL,
    PRIMARY KEY (id_user, id_recipe),
    FOREIGN KEY(id_user) REFERENCES users(id_user),
-   FOREIGN KEY(id_recipe) REFERENCES cocktails(id_recipe),
+   FOREIGN KEY(id_recipe) REFERENCES cocktails(id_recipe)
 )
