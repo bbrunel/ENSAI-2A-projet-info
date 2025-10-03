@@ -4,7 +4,7 @@ import urllib.request
 
 data = []
 i = 1
-while i < 616:
+while i <= 616:
     try:
         with urllib.request.urlopen(f"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid={i}") as url:
             res = json.loads(url.read().decode())
