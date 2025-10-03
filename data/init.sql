@@ -22,12 +22,12 @@ CREATE TABLE composition (
    id_ingredient int NOT NULL,
    quantity VARCHAR(255),
    PRIMARY KEY (id_recipe, id_ingredient),
-   FOREIGN KEY (id_recipe) REFERENCES(cocktails(id_recipe)),
-   FOREIGN KEY (id_ingredient) REFERENCES(ingredients(id_ingredient))
+   FOREIGN KEY(id_recipe) REFERENCES cocktails(id_recipe),
+   FOREIGN KEY(id_ingredient) REFERENCES ingredients(id_ingredient)
 )
 
 CREATE TABLE users (
-   id_user int NOT NULL
+   id_user int NOT NULL,
    username varchar(255) NOT NULL,
    hashed_password varchar(255) NOT NULL,
    PRIMARY KEY (id_user)
@@ -37,14 +37,14 @@ CREATE TABLE have (
    id_user int NOT NULL,
    id_ingredient int NOT NULL,
    PRIMARY KEY (id_user, id_ingredient),
-   FOREIGN KEY id_user REFERENCES(users(id_user)),
-   FOREIGN KEY id_ingredient REFERENCES(ingredients(id_ingredient))
+   FOREIGN KEY(id_user) REFERENCES users(id_user),
+   FOREIGN KEY(id_ingredient) REFERENCES ingredients(id_ingredient)
 )
 
 CREATE TABLE favorites (
    id_user int NOT NULL,
    id_recipe int NOT NULL,
    PRIMARY KEY (id_user, id_recipe),
-   FOREIGN KEY id_user REFERENCES(users(id_user)),
-   FOREIGN KEY id_recipe REFERENCES(cocktails(id_recipe)),
+   FOREIGN KEY(id_user) REFERENCES users(id_user),
+   FOREIGN KEY(id_recipe) REFERENCES cocktails(id_recipe),
 )
