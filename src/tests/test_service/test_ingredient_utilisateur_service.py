@@ -38,7 +38,7 @@ def test_ajout_ingredient_utilisateur_ok():
     ingredient = IngredientService().(id, nom, desc, type, alccolise, abv)
 
     # THEN
-    assert utilisateur.ajout_ingredient_utilisateur == pseudo
+    assert utilisateur.ajout_ingredient_utilisateur() == ingredient
 
 
 def test_ajout_ingredient_utilisateur_echec():
