@@ -19,19 +19,18 @@ CREATE TABLE ingredients (
 )
 
 CREATE TABLE composition (
+   id_composition int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    id_recipe int NOT NULL,
    id_ingredient int NOT NULL,
-   quantity VARCHAR(255),
-   PRIMARY KEY (id_recipe, id_ingredient),
+   quantity VARCHAR(50),
    FOREIGN KEY(id_recipe) REFERENCES cocktails(id_recipe),
    FOREIGN KEY(id_ingredient) REFERENCES ingredients(id_ingredient)
 )
 
 CREATE TABLE users (
-   id_user int NOT NULL,
+   id_user int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    username varchar(255) NOT NULL,
    hashed_password varchar(255) NOT NULL,
-   PRIMARY KEY (id_user)
 )
 
 CREATE TABLE have (

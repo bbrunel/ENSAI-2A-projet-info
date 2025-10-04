@@ -1,9 +1,14 @@
 import json
 import psycopg2.errors
-
 from dao.db_connection import DBConnection
+from utils.diverse import unaccent
 
-"""
+with DBConnection().connection as connection:
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM composition;")
+        cursor.execute("DELETE FROM ingredients;")
+        cursor.execute("DELETE FROM cocktails;")
+
 with open("../data/ingredients.json", "r") as f:
     ingredients = json.load(f)
     with DBConnection().connection as connection:
@@ -15,19 +20,17 @@ with open("../data/ingredients.json", "r") as f:
                     "RETURNING id_ingredient;                                                               ",
                     {
                         "id_ingredient": ing["idIngredient"],
-                        "ingredient_name": ing["strIngredient"],
+                        "ingredient_name": unaccent(ing["strIngredient"]),
                         "ingredient_type": ing["strType"],
                         "alcoholic": ing["strAlcohol"] == "Yes",
                     },
                 )
                 res = cursor.fetchone()
-            if res is None or res['id_ingredient] != int(ing["idIngredient"]):
-                print(f"Ingredient n°{ing['idIngredient']} not created! res = {res}")
-"""
+                if res is None or res["id_ingredient"] != int(ing["idIngredient"]):
+                    print(f"Ingredient n°{ing['idIngredient']} not created! res = {res}")
 
 with open("../data/cocktails.json", "r") as f:
     cocktails = json.load(f)
-    print(len(cocktails))
     with DBConnection().connection as connection:
         for cocktail in cocktails:
             with connection.cursor() as cursor:
@@ -55,33 +58,35 @@ with open("../data/cocktails.json", "r") as f:
                 print(f"Cocktail n°{cocktail['idDrink']} not created! res = {res}")
 
     with DBConnection().connection as connection:
+        unknown = {} # This dict saves unkown ingredients so I can add them in the database
         for cocktail in cocktails:
             for i in range(1,16):
                 ingredient_name = cocktail[f'strIngredient{i}']
-                mesure = cocktail[f'strMeasure{i}']
-                if mesure is None:
-                    mesure = ''
+                measure = cocktail[f'strMeasure{i}']
+                if ingredient_name == '':
+                    continue
                 if ingredient_name is None:
                     break
                 with connection.cursor() as cursor:
                     try:
                         cursor.execute(
-                            "SELECT id_ingredient FROM ingredients WHERE ingredient_name = %(name)s",
+                            "SELECT id_ingredient FROM ingredients WHERE "
+                            "UPPER(ingredient_name) = %(name)s;   ",
                             {
-                                'name': ingredient_name
+                                'name': unaccent(ingredient_name).upper()
                             }
                         )
                     except psycopg2.Error as e:
                         connection.rollback()
                         print(e)
-                        print(f'aaahhah {ingredient_name}')
                         continue
                     res = cursor.fetchone()
                     if res is None:
-                        print(f"{ingredient_name}'s id not found")
+                        if ingredient_name not in unknown:
+                            unknown[ingredient_name] = None
                         continue
                     id_ingredient = int(res['id_ingredient'])
-
+    
                 with connection.cursor() as cursor:
                     try:
                         cursor.execute(
@@ -90,13 +95,16 @@ with open("../data/cocktails.json", "r") as f:
                             {
                                 'id_recipe': int(cocktail['idDrink']),
                                 'id_ingredient': id_ingredient,
-                                'quantity': mesure
+                                'quantity': measure
                             }
                         )
                     except psycopg2.errors.UniqueViolation as e:
                         connection.rollback()
+                        print(e)
                         continue
                     except psycopg2.Error as e:
                         connection.rollback()
                         print(e)
                         continue
+    for ing in unknown.keys():
+        print(f'{ing}, ')
