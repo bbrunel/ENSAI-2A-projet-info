@@ -12,20 +12,25 @@ from src.utils.exceptions import (
 #######################################################################
 class FavorisService(Cocktail):
     """
-    Service class for the favorite business logic
-
+    Classe service pour les fonctions liées aux cocktails favoris
     
     """
     def __init__(self, favorite_dao : FavoriteDAO):
         """
-        Initialize FavoriteService with the result of a database about a cursor 
+        Initialise la classe FavoriteService avec le résultat d'une base de données issue d'un curseur 
+        
         """
         self.favdao = FavoriteDAO
 
     def add_fav_cocktail(self, id_user : int, id_cocktail : int ): 
+        """
+        Ajoute un favori
+        """
         self.append(id_user, id_cocktail)
 
     def remove_fav_cocktail(self,id_user : int, id_cocktail : int):
+        """
+        retire un cocktail des favoris de l'utilisateur 
         pass #besoin de la DAO favorite
     
     def list_all_fav_cocktails(self, id_user : ) -> list[Cocktail]

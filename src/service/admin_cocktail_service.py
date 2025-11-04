@@ -4,12 +4,11 @@ from src.dao.admin_cocktail import AdminCocktailDAO
 
 class AdminCocktailService:
     """
-    Classe service pour les cocktails
+    Classe service des actions résservées aux administrateurs 
 
-    
     """
-    def __init__(self, cocktail_dao : CocktailDAO) -> None:
-        self.dao.cocktail = cocktail_dao
+    def __init__(self, adcocktail_dao : AdminCocktailDAO) -> None:
+        self.dao.admin_cocktail = adcocktail_dao
         
     def ajout_cocktail(self, 
         id_utilisateur : int, 
@@ -28,16 +27,17 @@ class AdminCocktailService:
 
         Paramètres 
         ----------
-        id_utilisateur : l'id de l'utilisateur qui fait la requete 
+        id_utilisateur : 
+            l'id de l'utilisateur qui fait la requete (afin de regarder s'il s'agit d'un administrateur )
         
         
         Retour
         ----------
-        renvoie PasLesDroits : si l'utilisateur qui fait appel au service n'est pas un administrateur 
-        retourne le cocktail ajouté
+        Affiche PasLesDroits : si l'utilisateur qui fait appel au service n'est pas un administrateur 
+        Renvoie le cocktail ajouté
         """
         if id_utilisateur not in id_admins:
-            raise
+            raise PasLesDroits
     
     def supprimer_cocktail(self, id_utilisateur, id_cocktail) -> Cocktail:
         """
@@ -51,9 +51,9 @@ class AdminCocktailService:
         
         Retour
         ----------
-        renvoie ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
-        renvoie PasLesDroits : si l'utilisateur qui fait appel au service n'est pas un administrateur 
-        retourne le cocktail supprimé
+        Affiche ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
+        Affiche PasLesDroits : si l'utilisateur qui fait appel au service n'est pas un administrateur 
+        Renvoie le cocktail supprimé
         """
         item = self.dao.read(item_id)
         if item is None:
@@ -76,8 +76,8 @@ class AdminCocktailService:
         
         Retour
         ----------
-        renvoie ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
-        retourne le cocktail dont on vérifie la présence 
+        Affiche ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
+        Renvoie le cocktail dont on vérifie la présence 
         """       
         cocktail = self.dao.cocktail.lecture(id_cocktail)
         if cocktail is None:
@@ -97,7 +97,7 @@ class AdminCocktailService:
         
         Retour
         ----------
-        renvoie ErreurCocktailPasTrouvé: si aucun cocktail n'a été trouvé
-        retourne le cocktail dont on vérifie la présence 
+        Affiche ErreurCocktailPasTrouvé: si aucun cocktail n'a été trouvé
+        Renvoie le cocktail dont on vérifie la présence 
         """
         return 
