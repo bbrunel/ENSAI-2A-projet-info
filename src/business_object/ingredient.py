@@ -9,3 +9,6 @@ class Ingredient:
         self.type = type
         self.alcoolise = alcoolise
         self.abv = abv
+
+    def __str__(self):
+        return f"Ingredient({self.id}, {self.nom})"
