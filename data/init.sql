@@ -5,7 +5,7 @@ CREATE TABLE cocktails (
    alcoholic boolean,
    glass_type varchar(255),
    instruction text,
-   IBA_approved boolean,
+   iba_category varchar(255),
    cocktail_pic_url text,
    PRIMARY KEY (id_recipe)
 );

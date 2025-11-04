@@ -1,5 +1,7 @@
 import json
+
 import psycopg2.errors
+
 from dao.db_connection import DBConnection
 from utils.diverse import unaccent
 
@@ -52,8 +54,8 @@ with open("../data/cocktails.json", "r") as f:
             with connection.cursor() as cursor:
                 try:
                     cursor.execute(
-                        "INSERT INTO cocktails(id_recipe,recipe_name,category,alcoholic,glass_type,instruction,cocktail_pic_url) VALUES"
-                        "(%(id_recipe)s, %(recipe_name)s, %(category)s, %(alcoholic)s, %(glass_type)s, %(instruction)s, %(pic_url)s)"
+                        "INSERT INTO cocktails(id_recipe,recipe_name,category,alcoholic,glass_type,iba_category,instruction,cocktail_pic_url) VALUES"
+                        "(%(id_recipe)s, %(recipe_name)s, %(category)s, %(alcoholic)s, %(glass_type)s, %(iba_category)s, %(instruction)s, %(pic_url)s)"
                         "RETURNING id_recipe;                                                               ",
                         {
                             "id_recipe": cocktail["idDrink"],
@@ -61,6 +63,7 @@ with open("../data/cocktails.json", "r") as f:
                             "category": cocktail["strCategory"],
                             "alcoholic": cocktail["strAlcoholic"] == "Yes",
                             "glass_type": cocktail["strGlass"],
+                            "iba_category": cocktail["strIBA"],
                             "instruction": cocktail["strInstructions"],
                             "pic_url": cocktail["strDrinkThumb"]
                         }
