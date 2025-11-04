@@ -9,7 +9,8 @@ class RechercheService:
         self.dao = recherche_dao
 
     def recherche_cocktail(self, filtre):
-        """Renvoie les cocktails correspondant aux filtres.
+        """Renvoie les cocktails correspondant aux filtres. 
+        Lève une erreur si aucun cocktail de la base de donnée ne correspond au filtre.
 
         Parameter
         -------
@@ -21,13 +22,17 @@ class RechercheService:
             list[Cocktail]
                 La liste des cocktails correspondant aux filtres.
         """
+        if type(filtre)!= FiltreCocktail:
+            raise TypeError(f'Filtre pas adapté à la recherche de cocktails.')
+        
         cocktails = self.dao.recherche_cocktail(filtre)
         if cocktails is None:
-            raise 
+            raise ValueError(f'Pas de cocktail correspondant au filtre.')
         return cocktails
     
     def recherche_ingredient(self, filtre):
-        """Renvoie les ingrédient correspondant aux filtres.
+        """Renvoie les ingrédients correspondant aux filtres.
+        Lève une erreur si aucun igrédient de la base de donnée ne correspond au filtre.
 
         Parameter
         -------
@@ -39,9 +44,12 @@ class RechercheService:
             list[Ingredient]
                 La liste des ingrédients correspondant aux filtres.
         """
+        if type(filtre)!= FiltreIngredient:
+            raise TypeError(f"Filtre pas adapté à la recherche d'ingrédients")
+
         ingredients = self.dao.recherche_ingredient(filtre)
         if ingredients is None:
-            raise 
+            raise ValueError(f"Pas d'ingrédient correspondant au filtre.")
         return ingredients 
     
     def liste_cocktails_faisables(self, utilisateur):
@@ -110,4 +118,5 @@ class RechercheService:
             
             if faisable:
                 cocktails_faisables.append(cocktail)
+        
         return cocktails_faisables
