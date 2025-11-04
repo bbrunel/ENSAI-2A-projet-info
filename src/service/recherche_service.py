@@ -25,7 +25,7 @@ class RechercheService:
             list[Cocktail]
                 La liste des cocktails correspondant aux filtres.
         """
-        if type(filtre)!= FiltreCocktail:
+        if not isinstance(filtre, FiltreCocktail):
             raise TypeError(f'Filtre pas adapté à la recherche de cocktails.')
         
         cocktails = self.dao.recherche_cocktail(filtre)
@@ -49,7 +49,7 @@ class RechercheService:
                 La liste des ingrédients correspondant aux filtres.
         """
         
-        if type(filtre)!= FiltreIngredient:
+        if not isinstance(filtre, FiltreIngredient):
             raise TypeError(f"Filtre pas adapté à la recherche d'ingrédients")
 
         ingredients = self.dao.recherche_ingredient(filtre)
