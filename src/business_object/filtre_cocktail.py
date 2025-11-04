@@ -3,9 +3,9 @@ from abstractFiltre import AbstractFiltre
 class FiltreCocktail(AbstractFiltre):
     def __init__(self, nom: str = None, alcoolise: bool = None,
                  tags=None,
-                 iba: str = "",
-                 categorie: str = "",
-                 verre: str = ""):
+                 iba: str = None,
+                 categorie: str = None,
+                 verre: str = None):
         super().__init__(nom, alcoolise)
         self.tags = tags if tags is not None else []
         self.iba = iba
