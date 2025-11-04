@@ -15,6 +15,7 @@ CREATE TABLE ingredients (
    ingredient_name varchar(255) NOT NULL,
    ingredient_type varchar(255),
    alcoholic boolean,
+   abv int,
    PRIMARY KEY(id_ingredient)
 );
 
