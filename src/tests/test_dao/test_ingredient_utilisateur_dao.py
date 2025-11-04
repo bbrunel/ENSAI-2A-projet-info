@@ -19,7 +19,7 @@ def setup_test_environment():
         yield
 
 
-def test_ajout_ok():
+def test_ajouter_ok():
     """Ajout de l'ingrédient au bar personnel réussi."""
 
     # GIVEN
@@ -44,3 +44,30 @@ def test_ajouter_ko():
 
     # THEN
     assert not creation_ok
+
+
+
+def test_supprimer_ok():
+    """Suppression de Joueur réussie"""
+
+    # GIVEN
+    joueur = Joueur(id_joueur=995, pseudo="miguel", age=1, mail="miguel@projet.fr")
+
+    # WHEN
+    suppression_ok = JoueurDao().supprimer(joueur)
+
+    # THEN
+    assert suppression_ok
+
+
+def test_supprimer_ko():
+    """Suppression de Joueur échouée (id inconnu)"""
+
+    # GIVEN
+    joueur = Joueur(id_joueur=8888, pseudo="id inconnu", age=1, mail="no@z.fr")
+
+    # WHEN
+    suppression_ok = JoueurDao().supprimer(joueur)
+
+    # THEN
+    assert not suppression_ok
