@@ -5,7 +5,7 @@ class IngredientUtilisateurService(metaclass=Singleton):
     """Fait le lien entre les ingrédients et les utilisateurs.
     """
 
-    def ajout_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> Ingredient: # ajouter une quantité ?
+    def ajout_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> Ingredient:
         """Ajoute un ingrédient au bar personnel de l'utilisateur.
 
         Parameters
@@ -19,8 +19,9 @@ class IngredientUtilisateurService(metaclass=Singleton):
         ------
         ingredient: Ingredient
         """
+        IngredientUtilisateurDao().ajouter(ingredient)
 
-    def supprimer_ingredient_utilisateur(self, ingredient: Ingredient) -> bool: # ajouter un paramètre quantité ?
+    def supprimer_ingredient_utilisateur(self, ingredient: Ingredient) -> bool: 
         """Supprime un ingrédient du bar personnel de l'utilisateur.
 
         Parameters
@@ -33,7 +34,12 @@ class IngredientUtilisateurService(metaclass=Singleton):
         bool
             True si l'ingrédient a bien été supprimé.
         """
-        IngredientUtilisateurDao().supprimer(ingredient)
+        bar_perso = liste_ingredients_utilisateur(utilisateur)
+        if ingredient in bar_perso:
+            IngredientUtilisateurDao().supprimer(ingredient)
+            return True
+        print("Cet ingrédient ne fait pas partie du bar personnel.")
+        return False
 
     def liste_tous_ingredients_utilisateur(self, utilisateur: Utilisateur) -> list[Ingredient]:
         """Liste les ingrédients du bar personnel de l'utilisateur.

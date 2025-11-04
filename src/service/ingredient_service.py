@@ -18,7 +18,7 @@ class IngredientService(metaclass=Singleton):
         Ingredient
             Ingrédient ajouté.
         """
-        pass
+        IngredientDao.ajouter_ingredient(str)
 
     def supprimer_ingredient(ingredient:Ingredient) -> bool:
         """Supprimer un ingrédient.
@@ -35,6 +35,15 @@ class IngredientService(metaclass=Singleton):
         """
         pass
 
-    def verifier_ingredient(int) -> Ingredient:
-        """Vérifier qu'un ingrédient se trouve dans
+    def verifier_ingredient(id:int) -> Ingredient:
+        """Vérifier qu'un ingrédient existe.
+
+        Parameters
+        ----------
+        id: int
+            Identifiant de l'ingrédient. ???
+
+        Return
+        ------
         """
+        
