@@ -29,7 +29,7 @@ def test_ajouter_ok():
     ingredient = Ingredient(nom="Test", desc="Test", type="Test", alcoolise=False, abv=0)
 
     # WHEN
-    creation_ok = IngredientDao().ajouter(ingredient)
+    creation_ok = IngredientUtilisateurDao().ajouter(ingredient)
 
     # THEN
     assert creation_ok
@@ -43,7 +43,7 @@ def test_ajouter_ko():
     ingredient = Ingredient(nom="Test", desc=12, type=True, alcoolise="False", abv="0")
 
     # WHEN
-    creation_ok = IngredientDao().ajouter(ingredient)
+    creation_ok = IngredientUtilisateurDao().ajouter(ingredient)
 
     # THEN
     assert not creation_ok
@@ -56,7 +56,7 @@ def test_supprimer_ok():
     ingredient = Ingredient(id_ingredient=995, nom="", desc=1, type="")
 
     # WHEN
-    suppression_ok = IngredientDao().supprimer(ingredient)
+    suppression_ok = IngredientUtilisateurDao().supprimer(ingredient)
 
     # THEN
     assert suppression_ok
@@ -69,7 +69,7 @@ def test_supprimer_ko():
     ingredient = Ingredient(id_ingredient=88888888888, pseudo="id inconnu", age=1, mail="no@z.fr")
 
     # WHEN
-    suppression_ok = IngredientDao().supprimer(ingredient)
+    suppression_ok = IngredientUtilisateurDao().supprimer(ingredient)
 
     # THEN
     assert not suppression_ok

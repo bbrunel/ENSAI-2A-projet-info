@@ -29,8 +29,8 @@ def test_ajout_ingredient_utilisateur_ok():
     """Ajout de l'ingrédient par l'utilisateur réussi."""
 
     # GIVEN
-    id_ingredient, nom, desc, type, alcoolise, abv = 1, "citron", "", "fruit frais", False, 0
-    IngredientUtilisateurDao().ajouter() = MagicMock(return_value=ingredient)
+    ingredient = Ingredient(id_ingredient=1, nom="eau", desc="", type="boisson", alcoolise=False, abv=0)
+    IngredientUtilisateurDao().ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
     utilisateur = UtilisateurService().(pseudo, mdp, age, mail, fan_pokemon)
