@@ -1,5 +1,6 @@
-from utilisateur import Utilisateur
-from ingredient import Ingredient
+from business_object.utilisateur import Utilisateur
+
+from business_object.ingredient import Ingredient
 
 class IngredientUtilisateurService(metaclass=Singleton):
     """Fait le lien entre les ingrédients et les utilisateurs.
