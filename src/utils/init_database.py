@@ -12,6 +12,7 @@ with DBConnection().connection as connection:
         cursor.execute("DROP TABLE IF EXISTS composition;")
         cursor.execute("DROP TABLE IF EXISTS have;")
         cursor.execute("DROP TABLE IF EXISTS favorites;")
+        cursor.execute("DROP TABLE IF EXISTS users;")
         cursor.execute("DROP TABLE IF EXISTS cocktails;")
         cursor.execute("DROP TABLE IF EXISTS ingredients;")
         cursor.execute("DROP EXTENSION IF EXISTS pg_trgm;")
