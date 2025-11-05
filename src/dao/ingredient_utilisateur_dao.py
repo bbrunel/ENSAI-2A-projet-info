@@ -33,16 +33,13 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        INSERT INTO ingredient(nom, desc, type, alcoolise, abv) VALUES
-                            (%(nom)s, %(desc)s, %(type)s, %(alcoolise)s, %(abv)s) 
+                        INSERT INTO have (id_ingredient, id_utilisateur) VALUES
+                            (%(id_ingredient)s, %(id_utilisateur)s) 
                             RETURNING id_ingredient;                                                
                         """,
                         {
-                            "nom": ingredient.nom,
-                            "desc": ingredient.desc,
-                            "type": ingredient.type,
-                            "alcoolise": ingredient.alcoolise,
-                            "abv": ingredient.abv,
+                            "id_ingredient": ingredient.id_ingredient,
+                            "id_utilisateur": utilisateur.id_utilisateur
                         },
                     )
                     res = cursor.fetchone()
@@ -68,7 +65,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
         Returns
         -------
-            True si le ingredient a bien été supprimé
+            True si l'ingredient a bien été supprimé
         """
 
         try:
@@ -77,10 +74,14 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un ingredient
                     cursor.execute(
                         """
-                        DELETE FROM ingredient
+                        DELETE FROM have
                             WHERE id_ingredient=%(id_ingredient)s
+                              AND id_utilisateur=%(id_utilisateur)s
                         """,
-                        {"id_ingredient": ingredient.id_ingredient},
+                        {
+                            "id_ingredient": ingredient.id_ingredient,
+                            "id_utilisateur": utilisateur.id_utilisateur
+                        },
                     )
                     res = cursor.rowcount
         except Exception as e:
@@ -101,7 +102,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         Returns
         -------
         liste_ingredients : list[Ingredient]
-            renvoie la liste de tous les ingredients dans la base de données
+            renvoie la liste de tous les ingredients du bar personnel de l'utilisateur
         """
 
         try:
@@ -109,8 +110,9 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        SELECT *
-                          FROM ingredient;
+                        SELECT h.id_ingredient, i.nom, i.desc, i.type, i.alcoolise, i.abv
+                          FROM have h
+                          LEFT JOIN ingredient i ON h.id_ingredient = i.id_ingredient ;
                         """
                     )
                     res = cursor.fetchall()
