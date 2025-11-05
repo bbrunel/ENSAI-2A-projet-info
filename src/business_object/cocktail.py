@@ -29,7 +29,7 @@ class Cocktail():
 
     def __init__(
         self,
-        id : int ,
+        id : int,
         nom : str,
         nom_alt : str = None,
         tags : str = None,

@@ -1,7 +1,7 @@
 from src.business_object.cocktail import Cocktail
 from src.business_object.ingredient import Ingredient
-from src.dao.cocktail import CocktailDAO
-
+from src.dao.cocktail_dao import CocktailDAO
+from src.service.recherche_service import RechercheService
 
 class CocktailService:
     """
@@ -10,7 +10,7 @@ class CocktailService:
     """
 
     def __init__(self, cocktail_dao: CocktailDAO) -> None:
-        self.dao.cocktail = cocktail_dao
+        self.dao.cocktail_dao = cocktail_dao
 
     def verifier_cocktail(self, id_cocktail: int) -> Cocktail:
         """Vérifie si un cocktail existe bel et bien déjà.
@@ -27,9 +27,10 @@ class CocktailService:
         """
         if id_cocktail is not int:
             raise TypeError("id indiquée non conforme au format")
-        cocktail = CocktailDAO().lecture(id_cocktail)
+        cocktail = RechercheService().recherche_cocktail(id=id_cocktail)
         if cocktail is None:
             raise ValueError("Pas de cocktail correspondant à cet id.")
+            
         return cocktail
 
     def ingredient_cocktail(self, id_cocktail) -> list[Ingredient]:

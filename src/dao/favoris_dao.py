@@ -5,9 +5,7 @@ from dao.db_connection import DBConnection
 from utils.log_decorator import log
 
 from business_object.cocktail import Cocktail
-from business_object.filtre_cocktail import FiltreCocktail
-from business_object.ingredient import Ingredient
-
+from src.service.recherche_service import RechercheService
 
 class FavorisDAO:
     """
@@ -15,11 +13,15 @@ class FavorisDAO:
     """
 
     def aj_fav(self, id_utilisateur : int, id_cocktail : int) -> bool:
-        """Creation d'un favori dans la base de données
+        """
+        Creation d'un favori dans la base de données
 
         Paramètres
         ----------
-        joueur : Joueur
+        id_utilisateur : int
+            id de l'utilisateur voulant ajouter un favori
+        id_cocktail : int 
+            id du cocktail à mettre en favori
 
         Retour
         -------
@@ -64,7 +66,7 @@ class FavorisDAO:
 
         Retour
         -------
-            True si le favori a bie été supprimé pour l'utilisateur 
+            True si le favori a bien été supprimé pour l'utilisateur 
         """
 
         try:
@@ -117,8 +119,8 @@ class FavorisDAO:
         list_fav = []
 
         if res:
-            for row in res:
-                cocktail_sorti = RechercheService().recherche_cocktail(id=row)
+            for ligne in res:
+                cocktail_sorti = RechercheService().recherche_cocktail(id=ligne)
                 cocktail = Cocktail(
                     id=cocktail_sorti["id"],
                     nom=cocktail_sorti["nom"],
