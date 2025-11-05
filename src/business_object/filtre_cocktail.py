@@ -2,7 +2,7 @@ from abstractFiltre import AbstractFiltre
 
 class FiltreCocktail(AbstractFiltre):
     def __init__(self, nom: str = None, alcoolise: bool = None,
-                 tags=None,
+                 tags: list[str] = None,
                  iba: str = None,
                  categorie: str = None,
                  verre: str = None):

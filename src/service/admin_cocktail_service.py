@@ -1,4 +1,4 @@
-from cocktail import Cocktail
+from src.business_object.cocktail import Cocktail
 
 from src.dao.admin_cocktail import AdminCocktailDAO
 
@@ -7,8 +7,8 @@ class AdminCocktailService:
     Classe service des actions résservées aux administrateurs 
 
     """
-    def __init__(self, adcocktail_dao : AdminCocktailDAO) -> None:
-        self.dao.admin_cocktail = adcocktail_dao
+    def __init__(self, admcocktail_dao : AdminCocktailDAO) -> None:
+        self.dao.admin_cocktail = admcocktail_dao
         
     def ajout_cocktail(self, 
         id_utilisateur : int, 
@@ -33,6 +33,7 @@ class AdminCocktailService:
         
         Retour
         ----------
+        Affiche DejaFait : si le cocktail existe déjà dans le base de données
         Affiche PasLesDroits : si l'utilisateur qui fait appel au service n'est pas un administrateur 
         Renvoie le cocktail ajouté
         """

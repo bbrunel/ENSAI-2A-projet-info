@@ -33,14 +33,15 @@ with open("../data/ingredients.json", "r") as f:
         for ing in ingredients:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO ingredients(id_ingredient,ingredient_name,ingredient_type,alcoholic) VALUES"
-                    "(%(id_ingredient)s, %(ingredient_name)s, %(ingredient_type)s, %(alcoholic)s)           "
+                    "INSERT INTO ingredients(id_ingredient,ingredient_name,ingredient_type,alcoholic,abv) VALUES"
+                    "(%(id_ingredient)s, %(ingredient_name)s, %(ingredient_type)s, %(alcoholic)s,%(abv)s)           "
                     "RETURNING id_ingredient;                                                               ",
                     {
                         "id_ingredient": ing["idIngredient"],
                         "ingredient_name": unaccent(ing["strIngredient"]),
                         "ingredient_type": ing["strType"],
                         "alcoholic": ing["strAlcohol"] == "Yes",
+                        "abv": int(ing["strABV"])
                     },
                 )
                 res = cursor.fetchone()

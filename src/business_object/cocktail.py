@@ -34,23 +34,21 @@
         id : int ,
         nom : str,
         nom_alt : str = None,
-        tags : str,
+        tags : str = None,
         categorie : str ,
         iba : str ,
         alcolise : bool,
-        abv : int,
         verre : str ,
         instructions : str,
         url_image : str = None,
     ):
-        self.__id = id
-        self.__nom = nom
-        self.__nom_alt = nom_alt
-        self.__tags = tags
-        self.__categorie = categorie
-        self.__iba = iba
-        self.__alcolise = alcolise
-        self.__abv = abv
-        self.__verre = verre 
-        self.__instructions = instructions
-        self.__ = url_image
+        self.id = id
+        self.nom = nom
+        self.nom_alt = nom_alt
+        self.tags = tags
+        self.categorie = categorie
+        self.iba = iba
+        self.alcolise = alcolise
+        self.verre = verre 
+        self.instructions = instructions
+        self.url_image = url_image
