@@ -21,7 +21,7 @@ class FavorisService:
         """
         self.fav_dao = FavoriteDAO
 
-    def aj_fav_cocktail(self, id_utilisateur: int, id_cocktail: int) -> Cocktail:
+    def aj_fav_cocktail(self, id_utilisateur : int, id_cocktail : int) -> Cocktail:
         """
         Ajoute un cocktail aux favoris de l'utilisateur
 
@@ -42,7 +42,7 @@ class FavorisService:
         if id_validation is None:
             raise ValueError("Aucun cocktail ne possède cet id.")
         ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail)
-        if ajout is None:
+        if ajout is False:
             raise ValueError("Ce cocktail est déjà en favori pour vous.")
         return id_validation
 
@@ -64,7 +64,7 @@ class FavorisService:
         if id_cocktail is not int:
             raise TypeError("id indiquée non conforme au format")
         suppression = FavorisDAO().suppr_fav(id_utilisateur, id_cocktail)
-        if suppression is None:
+        if suppression is False:
             raise ValueError("Pas de cocktail correspondant parmi les favoris")
         return suppression
 
