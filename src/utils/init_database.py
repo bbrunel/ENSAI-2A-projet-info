@@ -25,13 +25,8 @@ with open("../data/init.sql", "r") as f:
                 stmt = stmt.replace('\t','')
                 if stmt:
                     cursor.execute(stmt + ';')
-<<<<<<< HEAD
  
 ## Remplissage des tables avec les données brutes de thecocktaildb.com
-=======
-
-## Remplissage des tables avec les données brute de thecocktaildb.com
->>>>>>> 660b918fe49e70f42387df7572c92d0824f31d55
 with open("../data/ingredients.json", "r") as f:
     ingredients = json.load(f)
     with DBConnection().connection as connection:
