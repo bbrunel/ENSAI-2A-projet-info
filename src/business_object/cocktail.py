@@ -18,8 +18,6 @@ class Cocktail():
         type de cocktail considéré par l'IBA (the International Bartender Association)
     alcolise : bool
         booléen indiquant si le cocktail contient de l'alcool 
-    abv : int
-        unité internationale de taux d'alcool par volume 
     verre : str 
         type de verre utilisé pour faire le cocktail
     instructions : str
