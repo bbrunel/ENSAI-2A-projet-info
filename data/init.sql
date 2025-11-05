@@ -1,3 +1,5 @@
+CREATE EXTENSION pg_trgm; -- Extension pour mesurer la similarité de chaine de caractères
+
 CREATE TABLE cocktails (
    id_recipe int NOT NULL,
    recipe_name varchar(255) NOT NULL,
@@ -14,6 +16,7 @@ CREATE TABLE ingredients (
    id_ingredient int NOT NULL,
    ingredient_name varchar(255) NOT NULL,
    ingredient_type varchar(255),
+   description text,
    alcoholic boolean,
    abv int,
    PRIMARY KEY(id_ingredient)

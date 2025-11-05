@@ -25,7 +25,7 @@ with open("../data/init.sql", "r") as f:
                 stmt = stmt.replace('\t','')
                 if stmt:
                     cursor.execute(stmt + ';')
- 
+
 ## Remplissage des tables avec les données brute de thecocktaildb.com
 with open("../data/ingredients.json", "r") as f:
     ingredients = json.load(f)
@@ -33,13 +33,14 @@ with open("../data/ingredients.json", "r") as f:
         for ing in ingredients:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO ingredients(id_ingredient,ingredient_name,ingredient_type,alcoholic,abv) VALUES"
-                    "(%(id_ingredient)s, %(ingredient_name)s, %(ingredient_type)s, %(alcoholic)s,%(abv)s)           "
+                    "INSERT INTO ingredients(id_ingredient,ingredient_name,ingredient_type,description,alcoholic,abv) VALUES"
+                    "(%(id_ingredient)s, %(ingredient_name)s, %(ingredient_type)s, %(description)s, %(alcoholic)s,%(abv)s)           "
                     "RETURNING id_ingredient;                                                               ",
                     {
                         "id_ingredient": ing["idIngredient"],
                         "ingredient_name": unaccent(ing["strIngredient"]),
                         "ingredient_type": ing["strType"],
+                        "description": ing["strDescription"]
                         "alcoholic": ing["strAlcohol"] == "Yes",
                         "abv": int(ing["strABV"])
                     },
@@ -106,7 +107,7 @@ with open("../data/cocktails.json", "r") as f:
                             unknown[ingredient_name] = None
                         continue
                     id_ingredient = int(res['id_ingredient'])
-    
+
                 with connection.cursor() as cursor:
                     try:
                         cursor.execute(
