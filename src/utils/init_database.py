@@ -32,6 +32,9 @@ with open("../data/ingredients.json", "r") as f:
     with DBConnection().connection as connection:
         for ing in ingredients:
             with connection.cursor() as cursor:
+                abv = None
+                if ing["strABV"] is not None:
+                    abv = int(ing["strABV"])
                 cursor.execute(
                     "INSERT INTO ingredients(id_ingredient,ingredient_name,ingredient_type,description,alcoholic,abv) VALUES"
                     "(%(id_ingredient)s, %(ingredient_name)s, %(ingredient_type)s, %(description)s, %(alcoholic)s,%(abv)s)           "
@@ -42,7 +45,7 @@ with open("../data/ingredients.json", "r") as f:
                         "ingredient_type": ing["strType"],
                         "description": ing["strDescription"]
                         "alcoholic": ing["strAlcohol"] == "Yes",
-                        "abv": int(ing["strABV"])
+                        "abv": abv
                     },
                 )
                 res = cursor.fetchone()
