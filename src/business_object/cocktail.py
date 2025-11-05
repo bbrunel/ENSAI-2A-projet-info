@@ -1,4 +1,4 @@
-    class Cocktail():
+class Cocktail():
     """
     List of cocktails
 
@@ -35,11 +35,11 @@
         nom : str,
         nom_alt : str = None,
         tags : str = None,
-        categorie : str ,
-        iba : str ,
-        alcolise : bool,
-        verre : str ,
-        instructions : str,
+        categorie : str = None,
+        iba : str = None,
+        alcolise : bool = True,
+        verre : str = None,
+        instructions : str = None,
         url_image : str = None,
     ):
         self.id = id
