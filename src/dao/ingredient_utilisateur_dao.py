@@ -12,7 +12,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
 
     @log
-    def ajouter(self, ingredient):
+    def ajouter(self, ingredient): # SQL vérifié
         """Creation d'un ingredient dans la base de données
 
         Parameters
@@ -33,13 +33,13 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        INSERT INTO have (id_ingredient, id_utilisateur) VALUES
-                            (%(id_ingredient)s, %(id_utilisateur)s) 
+                        INSERT INTO have (id_ingredient, id_user) VALUES
+                            (%(id_ingredient)s, %(id_user)s) 
                             RETURNING id_ingredient;                                                
                         """,
                         {
                             "id_ingredient": ingredient.id_ingredient,
-                            "id_utilisateur": utilisateur.id_utilisateur
+                            "id_user": utilisateur.id_utilisateur
                         },
                     )
                     res = cursor.fetchone()
@@ -74,13 +74,14 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un ingredient
                     cursor.execute(
                         """
-                        DELETE FROM have
+                        DELETE 
+                            FROM have
                             WHERE id_ingredient=%(id_ingredient)s
-                              AND id_utilisateur=%(id_utilisateur)s
+                              AND id_user=%(id_utilisateur)s
                         """,
                         {
                             "id_ingredient": ingredient.id_ingredient,
-                            "id_utilisateur": utilisateur.id_utilisateur
+                            "id_utilisateur": utilisateur.id_user
                         },
                     )
                     res = cursor.rowcount
@@ -92,7 +93,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
 
     @log
-    def lister_tous(self):
+    def lister_tous(self): # SQL vérifié
         """Lister tous les ingredients.
 
         Parameters
@@ -110,9 +111,9 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        SELECT h.id_ingredient, i.nom, i.desc, i.type, i.alcoolise, i.abv
-                          FROM have h
-                          LEFT JOIN ingredient i ON h.id_ingredient = i.id_ingredient ;
+                        SELECT *
+                        FROM have h
+                        LEFT JOIN ingredients i ON h.id_ingredient = i.id_ingredient ;
                         """
                     )
                     res = cursor.fetchall()
@@ -126,10 +127,10 @@ class IngredientUtilisateurDao(metaclass=Singleton):
             for row in res:
                 ingredient = Ingredient(
                     id_ingredient=row["id_ingredient"],
-                    nom=row["nom"],
-                    desc=row["desc"],
-                    type=row["type"],
-                    alcoolise=row["alcoolise"],
+                    nom=row["ingredient_name"],
+                    desc=row["description"],
+                    type=row["ingredient_type"],
+                    alcoolise=row["alcoholic"],
                     abv=row["abv"],
                 )
 
