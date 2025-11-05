@@ -1,8 +1,10 @@
 from src.business_object.cocktail import Cocktail
-from src.business_object.utilisateur import 
+from src.business_object.utilisateur import Utilisateur
+from src.service.recherche_service import RechercheService
+
 ##############################################################
 ##############################################################
-from src.dao.favorite import FavoriteDAO
+from src.dao.favoris import FavorisDAO
 from src.utils.exceptions import (
     ItemNotFoundError,
     WrongUserItemError,
@@ -34,11 +36,17 @@ class FavorisService:
         
         Retour
         ----------
-        Affiche DejaFait : si le cocktail en question est déja en favoris pour cet utilisateur
-
         Renvoie le cocktail mis en favoris
         """
-        self.append(id_utilisateur, id_cocktail)
+        if id_cocktail not int: 
+            raise TypeError(f'id indiquée non conforme au format.')
+        id_validation = RechercheService().recherche_cocktail((id = id_cocktail))
+        if id_validation is None :
+            raise ValueError(f'Aucun cocktail ne possède cet id.')
+        ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail)
+        if ajout is None:
+            raise ValueError(f'Ce cocktail est déjà en favori pour vous.')
+        return filtre.id_cocktail 
 
     def suppr_fav_cocktail(self,id_utilisateur : int, id_cocktail : int):
         """
@@ -52,11 +60,15 @@ class FavorisService:
             id du cocktail que l'utilisateur veut supprimer
 
         Retour
-        ----------
-        Affiche ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé  
+        ---------- 
         Renvoie le cocktail supprimé
         """
-        pass #besoin de la DAO favorite
+        if id_cocktail not int: 
+            raise TypeError(f'id indiquée non conforme au format')
+        suppression = FavorisDAO().suppr_fav(id_utilisateur, id_cocktail)
+        if ingredients is None:
+            raise ValueError(f'Pas de cocktail correspondant parmi les favoris')
+        return suppression
     
     def list_all_fav_cocktails(self, id_utilisateur : int) -> list[Cocktail]:
         """
@@ -69,6 +81,9 @@ class FavorisService:
         
         Retour
         ----------
-        Affiche ErreurCocktailPasTrouvé: si aucun cocktail n'a été trouvé
         Renvoie la liste des cocktails msi en favoris par l'utilisateur 
         """
+        favoris = FavorisDAO().lister_ts_fav(id_utilisateur)
+        if favoris is None:
+            raise ValueError(f'Pas de cocktail parmi les favoris')
+        return favoris

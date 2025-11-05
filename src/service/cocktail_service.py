@@ -23,7 +23,9 @@ class CocktailService:
         renvoie ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
         retourne le cocktail dont on vérifie la présence
         """
-        cocktail = self.dao.cocktail.lecture(id_cocktail)
+        if id_cocktail not int: 
+            raise TypeError(f'id indiquée non conforme au format')
+        cocktail = CocktailDAO().lecture(id_cocktail)
         if cocktail is None:
             raise ErreurCocktailPasTrouvé(id_cocktail)
         return cocktail
@@ -42,7 +44,12 @@ class CocktailService:
         Affiche ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
         Renvoie la liste des ingrédients composant le cocktail en question
         """
-        return
+        if id_cocktail not int: 
+            raise TypeError(f'id indiquée non conforme au format')
+        ingredients = CocktailDAO().ingredients_ckt(id_cocktail)
+        if ingredients is None:
+            raise ErreurCocktailPasTrouvé(id_cocktail)
+        return ingredients
 
     def lister_tous_cocktail() -> list[Cocktail]:
         """Lister l'ensemble des cocktails
@@ -56,4 +63,7 @@ class CocktailService:
         Affiche ErreurCocktailPasTrouvé: si aucun cocktail n'a été trouvé
         Renvoie le cocktail dont on vérifie la présence
         """
-        return
+        list_cocktails = CocktailDAO().list_ts_cocktails()
+        if list_cocktails is None:
+            raise ErreurCocktailPasTrouvé(id_cocktail)
+        return list_cocktails
