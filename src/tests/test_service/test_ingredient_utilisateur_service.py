@@ -18,9 +18,9 @@ liste_utilisateurs = [
 ]
 
 liste_ingredients = [
-    Ingredient(id=1, nom="eau", desc="", type="boisson", alcoolise=False, abv=0),
-    Ingredient(id=2, nom="citron", desc="", type="fruit frais", alcoolise=False, abv=0),
-    Ingredient(id=3, nom="menthe", desc="", type="herbe", alcoolise=False, abv=0),
+    Ingredient(id_ingredient=1, nom="eau", desc="", type="boisson", alcoolise=False, abv=0),
+    Ingredient(id_ingredient=2, nom="citron", desc="", type="fruit frais", alcoolise=False, abv=0),
+    Ingredient(id_ingredient=3, nom="menthe", desc="", type="herbe", alcoolise=False, abv=0),
 ]
 
 
@@ -29,13 +29,12 @@ def test_ajout_ingredient_utilisateur_ok():
     """Ajout de l'ingrédient par l'utilisateur réussi."""
 
     # GIVEN
-    pseudo, mdp, statut = "jp", "1234", "utilisateur"
-    id, nom, desc, type, alcoolise, abv = 1, "citron", "", "fruit frais", False, 0
-    IngredientUtilisateurDao().ajout_ingredient_utilisateur() = MagicMock(return_value=ingredient)
+    id_ingredient, nom, desc, type, alcoolise, abv = 1, "citron", "", "fruit frais", False, 0
+    IngredientUtilisateurDao().ajouter() = MagicMock(return_value=ingredient)
 
     # WHEN
     utilisateur = UtilisateurService().(pseudo, mdp, age, mail, fan_pokemon)
-    ingredient = IngredientService().(id, nom, desc, type, alccolise, abv)
+    ingredient = IngredientService().(id_ingredient, nom, desc, type, alccolise, abv)
 
     # THEN
     assert utilisateur.ajout_ingredient_utilisateur() == ingredient

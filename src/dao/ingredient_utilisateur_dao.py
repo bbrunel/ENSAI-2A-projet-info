@@ -35,7 +35,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         """
                         INSERT INTO ingredient(nom, desc, type, alcoolise, abv) VALUES
                             (%(nom)s, %(desc)s, %(type)s, %(alcoolise)s, %(abv)s) 
-                            RETURNING id;                                                
+                            RETURNING id_ingredient;                                                
                         """,
                         {
                             "nom": ingredient.nom,
@@ -51,7 +51,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
         created = False
         if res:
-            ingredient.id = res["id"]
+            ingredient.id_ingredient = res["id_ingredient"]
             created = True
 
         return created
@@ -76,9 +76,11 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     # Supprimer le compte d'un ingredient
                     cursor.execute(
-                        "DELETE FROM ingredient                  "
-                        " WHERE id_ingredient=%(id)s      ",
-                        {"id_ingredient": ingredient.id},
+                        """
+                        DELETE FROM ingredient
+                            WHERE id_ingredient=%(id_ingredient)s
+                        """,
+                        {"id_ingredient": ingredient.id_ingredient},
                     )
                     res = cursor.rowcount
         except Exception as e:
@@ -106,8 +108,10 @@ class IngredientUtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT *                              "
-                        "  FROM ingredient;                        "
+                        """
+                        SELECT *
+                          FROM ingredient;
+                        """
                     )
                     res = cursor.fetchall()
         except Exception as e:

@@ -37,7 +37,7 @@ def test_ajouter_ok():
 
 
 def test_ajouter_ko():
-    """Ajout de l'ingrédient échouée (age et mail incorrects)"""
+    """Ajout de l'ingrédient échoué (age et mail incorrects)"""
 
     # GIVEN
     ingredient = Ingredient(nom="Test", desc=12, type=True, alcoolise="False", abv="0")
@@ -50,26 +50,26 @@ def test_ajouter_ko():
 
 
 def test_supprimer_ok():
-    """Suppression de Joueur réussie"""
+    """Suppression de l'ingrédient réussie."""
 
     # GIVEN
-    joueur = Joueur(id_joueur=995, pseudo="miguel", age=1, mail="miguel@projet.fr")
+    ingredient = Ingredient(id_ingredient=995, nom="", desc=1, type="")
 
     # WHEN
-    suppression_ok = JoueurDao().supprimer(joueur)
+    suppression_ok = IngredientDao().supprimer(ingredient)
 
     # THEN
     assert suppression_ok
 
 
 def test_supprimer_ko():
-    """Suppression de Joueur échouée (id inconnu)"""
+    """Suppression de Ingredient échouée (id inconnu)"""
 
     # GIVEN
-    joueur = Joueur(id_joueur=8888, pseudo="id inconnu", age=1, mail="no@z.fr")
+    ingredient = Ingredient(id_ingredient=88888888888, pseudo="id inconnu", age=1, mail="no@z.fr")
 
     # WHEN
-    suppression_ok = JoueurDao().supprimer(joueur)
+    suppression_ok = IngredientDao().supprimer(ingredient)
 
     # THEN
     assert not suppression_ok
