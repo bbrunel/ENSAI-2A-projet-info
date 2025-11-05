@@ -82,7 +82,7 @@ class RechercheService:
         inventaire = IngredientUtilisateurService.lister_tous_ingredients_utilisateur(utilisateur)
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
         
-        return RechercheDAO.liste_cocktails_faisables(id_ing_inventaire, 0)
+        return RechercheDao.liste_cocktails_faisables(id_ing_inventaire, 0)
     
 
     def liste_cocktails_quasi_faisables(self, utilisateur, nb_ing_manquants):
@@ -110,4 +110,4 @@ class RechercheService:
         inventaire = IngredientUtilisateurService.lister_tous_ingredients_utilisateur(utilisateur)
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
         
-        return RechercheDAO.liste_cocktails_faisables(id_ing_inventaire, nb_ing_manquants)
+        return RechercheDao.liste_cocktails_faisables(id_ing_inventaire, nb_ing_manquants)

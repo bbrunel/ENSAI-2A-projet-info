@@ -24,7 +24,8 @@ def test_recherche_cocktail_mauresque():
 
 def test_cocktails_faisables_mauresque():
     """
-    Teste si la liste des cocktails faisables contient le cocktail 'Mauresque'.
+    Teste si la liste des cocktails faisables contient le cocktail 'Mauresque' avec la liste des id 
+    des ingrédients du cocktail.
     """
 
     #GIVEN
@@ -39,7 +40,8 @@ def test_cocktails_faisables_mauresque():
 
 def test_recherche_ingredient():
     """
-    Teste si la methode renvoie bien l'ingrédient 'water'.
+    Teste si la methode renvoie bien l'ingrédient 'Water' pour un filtre dont le nom filtré est 
+    'Water'.
     """
 
     #GIVEN
