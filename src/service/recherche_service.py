@@ -8,7 +8,7 @@ class RechercheService:
     """
 
     def __init__(self):
-
+        pass
 
     def recherche_cocktail(self, filtre):
         """Renvoie les cocktails correspondant aux filtres.
