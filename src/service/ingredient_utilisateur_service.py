@@ -27,7 +27,7 @@ class IngredientUtilisateurService(metaclass=Singleton):
         return ingredient if IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient) else None
 
 
-    def supprimer_ingredient_utilisateur(self, ingredient: Ingredient) -> bool: 
+    def supprimer_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> bool: 
         """Supprime un ingrédient du bar personnel de l'utilisateur.
 
         Parameters
