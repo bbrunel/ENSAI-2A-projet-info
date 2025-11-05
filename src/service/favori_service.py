@@ -5,10 +5,7 @@ from src.service.recherche_service import RechercheService
 ##############################################################
 ##############################################################
 from src.dao.favoris import FavorisDAO
-from src.utils.exceptions import (
-    ItemNotFoundError,
-    WrongUserItemError,
-)
+
 ##########################################################################
 #######################################################################
 class FavorisService:
@@ -40,13 +37,13 @@ class FavorisService:
         """
         if id_cocktail is not int: 
             raise TypeError(f'id indiquée non conforme au format.')
-        id_validation = RechercheService().recherche_cocktail((id = id_cocktail))
+        id_validation = RechercheService().recherche_cocktail(id = id_cocktail)
         if id_validation is None :
             raise ValueError(f'Aucun cocktail ne possède cet id.')
         ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail)
         if ajout is None:
             raise ValueError(f'Ce cocktail est déjà en favori pour vous.')
-        return filtre.id_cocktail 
+        return id_validation
 
     def suppr_fav_cocktail(self,id_utilisateur : int, id_cocktail : int):
         """
@@ -63,10 +60,10 @@ class FavorisService:
         ---------- 
         Renvoie le cocktail supprimé
         """
-        if id_cocktail not int: 
+        if id_cocktail is not int: 
             raise TypeError(f'id indiquée non conforme au format')
         suppression = FavorisDAO().suppr_fav(id_utilisateur, id_cocktail)
-        if ingredients is None:
+        if suppression is None:
             raise ValueError(f'Pas de cocktail correspondant parmi les favoris')
         return suppression
     
