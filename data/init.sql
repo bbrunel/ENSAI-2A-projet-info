@@ -1,4 +1,4 @@
-CREATE EXTENSION pg_trgm; -- Extension pour mesurer la similarité de chaine de caractères
+CREATE EXTENSION pg_trgm;
 
 CREATE TABLE cocktails (
    id_recipe int NOT NULL,
