@@ -35,3 +35,18 @@ def test_cocktails_faisables_mauresque():
 
     #THEN
     assert cocktails[0].nom == "Mauresque"
+
+
+def test_recherche_ingredient():
+    """
+    Teste si la methode renvoie bien l'ingrédient 'water'.
+    """
+
+    #GIVEN
+    filtre = FiltreIngredient(nom = "Water")
+
+    #WHEN
+    resultat = recherche_ingredient(filtre)
+
+    #THEN
+    assert resultat[0].nom == "Water"
