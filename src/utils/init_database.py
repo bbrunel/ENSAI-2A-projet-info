@@ -4,6 +4,7 @@ import psycopg2.errors
 
 from dao.db_connection import DBConnection
 from utils.diverse import unaccent
+from utils.sql_utils import execute_sql_file
 
 ## Supression des tables
 with DBConnection().connection as connection:
@@ -16,15 +17,8 @@ with DBConnection().connection as connection:
         cursor.execute("DROP EXTENSION IF EXISTS pg_trgm;")
 
 ## Création des tables
-with open("../data/init.sql", "r") as f:
-    init_script = f.read()
-    with DBConnection().connection as connection:
-        with connection.cursor() as cursor:
-            for statement in init_script.split(";"):
-                stmt = statement.replace('\n','')
-                stmt = stmt.replace('\t','')
-                if stmt:
-                    cursor.execute(stmt + ';')
+
+execute_sql_file('../data/init.sql')
 
 ## Remplissage des tables avec les données brutes de thecocktaildb.com
 with open("../data/ingredients.json", "r") as f:
@@ -132,3 +126,6 @@ with open("../data/cocktails.json", "r") as f:
                         continue
     for ing in unknown.keys():
         print(f'{ing}, ')
+
+# Ajout des mock users, etc.
+execute_sql_file('../data/mock.sql')
