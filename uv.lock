@@ -113,7 +113,6 @@ wheels = [
 ]
 
 [[package]]
-<<<<<<< HEAD
 name = "iniconfig"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -154,8 +153,6 @@ wheels = [
 ]
 
 [[package]]
-=======
->>>>>>> 95615864b9ce22e15f348e5cf668bde1c4c096ab
 name = "pydantic"
 version = "2.12.3"
 source = { registry = "https://pypi.org/simple" }

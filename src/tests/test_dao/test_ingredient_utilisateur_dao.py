@@ -26,34 +26,38 @@ def test_ajouter_ok():
     """Ajout de l'ingrédient au bar personnel réussi."""
 
     # GIVEN
-    ingredient = Ingredient(nom="Test", desc="Test", type="Test", alcoolise=False, abv=0)
+    id_utilisateur = 1
+    id_ingredient = 513
 
     # WHEN
-    creation_ok = IngredientUtilisateurDao().ajouter(ingredient)
+    ajout_ok = IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient)
 
     # THEN
-    assert creation_ok
-    assert ingredient.id_ingredient
+    assert ajout_ok == id_ingredient
+    assert ajout_ok
+    assert id_ingredient
 
 
 def test_ajouter_ko():
-    """Ajout de l'ingrédient échoué (desc, type, alcoolise et abv incorrects)"""
+    """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient incorrects)"""
 
     # GIVEN
-    ingredient = Ingredient(nom="Test", desc=12, type=True, alcoolise="False", abv="0")
+    id_utilisateur = "1"
+    id_ingredient = False
 
     # WHEN
-    creation_ok = IngredientUtilisateurDao().ajouter(ingredient)
+    ajout_ok = IngredientUtilisateurDao().ajouter(ingredient)
 
     # THEN
-    assert not creation_ok
+    assert not ajout_ok
 
 
 def test_supprimer_ok():
     """Suppression de l'ingrédient réussie."""
 
     # GIVEN
-    ingredient = Ingredient(id_ingredient=995, nom="", desc=1, type="")
+    id_utilisateur = 1
+    id_ingredient = 513
 
     # WHEN
     suppression_ok = IngredientUtilisateurDao().supprimer(ingredient)
@@ -61,12 +65,12 @@ def test_supprimer_ok():
     # THEN
     assert suppression_ok
 
-
 def test_supprimer_ko():
     """Suppression de Ingredient échouée (id inconnu)"""
 
     # GIVEN
-    ingredient = Ingredient(id_ingredient=88888888888, pseudo="id inconnu", age=1, mail="no@z.fr")
+    id_utilisateur = 8888888888
+    id_ingredient = 8888888888888
 
     # WHEN
     suppression_ok = IngredientUtilisateurDao().supprimer(ingredient)

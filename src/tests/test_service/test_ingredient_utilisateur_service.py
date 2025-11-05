@@ -33,8 +33,8 @@ def test_ajout_ingredient_utilisateur_ok():
     IngredientUtilisateurDao().ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
-    utilisateur = UtilisateurService().(pseudo, mdp, age, mail, fan_pokemon)
-    ingredient = IngredientService().(id_ingredient, nom, desc, type, alccolise, abv)
+    utilisateur = Utilisateur()
+    ingredient = Ingredient()
 
     # THEN
     assert utilisateur.ajout_ingredient_utilisateur() == ingredient
@@ -79,7 +79,7 @@ def test_liste_tous_ingredients_utilisateur_ok():
     """
 
     # GIVEN
-    IngredientUtilisateurDao().liste_tous_ingredients_utilisateur() = MagicMock(return_value=liste_ingredients)
+    IngredientUtilisateurDao().liste_tous_ingredients_utilisateur = MagicMock(return_value=liste_ingredients)
 
     # WHEN
     res = UtilisateurService().liste_tous_ingredients_utilisateur()
