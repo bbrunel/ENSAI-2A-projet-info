@@ -43,7 +43,7 @@ with open("../data/ingredients.json", "r") as f:
                         "id_ingredient": ing["idIngredient"],
                         "ingredient_name": unaccent(ing["strIngredient"]),
                         "ingredient_type": ing["strType"],
-                        "description": ing["strDescription"]
+                        "description": ing["strDescription"],
                         "alcoholic": ing["strAlcohol"] == "Yes",
                         "abv": abv
                     },
