@@ -6,8 +6,6 @@ from business_object.ingredient import Ingredient
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 
-from dao.cocktail_dao import Cocktail
-
 
 def test_recherche_cocktail_filtre_nom():
     """
@@ -47,6 +45,23 @@ def test_liste_cocktails_faisables():
 
     #GIVEN
     id_ingredients_utilisateurs = [513, 427, 362]
+    #CREER UN UTILISATEUR MOCK
+
+    #WHEN
+    cocktails = liste_cocktails_faisables()
+
+    #THEN
+    assert cocktails[0].nom == "Mauresque"
+
+
+def test_liste_cocktails_quasi_faisables():
+    """
+    Teste si la fonction renvoie bien les cocktails presque faisables à partir des ingrédients de
+    l'utilisateur.
+    """
+
+    #GIVEN
+    id_ingredients_utilisateurs = [513, 427]
     #CREER UN UTILISATEUR MOCK
 
     #WHEN
