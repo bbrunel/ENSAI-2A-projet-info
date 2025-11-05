@@ -11,6 +11,9 @@ from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
 from business_object.ingredient import Ingredient
 
 
+# Créer un mock ?
+
+
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
     """Initialisation des données de test"""
@@ -44,7 +47,6 @@ def test_ajouter_ko():
 
     # THEN
     assert not creation_ok
-
 
 
 def test_supprimer_ok():
