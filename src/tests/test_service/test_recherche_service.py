@@ -45,7 +45,7 @@ def test_liste_cocktails_faisables():
 
     #GIVEN
     id_ingredients_utilisateurs = [513, 427, 362]
-    #CREER UN UTILISATEUR MOCK
+    #CREER UN UTILISATEUR MOCK AVEC DB LOCALE
 
     #WHEN
     cocktails = liste_cocktails_faisables()
@@ -62,7 +62,7 @@ def test_liste_cocktails_quasi_faisables():
 
     #GIVEN
     id_ingredients_utilisateurs = [513, 427]
-    #CREER UN UTILISATEUR MOCK
+    #CREER UN UTILISATEUR MOCK AVEC DB LOCALE
 
     #WHEN
     cocktails = liste_cocktails_faisables()
