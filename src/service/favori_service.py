@@ -1,12 +1,10 @@
 from src.business_object.cocktail import Cocktail
 
 ##############################################################
-##############################################################
 from src.dao.favoris_dao import FavorisDAO
 from src.service.recherche_service import RechercheService
 
 
-##########################################################################
 #######################################################################
 class FavorisService:
     """
