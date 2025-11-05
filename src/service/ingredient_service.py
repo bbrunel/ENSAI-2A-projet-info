@@ -1,5 +1,6 @@
 from business_object.ingredient import Ingredient
 
+from utils.singleton import Singleton
 
 class IngredientService(metaclass=Singleton):
     """
