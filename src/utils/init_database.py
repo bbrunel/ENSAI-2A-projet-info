@@ -13,7 +13,7 @@ with DBConnection().connection as connection:
         cursor.execute("DROP TABLE IF EXISTS favorites;")
         cursor.execute("DROP TABLE IF EXISTS cocktails;")
         cursor.execute("DROP TABLE IF EXISTS ingredients;")
-        cursor.execute("DROP TABLE IF EXISTS users;")
+        cursor.execute("DROP EXTENSION IF EXISTS pg_trgm;")
 
 ## Création des tables
 with open("../data/init.sql", "r") as f:
@@ -25,7 +25,7 @@ with open("../data/init.sql", "r") as f:
                 stmt = stmt.replace('\t','')
                 if stmt:
                     cursor.execute(stmt + ';')
- 
+
 ## Remplissage des tables avec les données brutes de thecocktaildb.com
 with open("../data/ingredients.json", "r") as f:
     ingredients = json.load(f)
