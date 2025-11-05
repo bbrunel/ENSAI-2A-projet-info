@@ -12,18 +12,19 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
 
     @log
-    def ajouter(self, ingredient): # SQL vérifié
-        """Creation d'un ingredient dans la base de données
+    def ajouter(self, id_utilisateur, id_ingredient): # SQL vérifié
+        """Creation d'un ingredient dans le bar personnel.
 
         Parameters
         ----------
-        ingredient : Ingredient
+        id_utilisateur : int
+        id_ingredient : int
 
         Returns
         -------
         created : bool
-            True si la création est un succès
-            False sinon
+            True si la création est un succès.
+            False sinon.
         """
 
         res = None
@@ -34,12 +35,12 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         """
                         INSERT INTO have (id_ingredient, id_user) VALUES
-                            (%(id_ingredient)s, %(id_user)s) 
+                            (%(id_ingredient)s, %(id_utilisateur)s) 
                             RETURNING id_ingredient;                                                
                         """,
                         {
-                            "id_ingredient": ingredient.id_ingredient,
-                            "id_user": utilisateur.id_utilisateur
+                            "id_ingredient": id_ingredient,
+                            "id_utilisateur": id_utilisateur
                         },
                     )
                     res = cursor.fetchone()
@@ -55,17 +56,19 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
 
     @log
-    def supprimer(self, ingredient):
+    def supprimer(self, id_utilisateur, id_ingredient):
         """Suppression d'un ingrédient dans le bar personnel.
 
         Parameters
         ----------
-        ingredient : Ingredient
-            ingredient à supprimer de la base de données
+        id_utilisateur : int
+            Identifiant de l'utilisateur qui supprime un ingrédient de son bar personnel.
+        id_ingredient : int
+            Identifiant de l'ingredient à supprimer du bar personnel de l'utilisateur.
 
         Returns
         -------
-            True si l'ingredient a bien été supprimé
+            True si l'ingredient a bien été supprimé.
         """
 
         try:
@@ -80,8 +83,8 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                               AND id_user=%(id_utilisateur)s
                         """,
                         {
-                            "id_ingredient": ingredient.id_ingredient,
-                            "id_utilisateur": utilisateur.id_user
+                            "id_ingredient": id_ingredient,
+                            "id_utilisateur": id_utilisateur
                         },
                     )
                     res = cursor.rowcount
@@ -93,12 +96,13 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
 
     @log
-    def lister_tous(self): # SQL vérifié
-        """Lister tous les ingredients.
+    def lister_tous(self, id_utilisateur): # SQL vérifié
+        """Lister tous les ingredients du bar personnel de l'utilisateur.
 
         Parameters
         ----------
-        None
+        id_utilisateur: int
+            L'identifiant de l'utilisateur dont on veut lister le bar personnel.
 
         Returns
         -------
@@ -112,9 +116,13 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         """
                         SELECT *
-                        FROM have h
-                        LEFT JOIN ingredients i ON h.id_ingredient = i.id_ingredient ;
-                        """
+                            FROM have h
+                            LEFT JOIN ingredients i ON h.id_ingredient = i.id_ingredient 
+                            WHERE h.id_user=%(id_utilisateur)s;
+                        """,
+                        {
+                            "id_utilisateur": id_utilisateur
+                        }
                     )
                     res = cursor.fetchall()
         except Exception as e:

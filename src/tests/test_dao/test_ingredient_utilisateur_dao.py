@@ -37,7 +37,7 @@ def test_ajouter_ok():
 
 
 def test_ajouter_ko():
-    """Ajout de l'ingrédient échoué (age et mail incorrects)"""
+    """Ajout de l'ingrédient échoué (desc, type, alcoolise et abv incorrects)"""
 
     # GIVEN
     ingredient = Ingredient(nom="Test", desc=12, type=True, alcoolise="False", abv="0")
