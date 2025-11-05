@@ -26,7 +26,7 @@ with open("../data/init.sql", "r") as f:
                 if stmt:
                     cursor.execute(stmt + ';')
  
-## Remplissage des tables avec les données brute de thecocktaildb.com
+## Remplissage des tables avec les données brutes de thecocktaildb.com
 with open("../data/ingredients.json", "r") as f:
     ingredients = json.load(f)
     with DBConnection().connection as connection:
