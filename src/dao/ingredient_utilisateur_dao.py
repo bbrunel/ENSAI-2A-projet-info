@@ -65,7 +65,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
         Returns
         -------
-            True si le ingredient a bien été supprimé
+            True si l'ingredient a bien été supprimé
         """
 
         try:
@@ -102,7 +102,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         Returns
         -------
         liste_ingredients : list[Ingredient]
-            renvoie la liste de tous les ingredients dans la base de données
+            renvoie la liste de tous les ingredients du bar personnel de l'utilisateur
         """
 
         try:
