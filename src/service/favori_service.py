@@ -38,7 +38,7 @@ class FavorisService:
         ----------
         Renvoie le cocktail mis en favoris
         """
-        if id_cocktail not int: 
+        if id_cocktail is not int: 
             raise TypeError(f'id indiquée non conforme au format.')
         id_validation = RechercheService().recherche_cocktail((id = id_cocktail))
         if id_validation is None :
