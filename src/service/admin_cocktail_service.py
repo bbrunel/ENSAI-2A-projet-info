@@ -37,6 +37,7 @@ class AdminCocktailService:
         Affiche PasLesDroits : si l'utilisateur qui fait appel au service n'est pas un administrateur 
         Renvoie le cocktail ajouté
         """
+        
         if id_utilisateur not in id_admins:
             raise PasLesDroits
     
@@ -66,39 +67,5 @@ class AdminCocktailService:
             raise ErreurCocktailPasTrouvé(item_id)
         return cocktail_a_suppr
     
-    
-    def verifier_cocktail(self,, id_cocktail : int ) -> Cocktail:
-        """Vérifie si un cocktail existe bel et bien déjà.
-
-        Paramètres 
-        ----------
-        id_cocktail : l'id du cocktail à vérifier
-        
-        
-        Retour
-        ----------
-        Affiche ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
-        Renvoie le cocktail dont on vérifie la présence 
-        """       
-        cocktail = self.dao.cocktail.lecture(id_cocktail)
-        if cocktail is None:
-            raise ErreurCocktailPasTrouvé(id_cocktail)
-        return cocktail
-
-    
-    def ingredient_cocktail ():
 
 
-    def lister_tous_cocktail() -> list[Cocktail]:
-        """Lister l'ensemble des cocktails
-
-        Paramètres 
-        ----------
-        
-        
-        Retour
-        ----------
-        Affiche ErreurCocktailPasTrouvé: si aucun cocktail n'a été trouvé
-        Renvoie le cocktail dont on vérifie la présence 
-        """
-        return 
