@@ -80,7 +80,6 @@ class RechercheDao(metaclass=Singleton):
                                    {
                                     "liste_ing": tuple(id_ingredients),
                                     "nb_max": nb_manquants
-                                    ""
                                    })
                     res = cursor.fetchall()
         except Exception as e:

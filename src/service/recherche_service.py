@@ -1,13 +1,13 @@
-from src.business_object.filtre_ingredient import FiltreIngredient
-from src.business_object.filtre_cocktail import FiltreCocktail
-from src.dao import RechercheDAO
+from business_object.filtre_ingredient import FiltreIngredient
+from business_object.filtre_cocktail import FiltreCocktail
+from dao.recherche_dao import RechercheDao
 
 
 class RechercheService:
     """Permet de rechercher des cocktails et des ingrédients en appliquant un filte de recherche.
     """
 
-    def __init__(self, recherche_dao : RechercheDAO):
+    def __init__(self, recherche_dao : RechercheDao):
         self.dao = recherche_dao
 
 
