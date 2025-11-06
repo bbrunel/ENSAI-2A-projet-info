@@ -126,7 +126,7 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
-    def recherche_ingredient(self, filre: FiltreIngredient) -> list[Ingredient]:
+    def recherche_ingredient(self, filtre: FiltreIngredient) -> list[Ingredient]:
         """Cette fonction cherche dans la base de données les ingrédients correspondants au filtre
 
         Parameters
