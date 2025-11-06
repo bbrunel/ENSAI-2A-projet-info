@@ -1,8 +1,7 @@
 import logging
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
 
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
@@ -32,6 +31,11 @@ async def recherche_cocktail(nom_cocktail: str):
     for c in cocktails:
         liste_noms.append(c.nom)
     return liste_noms
+
+@app.get("/recherche_filtre_cocktail", tags=["Cocktails", "Recherche"])
+def recherche_filtre_cocktail(filtre: Annotated[FiltreCocktail, Query()]):
+    cocktails = RechercheService().recherche_cocktail(filtre)
+    return cocktails
 
 # Run the FastAPI application
 if __name__ == "__main__":
