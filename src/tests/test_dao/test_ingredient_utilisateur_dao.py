@@ -29,25 +29,6 @@ def test_ajouter_ok():
     # GIVEN
     id_utilisateur = 1
     id_ingredient = 513
-    mock_cursor = MagicMock()
-    mock_cursor.fetchall.return_value = {
-        "id_ingredient": 513,
-        "ingredient_name": "eau", 
-        "description": "",
-        "ingredient_type": "boisson",
-        "alcoolise": False, 
-        "abv": 0
-    }
-    # cursor.fetchone = MagicMock(
-    #     return_value={
-    #         "id_ingredient": 513,
-    #         "ingredient_name": "eau", 
-    #         "description": "",
-    #         "ingredient_type": "boisson",
-    #         "alcoolise": False, 
-    #         "abv": 0
-    #     }
-    # )
 
     # WHEN
     ajout = IngredientUtilisateurDao().ajouter(
@@ -58,7 +39,7 @@ def test_ajouter_ok():
     # THEN
     print(ajout)
     print(id_ingredient)
-    assert ajout.id == id_ingredient
+    assert ajout == id_ingredient
 
 
 # def test_ajouter_ko():
@@ -86,8 +67,6 @@ def test_supprimer_ok():
     # GIVEN
     id_utilisateur = 2
     id_ingredient = 305
-    mock_cursor = MagicMock()
-    mock_cursor.rowcount = 1
 
     # WHEN
     suppression = IngredientUtilisateurDao().supprimer(
@@ -123,12 +102,6 @@ def test_lister_tous():
 
     # GIVEN
     id_utilisateur = 1
-    mock_cursor = MagicMock()
-    mock_cursor.fetchall.return_value = [
-        {"id_user": 1, "id_ingredient": 337},
-        {"id_user": 1, "id_ingredient": 305},
-        {"id_user": 1, "id_ingredient": 312}
-    ]
 
     # WHEN
     ingredients = IngredientUtilisateurDao().lister_tous(id_utilisateur)
