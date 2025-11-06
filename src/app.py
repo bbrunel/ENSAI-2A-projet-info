@@ -4,6 +4,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
+from business_object.filtre_cocktail import FiltreCocktail
+from business_object.filtre_ingredient import FiltreIngredient
+
 from service.recherche_service import RechercheService
 from utils.log_init import initialiser_logs
 
