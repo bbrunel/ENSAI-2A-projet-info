@@ -2,6 +2,8 @@ from business_object.utilisateur import Utilisateur
 
 from business_object.ingredient import Ingredient
 
+from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
+
 from utils.singleton import Singleton
 
 class IngredientUtilisateurService(metaclass=Singleton):
