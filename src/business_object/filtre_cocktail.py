@@ -1,18 +1,14 @@
-from business_object.abstract_filtre import AbstractFiltre
+from pydantic import BaseModel
 
-class FiltreCocktail(AbstractFiltre):
-    def __init__(self, nom: str = None, alcoolise: bool = None,
-                 tags: list[str] = None,
-                 iba: str = None,
-                 categorie: str = None,
-                 verre: str = None):
-        super().__init__(nom, alcoolise)
-        self.tags = tags if tags is not None else []
-        self.iba = iba
-        self.categorie = categorie
-        self.verre = verre
+class FiltreCocktail(BaseModel):
+    nom: str = None
+    alcoolise: bool = None
+    tags: list[str] = None
+    iba: str = None
+    categorie: str = None
+    verre: str = None
 
     def voir_filtre(self):
         """Permet de voir les filtres appliqués sur les cocktails"""
-        return f'{self.nom}, {self.alcoolise}, {self.tags}, {self.iba}, \
-{self.categorie}, {self.verre}'
+        return f"{self.nom}, {self.alcoolise}, {self.tags}, {self.iba}, \
+{self.categorie}, {self.verre}"
