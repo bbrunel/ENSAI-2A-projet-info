@@ -94,16 +94,32 @@ class RechercheDao(metaclass=Singleton):
                     # dont l'ingredient n'est PAS dans la liste des ingredients possédés, ensuite
                     # on garde uniquement les cocktails dont le nombre d'occurence (donc le nombre
                     # d'ingredient supplementaire à utiliser) est inférieur à nb_manquants.
+                    if nb_manquants > 0:
+                        query = (
+                            "SELECT c1.*, count(*) as nb_missing FROM cocktails c1"
+                            " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
+                            " WHERE NOT c2.id_ingredient IN %(liste_ing)s"
+                            " GROUP BY c1.id_recipe HAVING count(*) <= %(nb_max)s"
+                            " ORDER BY nb_missing;"
+                        )
+                        params = {
+                                    "liste_ing": tuple(id_ingredients),
+                                    "nb_max": nb_manquants
+                                 }
 
-                    query = "SELECT c1.* as nb_missing FROM cocktails c1"
-                    query += " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
-                    query += " WHERE NOT c2.id_ingredient IN %(liste_ing)s"
-                    query += (
-                        " GROUP BY c1.id_recipe HAVING count(*) <= %(nb_max)s ORDER BY nb_missing;"
-                    )
-                    cursor.execute(
-                        query, {"liste_ing": tuple(id_ingredients), "nb_max": nb_manquants}
-                    )
+                    else:
+                        query = (
+                            "SELECT c1.id_recipe, count(*) as n FROM cocktails c1"
+                            " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
+                            " WHERE c2.id_ingredient IN %(liste_ing)s"
+                            " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
+                            " (SELECT c1.id_recipe FROM cocktails c1"
+                            " JOIN composition c2 ON c1.id_recipe = c2.id_recipe "
+                            " WHERE NOT c2.id_ingredient IN %(liste_ing)s "
+                            " GROUP BY c1.id_recipe);"
+                        )
+                        params = {"liste_ing" : tuple(id_ingredients)}
+                    cursor.execute(query, params)
                     res = cursor.fetchall()
         except Exception as e:
             logging.info(e)
