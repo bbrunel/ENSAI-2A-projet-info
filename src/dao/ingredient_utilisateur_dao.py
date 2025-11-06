@@ -13,7 +13,7 @@ from business_object.ingredient import Ingredient
 class IngredientUtilisateurDao(metaclass=Singleton):
 
     @log
-    def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient: # SQL vérifié
+    def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient: 
         """Creation d'un ingredient dans le bar personnel.
 
         Parameters
@@ -61,9 +61,10 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         #     abv=res["abv"]
         # )
 
-        print("res =", res)
+        id_ingredient_retour = res["id_ingredient"]
+        print("id_ingredient_retour =", id_ingredient_retour)
 
-        return res
+        return id_ingredient_retour
 
 
     @log
@@ -73,9 +74,11 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         Parameters
         ----------
         id_utilisateur : int
-            Identifiant de l'utilisateur qui supprime un ingrédient de son bar personnel.
+            Identifiant de l'utilisateur qui supprime un ingrédient de son 
+            bar personnel.
         id_ingredient : int
-            Identifiant de l'ingredient à supprimer du bar personnel de l'utilisateur.
+            Identifiant de l'ingredient à supprimer du bar personnel de 
+            l'utilisateur.
 
         Returns
         -------
@@ -113,12 +116,14 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         Parameters
         ----------
         id_utilisateur: int
-            L'identifiant de l'utilisateur dont on veut lister le bar personnel.
+            L'identifiant de l'utilisateur dont on veut lister le 
+            bar personnel.
 
         Returns
         -------
         liste_ingredients : list[Ingredient]
-            renvoie la liste de tous les ingredients du bar personnel de l'utilisateur
+            renvoie la liste de tous les ingredients du bar personnel de 
+            l'utilisateur
         """
 
         try:
@@ -128,7 +133,8 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         """
                         SELECT *
                             FROM have h
-                            LEFT JOIN ingredients i ON h.id_ingredient = i.id_ingredient 
+                            LEFT JOIN ingredients i 
+                                ON h.id_ingredient = i.id_ingredient
                             WHERE h.id_user=%(id_utilisateur)s;
                         """,
                         {
@@ -136,17 +142,17 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         }
                     )
                     res = cursor.fetchall()
+                    print("res =", res)
         except Exception as e:
             logging.info(e)
             raise
 
         liste_ingredients = []
-        print("res =", res)
 
         if res:
             for row in res:
                 ingredient = Ingredient(
-                    id_ingredient=row["id_ingredient"],
+                    id=row["id_ingredient"],
                     nom=row["ingredient_name"],
                     desc=row["description"],
                     type_ing=row["ingredient_type"],
