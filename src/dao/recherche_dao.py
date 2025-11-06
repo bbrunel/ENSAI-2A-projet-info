@@ -70,7 +70,7 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
-    def cocktails_faisables(id_ingredients: list[int], nb_manquants: int = 0) -> list[Cocktail]:
+    def cocktails_faisables(self, id_ingredients: list[int], nb_manquants: int = 0) -> list[Cocktail]:
         """Cette fonction récupère dans la base de données la liste des cocktails
         faisables (ou quasi-faisable si nb_manquants > 0) avec une liste d'ingrédients donnés.
 

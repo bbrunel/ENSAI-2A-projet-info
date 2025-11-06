@@ -13,13 +13,13 @@ def test_recherche_cocktail_filtre_nom():
     """
     
     #GIVEN
-    filtre = FiltreIngredient(nom = "Mauresque")
+    filtre = FiltreCocktail(nom = "Mauresque")
 
     #WHEN
-    recherche = recherche_cocktail(filtre)
+    recherche = RechercheService().recherche_cocktail(filtre)
 
     #THEN
-    assert recherche[0].nom == "Mauresque"
+    assert "Mauresque" in [cocktail.nom for cocktail in recherche]
 
 
 def test_recherche_ingredient_filtre_nom():
@@ -31,10 +31,10 @@ def test_recherche_ingredient_filtre_nom():
     filtre = FiltreIngredient(nom = "Kahlua")
 
     #WHEN
-    recherche = recherche_ingredient(filtre)
+    recherche = RechercheService().recherche_ingredient(filtre)
 
     #THEN
-    assert recherche[0].nom == "Kahlua"
+    assert "Kahlua" in [ing.nom for ing in recherche]
 
 
 def test_liste_cocktails_faisables():
@@ -48,7 +48,7 @@ def test_liste_cocktails_faisables():
     #CREER UN UTILISATEUR MOCK AVEC DB LOCALE
 
     #WHEN
-    cocktails = liste_cocktails_faisables()
+    cocktails = RechercheService().liste_cocktails_faisables()
 
     #THEN
     assert cocktails[0].nom == "Mauresque"
@@ -65,7 +65,7 @@ def test_liste_cocktails_quasi_faisables():
     #CREER UN UTILISATEUR MOCK AVEC DB LOCALE
 
     #WHEN
-    cocktails = liste_cocktails_faisables()
+    cocktails = RechercheService().liste_cocktails_faisables()
 
     #THEN
     assert cocktails[0].nom == "Mauresque"
