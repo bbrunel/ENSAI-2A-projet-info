@@ -9,6 +9,8 @@ from business_object.filtre_ingredient import FiltreIngredient
 from business_object.utilisateur import Utilisateur
 from dao.utilisateur_dao import UtilisateurDao
 
+from service.ingredient_utilisateur_service import IngredientUtilisateurService
+
 
 def test_recherche_cocktail_filtre_nom():
     """
@@ -54,6 +56,7 @@ def test_liste_cocktails_faisables():
 
     #THEN
     assert 'Mojito' in [cocktail.nom for cocktail in recherche]
+
 
 
 def test_liste_cocktails_quasi_faisables():
