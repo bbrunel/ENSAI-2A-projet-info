@@ -6,6 +6,9 @@ from business_object.ingredient import Ingredient
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 
+from business_object.utilisateur import Utilisateur
+from dao.utilisateur_dao import UtilisateurDao
+
 
 def test_recherche_cocktail_filtre_nom():
     """
@@ -44,14 +47,13 @@ def test_liste_cocktails_faisables():
     """
 
     #GIVEN
-    id_ingredients_utilisateurs = [513, 427, 362]
-    #CREER UN UTILISATEUR MOCK AVEC DB LOCALE
+    utilisateur = UtilisateurDao().trouver_par_id(1)
 
     #WHEN
-    cocktails = RechercheService().liste_cocktails_faisables()
+    recherche = RechercheService().liste_cocktails_faisables(utilisateur)
 
     #THEN
-    assert cocktails[0].nom == "Mauresque"
+    assert 'Mojito' in [cocktail.nom for cocktail in recherche]
 
 
 def test_liste_cocktails_quasi_faisables():
@@ -61,11 +63,10 @@ def test_liste_cocktails_quasi_faisables():
     """
 
     #GIVEN
-    id_ingredients_utilisateurs = [513, 427]
-    #CREER UN UTILISATEUR MOCK AVEC DB LOCALE
+    utilisateur = UtilisateurDao().trouver_par_id(2)
 
     #WHEN
-    cocktails = RechercheService().liste_cocktails_faisables()
+    recherche = RechercheService().liste_cocktails_faisables(utilisateur, 3)
 
     #THEN
-    assert cocktails[0].nom == "Mauresque"
+    assert 'Mojito' in [cocktail.nom for cocktail in recherche]

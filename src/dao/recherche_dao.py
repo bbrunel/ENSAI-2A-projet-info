@@ -14,12 +14,12 @@ class RechercheDao(metaclass=Singleton):
     base de données
     """
 
-    def recherche_cocktail(self, filtre: FiltreCocktail) -> list[Cocktail]:
+    def recherche_cocktail(self, filtre: FiltreCocktail = None) -> list[Cocktail]:
         """Récupère dans la base de données la liste des cocktails satisfaisant un filtre
 
         Parameters
         ----------
-            filtre : FiltreCocktail
+            filtre : FiltreCocktail = None
 
         Returns
         -------
@@ -142,12 +142,12 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
-    def recherche_ingredient(self, filtre: FiltreIngredient) -> list[Ingredient]:
+    def recherche_ingredient(self, filtre: FiltreIngredient = None) -> list[Ingredient]:
         """Cette fonction cherche dans la base de données les ingrédients correspondants au filtre
 
         Parameters
         ----------
-            filtre: FiltreIngredient
+            filtre: FiltreIngredient = None
 
         Returns
         -------
