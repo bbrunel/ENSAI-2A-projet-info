@@ -1,3 +1,5 @@
+# importer le mock
+
 import logging
 
 from utils.singleton import Singleton
@@ -66,7 +68,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 abv=res["i.abv"]
             )
 
-        return created
+        return ingredient
 
 
     @log
