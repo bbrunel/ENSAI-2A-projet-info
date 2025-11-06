@@ -42,23 +42,23 @@ def test_ajouter_ok():
     assert ajout == id_ingredient
 
 
-# def test_ajouter_ko():
-#     """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient
-#     incorrects)
-#     """
+def test_ajouter_ko():
+    """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient
+    incorrects)
+    """
 
-#     # GIVEN
-#     id_utilisateur = 8888888
-#     id_ingredient = False
+    # GIVEN
+    id_utilisateur = 8888888
+    id_ingredient = False
 
-#     # WHEN
-#     ajout = IngredientUtilisateurDao().ajouter(
-#         id_utilisateur, 
-#         id_ingredient
-#     )
+    # WHEN
+    ajout = IngredientUtilisateurDao().ajouter(
+        id_utilisateur, 
+        id_ingredient
+    )
 
-#     # THEN
-#     assert ajout is None
+    # THEN
+    assert ajout is None
 
 
 def test_supprimer_ok():

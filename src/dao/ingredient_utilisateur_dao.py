@@ -42,10 +42,8 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                             "id_ingredient": id_ingredient
                         },
                     )
-                    print("Avant le res.")
                     res = cursor.fetchone()
-                    print("res =", res)
-                    print("Après le res.")
+                    res = res["id_ingredient"]
         except Exception as e:
             logging.info(e)
 
@@ -61,11 +59,10 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         #     abv=res["abv"]
         # )
 
-        id_ingredient_retour = res["id_ingredient"]
-        print("id_ingredient_retour =", id_ingredient_retour)
+        # id_ingredient_retour = res["id_ingredient"]
+        # print("id_ingredient_retour =", id_ingredient_retour)
 
-        return id_ingredient_retour
-
+        return res
 
     @log
     def supprimer(self, id_utilisateur, id_ingredient):
