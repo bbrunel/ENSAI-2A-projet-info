@@ -26,7 +26,12 @@ async def redirect_to_docs():
 async def recherche_cocktail(nom_cocktail: str):
     """Recherche de cocktail"""
     filtre = FiltreCocktail(nom = nom_cocktail)
-    return RechercheService.recherche_cocktail(filtre)
+    cocktails = RechercheService().recherche_cocktail(filtre)
+    print(cocktails)
+    liste_noms = []
+    for c in cocktails:
+        liste_noms.append(c.nom)
+    return liste_noms
 
 # Run the FastAPI application
 if __name__ == "__main__":
