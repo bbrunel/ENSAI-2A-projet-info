@@ -47,21 +47,6 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
 
-        # ingredient = None
-
-        # print("Voici res :", res)
-        # ingredient = Ingredient(
-        #     id=res["id_ingredient"],
-        #     nom=res["ingredient_name"],
-        #     desc=res["description"],
-        #     type_ing=res["ingredient_type"],
-        #     alcoolise=res["alcoholic"],
-        #     abv=res["abv"]
-        # )
-
-        # id_ingredient_retour = res["id_ingredient"]
-        # print("id_ingredient_retour =", id_ingredient_retour)
-
         return res
 
     @log
@@ -139,7 +124,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         }
                     )
                     res = cursor.fetchall()
-                    print("res =", res)
+            
         except Exception as e:
             logging.info(e)
             raise
