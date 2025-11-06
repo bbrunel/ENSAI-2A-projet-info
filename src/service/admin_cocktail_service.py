@@ -6,16 +6,11 @@ from src.service.recherche_service import RechercheService
 
 class AdminCocktailService:
     """
-    Classe service des actions résservées aux administrateurs
-
+    Classe service des actions  destinées réservées aux administrateurs
     """
-
-    def __init__(self, admcocktail_dao: AdminCocktailDAO) -> None:
-        self.dao.admin_cocktail = admcocktail_dao
 
     def ajout_cocktail(
         self,
-        id_utilisateur: int,
         nom: str,
         tags: list[str],
         categorie: str,
@@ -30,9 +25,6 @@ class AdminCocktailService:
 
         Paramètres
         ----------
-        id_utilisateur :
-            l'id de l'utilisateur qui fait la requete
-            (afin de regarder s'il s'agit d'un administrateur )
         nom : str 
             nom usuel d'un cocktail
         tags : str
@@ -55,8 +47,6 @@ class AdminCocktailService:
         ajout_reussi : int
             l'id du cocktail ajouté
         """
-        if id_utilisateur not in id_admins:
-            raise ValueError("vos droits ne vous permettent pas de modifier la base de données.")
         if nom is not str:
             raise TypeError("Le nom doit être un string.")
         if tags is not list[str]:
@@ -75,7 +65,8 @@ class AdminCocktailService:
             if url_image is not str:
                 raise TypeError("Le lien URL doit être un string.")
         verif_pas_deja_existant = RechercheService().recherche_cocktail(
-            nom=nom, alcoolise=alcolise, categorie=categorie, iba=iba, verre=verre, tags=tags
+            nom=nom, alcoolise=alcolise, categorie=categorie, 
+            iba=iba, verre=verre, tags=tags
         )
         if verif_pas_deja_existant is not None:
             raise ValueError("Ce cocktail existe déjà.")
@@ -85,13 +76,12 @@ class AdminCocktailService:
         if ajout_reussi is not int:
             raise ValueError("Il y a eu un problème dans la création de ce nouvau cocktail.")
         return ajout_reussi
-    def supprimer_cocktail(self, id_utilisateur, id_cocktail) -> Cocktail:
+    def supprimer_cocktail(self, id_cocktail) -> Cocktail:
         """
         Supprime un cocktail pour un ADMINISTRATEUR
 
         Paramètres
         ----------
-        id_utilisateur : l'id de l'utilisateur qui fait la requete
         id_cocktail : l'id du cocktail à supprimer
 
 
@@ -99,12 +89,12 @@ class AdminCocktailService:
         ----------
         Renvoie le cocktail supprimé
         """
-        if id_utilisateur not in id_admins:
-            raise ValueError("vos droits ne vous permettent pas de modifier la base de données")
         if id_cocktail is not int:
             raise TypeError("id indiquée non conforme au format")
-
         item = CocktailService().verifier_cocktail(id_cocktail)
         if item is None:
+            raise ValueError("Aucun cocktail ne possède cette id")
+        suppression = AdminCocktailDAO().suppr_ckt(id_cocktail)
+        if suppression is False:
             raise ValueError("Aucun cocktail ne possèède cette id")
-        return AdminCocktailDAO().suppr_ckt(id_cocktail)
+        return  suppression
