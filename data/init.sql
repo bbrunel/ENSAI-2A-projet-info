@@ -33,7 +33,7 @@ CREATE TABLE composition (
 
 CREATE TABLE users (
    id_user int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   username varchar(255) NOT NULL,
+   username varchar(255) NOT NULL UNIQUE,
    hashed_password varchar(255) NOT NULL
 );
 

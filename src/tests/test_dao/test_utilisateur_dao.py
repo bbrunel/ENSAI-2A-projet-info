@@ -1,17 +1,18 @@
 import os
-import pytest
 from unittest.mock import patch
 
-from utils.reset_database import ResetDatabase
-from utils.securite import hash_password
-from dao.utilisateur_dao import UtilisateurDao
+import pytest
+
 from business_object.utilisateur import Utilisateur
+from dao.utilisateur_dao import UtilisateurDao
+from utils.securite import hash_password
+
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
     """Initialisation des données de test"""
-    with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-        ResetDatabase().lancer(test_dao=True)
+    with patch.dict(os.environ, {"SCHEMA": "mock"}):
+        # ResetDatabase().lancer(test_dao=True)
         yield
 
 
@@ -92,10 +93,7 @@ def test_creer_ok():
     """Création d'Utilisateur réussie"""
 
     # GIVEN
-    utilisateur = Utilisateur(
-        nom_utilisateur="Ismael",
-        mdp=hash_password("motdepasse", "Ismael")
-    )
+    utilisateur = Utilisateur(nom_utilisateur="Noobie", mdp=hash_password("motdepasse", "Noobie"))
 
     # WHEN
     creation_ok = UtilisateurDao().creer(utilisateur)
@@ -112,7 +110,7 @@ def test_creer_ko_username_existant():
     # GIVEN
     utilisateur = Utilisateur(
         nom_utilisateur="Ismael",  # Doit déjà exister dans les données de test
-        mdp=hash_password("motdepasse", "Ismael")
+        mdp=hash_password("motdepasse", "Ismael"),
     )
 
     # WHEN
@@ -127,11 +125,7 @@ def test_modifier_ok():
 
     # GIVEN
     nouveau_mdp = hash_password("nouveau_motdepasse", "Ismael")
-    utilisateur = Utilisateur(
-        id=1, 
-        nom_utilisateur="Ismael", 
-        mdp=nouveau_mdp
-    )
+    utilisateur = Utilisateur(id=5, nom_utilisateur="Mounkaila", mdp=nouveau_mdp)
 
     # WHEN
     modification_ok = UtilisateurDao().modifier(utilisateur)
@@ -145,9 +139,7 @@ def test_modifier_ko():
 
     # GIVEN
     utilisateur = Utilisateur(
-        id=8888, 
-        nom_utilisateur="id_inconnu", 
-        mdp=hash_password("mdp", "id_inconnu")
+        id=8888, nom_utilisateur="id_inconnu", mdp=hash_password("mdp", "id_inconnu")
     )
 
     # WHEN
@@ -162,9 +154,7 @@ def test_supprimer_ok():
     # à modifier en fonction de la base d'essaie
     # GIVEN
     utilisateur = Utilisateur(
-        id=3, 
-        nom_utilisateur="Ismael", 
-        mdp=hash_password("motdepasse", "Ismael")
+        id=2, nom_utilisateur="Noobie", mdp=hash_password("motdepasse", "Noobie")
     )
 
     # WHEN
@@ -179,9 +169,7 @@ def test_supprimer_ko():
 
     # GIVEN
     utilisateur = Utilisateur(
-        id=8888, 
-        nom_utilisateur="id_inconnu", 
-        mdp=hash_password("mdp", "id_inconnu")
+        id=8888, nom_utilisateur="id_inconnu", mdp=hash_password("mdp", "id_inconnu")
     )
 
     # WHEN
@@ -199,10 +187,7 @@ def test_se_connecter_ok():
     mdp = "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
 
     # WHEN
-    utilisateur = UtilisateurDao().se_connecter(
-        nom_utilisateur, 
-        mdp
-    )
+    utilisateur = UtilisateurDao().se_connecter(nom_utilisateur, mdp)
 
     # THEN
     assert isinstance(utilisateur, Utilisateur)
@@ -218,8 +203,7 @@ def test_se_connecter_ko_mauvais_mdp():
 
     # WHEN
     utilisateur = UtilisateurDao().se_connecter(
-        nom_utilisateur, 
-        hash_password(mdp_incorrect, nom_utilisateur)
+        nom_utilisateur, hash_password(mdp_incorrect, nom_utilisateur)
     )
 
     # THEN
@@ -235,8 +219,7 @@ def test_se_connecter_ko_utilisateur_inexistant():
 
     # WHEN
     utilisateur = UtilisateurDao().se_connecter(
-        nom_utilisateur, 
-        hash_password(mdp, nom_utilisateur)
+        nom_utilisateur, hash_password(mdp, nom_utilisateur)
     )
 
     # THEN
