@@ -76,3 +76,37 @@ class AdminCocktailDAO:
 
         if res:
             return res["id_recipe"]
+
+
+
+
+
+
+    def suppr_ckt(self, id_cocktail) -> bool:
+        """
+        Méthode servant à supprimer un cocktail de Cocktail
+
+        Paramètres
+        ----------
+        id_cocktail : int 
+            id du cocktail à supprimer des cocktails
+
+        Retour
+        -------
+        True si le cocktail a bien été supprimé de la base de données 
+        """
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "DELETE FROM cocktail                   "
+                        " WHERE id_recipe = %(id_recipe)s;      ",
+                        {
+                            "id_recipe": id_cocktail},
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e) 
+
+        return res > 0

@@ -7,7 +7,7 @@ from utils.log_init import initialiser_logs
 
 from api.routers import recherche
 
-app = FastAPI(title="Cocktailopedia")
+app = FastAPI(title="Cocktailopedia", docs_url='/docs', root_path='/proxy/9876')
 
 app.include_router(recherche.router)
 initialiser_logs("Webservice")
