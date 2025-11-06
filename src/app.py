@@ -4,6 +4,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
+from business_object.filtre_cocktail import FiltreCocktail
+from business_object.filtre_ingredient import FiltreIngredient
+
 from service.recherche_service import RechercheService
 from utils.log_init import initialiser_logs
 
@@ -23,5 +26,17 @@ async def redirect_to_docs():
 async def recherche_cocktail(nom_cocktail: str):
     """Recherche de cocktail"""
     filtre = FiltreCocktail(nom = nom_cocktail)
-    return RechercheService.recherche_cocktail(filtre)
+    cocktails = RechercheService().recherche_cocktail(filtre)
+    print(cocktails)
+    liste_noms = []
+    for c in cocktails:
+        liste_noms.append(c.nom)
+    return liste_noms
 
+# Run the FastAPI application
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=9876)
+
+    logging.info("Arret du Webservice")

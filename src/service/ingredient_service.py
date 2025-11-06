@@ -1,6 +1,6 @@
 from business_object.ingredient import Ingredient
 
-from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
+from dao.ingredient_dao import IngredientDao
 
 from utils.singleton import Singleton
 
@@ -21,7 +21,7 @@ class IngredientService(metaclass=Singleton):
         Ingredient
             Ingrédient ajouté.
         """
-        IngredientDao.ajouter_ingredient(str)
+        pass
 
     def supprimer_ingredient(ingredient:Ingredient) -> bool:
         """Supprimer un ingrédient.
@@ -49,4 +49,4 @@ class IngredientService(metaclass=Singleton):
         Return
         ------
         """
-        
+        pass

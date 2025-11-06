@@ -12,7 +12,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
 
     @log
-    def ajouter(self, id_utilisateur, id_ingredient): # SQL vérifié
+    def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient: # SQL vérifié
         """Creation d'un ingredient dans le bar personnel.
 
         Parameters
@@ -39,8 +39,8 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                             RETURNING id_ingredient;                                                
                         """,
                         {
-                            "id_ingredient": id_ingredient,
-                            "id_utilisateur": id_utilisateur
+                            "id_utilisateur": id_utilisateur,
+                            "id_ingredient": id_ingredient
                         },
                     )
                     res = cursor.fetchone()

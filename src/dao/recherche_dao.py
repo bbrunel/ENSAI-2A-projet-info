@@ -28,9 +28,9 @@ class RechercheDao(metaclass=Singleton):
 
         res = None
         try:
-            with DBConnection.connection() as connection:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    query = "SELECT * FROM cocktail WHERE 1=1"
+                    query = "SELECT * FROM cocktails WHERE 1=1"
                     params = []
                     if filtre.nom is not None:
                         query += " AND similarity(LOWER(recipe_name), LOWER(%s)) > 0.5"
@@ -46,7 +46,7 @@ class RechercheDao(metaclass=Singleton):
                         params.append(filtre.categorie)
                     if filtre.verre is not None:
                         query += "AND glass_type = %s"
-                        params.append(verre)
+                        params.append(filtre.verre)
                     cursor.execute(query, params)
                     res = cursor.fetchall()
         except Exception as e:
@@ -88,7 +88,7 @@ class RechercheDao(metaclass=Singleton):
         """
         res = None
         try:
-            with DBConnection.connection() as connection:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     # La requete cherche dans la table composition les couple cocktail/ingredient
                     # dont l'ingredient n'est PAS dans la liste des ingredients possédés, ensuite
@@ -126,7 +126,7 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
-    def recherche_ingredient(self, filre: FiltreIngredient) -> list[Ingredient]:
+    def recherche_ingredient(self, filtre: FiltreIngredient) -> list[Ingredient]:
         """Cette fonction cherche dans la base de données les ingrédients correspondants au filtre
 
         Parameters
@@ -140,7 +140,7 @@ class RechercheDao(metaclass=Singleton):
         res = None
 
         try:
-            with DBConnection.connection() as connection:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     query = "SELECT * FROM ingredients WHERE 1=1"
                     params = {}

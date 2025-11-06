@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 
 class AbstractFiltre(ABC):
-    def __init__(self, id: int, nom: str = None, alcoolise: bool = None):
-        self.id = id
+    def __init__(self, nom: str = None, alcoolise: bool = None):
         self.nom = nom
         self.alcoolise = alcoolise
 
