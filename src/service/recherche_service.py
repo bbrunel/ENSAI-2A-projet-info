@@ -1,6 +1,9 @@
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.filtre_cocktail import FiltreCocktail
+
 from dao.recherche_dao import RechercheDao
+from business_object.utilisateur import Utilisateur 
+from service.ingredient_utilisateur_service import IngredientUtilisateurService
 
 
 class RechercheService:
@@ -59,54 +62,30 @@ class RechercheService:
         return ingredients
 
 
-    def liste_cocktails_faisables(self, utilisateur):
-        """Renvoie la liste des cocktails faisables en fonction des ingrédients de l'utilisateur.
+    def liste_cocktails_faisables(self, utilisateur:Utilisateur, nb_ing_manquants:int = 0):
+        """Renvoie la liste des cocktails faisables ou presque en fonction des ingrédients de 
+        l'utilisateur.
         Utilise l'utilisateur en argument pour en extraire son inventaire, puis les id des
         ingrédients de son inventaire, pour les donner en argument de la fonction DAO
         correspondante.
-        Utilise la fonction de la classe DAO correspondant à la recherche de cocktails presque
-        faisables, avec 0 ingrédients manquants.
+        Utilise la fonction de la classe DAO correspondant à la recherche de cocktails faisables.
 
         Parameter
         -------
             utilisateur: Utilisateur
                 L'utilisateur dont l'inventaire est utilisé pour chercher les cocktails faisables.
+            nb_ing_manquants: int = 0
+                Le nombre d'ingrédient manquant pour réaliser un cocktail proposé.
 
         Return
         -------
             list[Cocktail]
-                La liste des cocktails faisables selon les ingrédients de l'utilisateur.
+                La liste des cocktails faisables selon les ingrédients de l'utilisateur et le 
+                nombre d'ingrédients manquants.
         """
 
-        inventaire = IngredientUtilisateurService().lister_tous_ingredients_utilisateur(utilisateur)
-        id_ing_inventaire = [ingredient.id for ingredient in inventaire]
-
-        return RechercheDao().liste_cocktails_faisables(id_ing_inventaire, 0)
-
-
-    def liste_cocktails_quasi_faisables(self, utilisateur, nb_ing_manquants):
-        """Renvoie la liste des cocktails faisables ou presque faisables en fonction des
-        ingrédients de l'utilisateur.
-        Utilise l'utilisateur en argument pour en extraire son inventaire, puis les id des
-        ingrédients de son inventaire, pour les donner en argument de la fonction DAO
-        correspondante.
-
-        Parameter
-        -------
-            utilisateur: Utilisateur
-                L'utilisateur dont l'inventaire est utilisé pour chercher les cocktails faisables.
-
-            nb_ing_manquants: int
-                Le nombre d'ingrédients manquants qu'il n'est pas nécessaire d'avoir pour qu'un
-                cocktail soit renvoyé.
-
-        Return
-        -------
-            list[Cocktail]
-                La liste des cocktails faisables ou presque selon les ingrédients de l'utilisateur.
-        """
-
-        inventaire = IngredientUtilisateurService().lister_tous_ingredients_utilisateur(utilisateur)
+        inventaire = IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur)
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
 
         return RechercheDao().liste_cocktails_faisables(id_ing_inventaire, nb_ing_manquants)
+
