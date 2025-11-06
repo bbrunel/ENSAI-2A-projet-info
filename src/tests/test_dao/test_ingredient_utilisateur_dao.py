@@ -78,21 +78,21 @@ def test_supprimer_ok():
     assert suppression
 
 
-# def test_supprimer_ko():
-#     """Suppression de l'ingrédient échouée (id inconnu)."""
+def test_supprimer_ko():
+    """Suppression de l'ingrédient échouée (id inconnu)."""
 
-#     # GIVEN
-#     id_utilisateur = 8888888888
-#     id_ingredient = 8888888888888
+    # GIVEN
+    id_utilisateur = 8888888888
+    id_ingredient = 8888888888888
 
-#     # WHEN
-#     suppression = IngredientUtilisateurDao().supprimer(
-#         id_utilisateur, 
-#         id_ingredient
-#     )
+    # WHEN
+    suppression = IngredientUtilisateurDao().supprimer(
+        id_utilisateur, 
+        id_ingredient
+    )
 
-#     # THEN
-#     assert not suppression
+    # THEN
+    assert not suppression
 
 
 def test_lister_tous():
