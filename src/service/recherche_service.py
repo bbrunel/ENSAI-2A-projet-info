@@ -78,7 +78,7 @@ class RechercheService:
                 La liste des cocktails faisables selon les ingrédients de l'utilisateur.
         """
 
-        inventaire = IngredientUtilisateurService.lister_tous_ingredients_utilisateur(utilisateur)
+        inventaire = IngredientUtilisateurService().lister_tous_ingredients_utilisateur(utilisateur)
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
 
         return RechercheDao().liste_cocktails_faisables(id_ing_inventaire, 0)
@@ -106,7 +106,7 @@ class RechercheService:
                 La liste des cocktails faisables ou presque selon les ingrédients de l'utilisateur.
         """
 
-        inventaire = IngredientUtilisateurService.lister_tous_ingredients_utilisateur(utilisateur)
+        inventaire = IngredientUtilisateurService().lister_tous_ingredients_utilisateur(utilisateur)
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
 
         return RechercheDao().liste_cocktails_faisables(id_ing_inventaire, nb_ing_manquants)

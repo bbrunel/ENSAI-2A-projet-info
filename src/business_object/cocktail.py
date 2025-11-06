@@ -11,9 +11,9 @@ class Cocktail():
     nom_alt : str 
         potentiel autre nom donné à un cocktail
     tags : str
-
+        Les tags attribués au cocktail
     categorie : str 
-        catégorie de cocktail
+        catégorie du cocktail
     iba : str 
         type de cocktail considéré par l'IBA (the International Bartender Association)
     alcolise : bool
