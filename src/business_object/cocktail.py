@@ -1,6 +1,6 @@
 class Cocktail():
     """
-    List of cocktails
+    Liste de cocktails
 
     Paramètres 
     ----------

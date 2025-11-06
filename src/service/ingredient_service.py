@@ -8,7 +8,8 @@ class IngredientService(metaclass=Singleton):
     """
     """
 
-    def ajout_ingredient(str:str) -> Ingredient: # vérifier le type de l'entrée
+    @log
+    def ajout_ingredient(self, id: int, nom: str, desc: str, type_ing: str, alcoolise: bool, abv: int) -> Ingredient: # vérifier le type de l'entrée
         """Ajoute un ingrédient.
 
         Parameters
@@ -21,7 +22,16 @@ class IngredientService(metaclass=Singleton):
         Ingredient
             Ingrédient ajouté.
         """
-        pass
+        nouvel_ingredient = Ingredient(
+            id=id,
+            nom=nom,
+            desc=desc,
+            type_ing=type_ing,
+            alcoolise=alcoolise,
+            abv=abv
+        )
+
+        return nouveau_joueur if IngredientDao().ajouter(nouvel_ingredient) else None
 
     def supprimer_ingredient(ingredient:Ingredient) -> bool:
         """Supprimer un ingrédient.

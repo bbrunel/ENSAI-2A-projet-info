@@ -35,6 +35,7 @@ def test_ajout_ingredient_utilisateur_ok():
     # THEN
     assert ajout == ingredient
 
+
 def test_ajout_ingredient_utilisateur_ko():
     """Ajout de l'ingredient par l'utilisateur échoué."""
 
