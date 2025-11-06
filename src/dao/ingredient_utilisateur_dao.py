@@ -34,19 +34,20 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         """
                         INSERT INTO have (id_user, id_ingredient) VALUES
-                            (%(id_utilisateur)s, %(id_ingredient)s) ;  
-
-                        SELECT h.id_ingredient, 
-                               i.ingredient_name, 
-                               i.ingredient_type, 
-                               i.description, 
-                               i.alcoholic, 
-                               i.abv
-                        FROM have h
-                        LEFT JOIN ingredients i
-                            ON h.id_ingredient = i.id_ingredient
-                        WHERE h.id_user = %(id_utilisateur)s
-                            AND h.id_ingredient = %(id_ingredient)s ;                                           
+                            (%(id_utilisateur)s, %(id_ingredient)s)     
+                          RETURNING id_ingredient ; 
+                                            
+                        SELECT h.id_ingredient,                         
+                               i.ingredient_name,                       
+                               i.ingredient_type,                       
+                               i.description,                            
+                               i.alcoholic,                              
+                               i.abv                                     
+                        FROM have h                                      
+                        LEFT JOIN ingredients i                          
+                            ON h.id_ingredient = i.id_ingredient         
+                        WHERE h.id_user = %(id_utilisateur)s             
+                            AND h.id_ingredient = %(id_ingredient)s ;    
                         """,
                         {
                             "id_utilisateur": id_utilisateur,
@@ -57,16 +58,17 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
 
-        ingredient = None
-        if res:
-            ingredient = Ingredient(
-                id=res["h.id_ingredient"],
-                nom=res["i.ingredient_name"],
-                desc=res["i.description"],
-                type_ing=res["i.ingredient_type"],
-                alcoolise=res["i.alcoholic"],
-                abv=res["i.abv"]
-            )
+        # ingredient = None
+
+        print("Voici res :", res)
+        ingredient = Ingredient(
+            id=res["id_ingredient"],
+            nom=res["ingredient_name"],
+            desc=res["description"],
+            type_ing=res["ingredient_type"],
+            alcoolise=res["alcoholic"],
+            abv=res["abv"]
+        )
 
         return ingredient
 
@@ -146,6 +148,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
             raise
 
         liste_ingredients = []
+        print("res =", res)
 
         if res:
             for row in res:

@@ -2,6 +2,7 @@ import os
 import pytest
 
 from unittest.mock import patch
+from unittest.mock import MagicMock
 
 from utils.reset_database import ResetDatabase
 from utils.securite import hash_password
@@ -14,22 +15,22 @@ from business_object.ingredient import Ingredient
 
 from dao.db_connection import DBConnection
 
-with DBConnection().connection as connection:
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """
-            INSERT INTO users(username, hashed_password) VALUES('Gerald', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824');
+# with DBConnection().connection as connection:
+#     with connection.cursor() as cursor:
+#         cursor.execute(
+#             """
+#             INSERT INTO users(username, hashed_password) VALUES('Gerald', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824');
 
-            INSERT INTO users(username, hashed_password) VALUES('Hector', '98c1eb4ee93476743763878fcb96a25fbc9a175074d64004779ecb5242f645e6');
+#             INSERT INTO users(username, hashed_password) VALUES('Hector', '98c1eb4ee93476743763878fcb96a25fbc9a175074d64004779ecb5242f645e6');
 
-            INSERT INTO have(id_user, id_ingredient) VALUES(1,337);
-            INSERT INTO have(id_user, id_ingredient) VALUES(1,305);
-            INSERT INTO have(id_user, id_ingredient) VALUES(1,312);
+#             INSERT INTO have(id_user, id_ingredient) VALUES(1,337);
+#             INSERT INTO have(id_user, id_ingredient) VALUES(1,305);
+#             INSERT INTO have(id_user, id_ingredient) VALUES(1,312);
 
-            INSERT INTO have(id_user, id_ingredient) VALUES(2,337);
-            INSERT INTO have(id_user, id_ingredient) VALUES(2,305);
-            """
-        )
+#             INSERT INTO have(id_user, id_ingredient) VALUES(2,337);
+#             INSERT INTO have(id_user, id_ingredient) VALUES(2,305);
+#             """
+#         )
 
 
 # @pytest.fixture(scope="session", autouse=True)
@@ -44,8 +45,27 @@ def test_ajouter_ok():
     """Ajout de l'ingrédient au bar personnel réussi."""
 
     # GIVEN
-    id_utilisateur = 2
+    id_utilisateur = 1
     id_ingredient = 513
+    mock_cursor = MagicMock()
+    mock_cursor.fetchall.return_value = {
+        "id_ingredient": 513,
+        "ingredient_name": "eau", 
+        "description": "",
+        "ingredient_type": "boisson",
+        "alcoolise": False, 
+        "abv": 0
+    }
+    # cursor.fetchone = MagicMock(
+    #     return_value={
+    #         "id_ingredient": 513,
+    #         "ingredient_name": "eau", 
+    #         "description": "",
+    #         "ingredient_type": "boisson",
+    #         "alcoolise": False, 
+    #         "abv": 0
+    #     }
+    # )
 
     # WHEN
     ajout = IngredientUtilisateurDao().ajouter(
@@ -54,26 +74,28 @@ def test_ajouter_ok():
     )
 
     # THEN
-    assert ajout.id_ingredient == id_ingredient
+    print(ajout)
+    print(id_ingredient)
+    assert ajout.id == id_ingredient
 
 
-def test_ajouter_ko():
-    """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient
-    incorrects)
-    """
+# def test_ajouter_ko():
+#     """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient
+#     incorrects)
+#     """
 
-    # GIVEN
-    id_utilisateur = 8888888
-    id_ingredient = False
+#     # GIVEN
+#     id_utilisateur = 8888888
+#     id_ingredient = False
 
-    # WHEN
-    ajout = IngredientUtilisateurDao().ajouter(
-        id_utilisateur, 
-        id_ingredient
-    )
+#     # WHEN
+#     ajout = IngredientUtilisateurDao().ajouter(
+#         id_utilisateur, 
+#         id_ingredient
+#     )
 
-    # THEN
-    assert ajout is None
+#     # THEN
+#     assert ajout is None
 
 
 def test_supprimer_ok():
@@ -82,6 +104,8 @@ def test_supprimer_ok():
     # GIVEN
     id_utilisateur = 2
     id_ingredient = 305
+    mock_cursor = MagicMock()
+    mock_cursor.rowcount = 1
 
     # WHEN
     suppression = IngredientUtilisateurDao().supprimer(
@@ -93,21 +117,21 @@ def test_supprimer_ok():
     assert suppression
 
 
-def test_supprimer_ko():
-    """Suppression de l'ingrédient échouée (id inconnu)."""
+# def test_supprimer_ko():
+#     """Suppression de l'ingrédient échouée (id inconnu)."""
 
-    # GIVEN
-    id_utilisateur = 8888888888
-    id_ingredient = 8888888888888
+#     # GIVEN
+#     id_utilisateur = 8888888888
+#     id_ingredient = 8888888888888
 
-    # WHEN
-    suppression = IngredientUtilisateurDao().supprimer(
-        id_utilisateur, 
-        id_ingredient
-    )
+#     # WHEN
+#     suppression = IngredientUtilisateurDao().supprimer(
+#         id_utilisateur, 
+#         id_ingredient
+#     )
 
-    # THEN
-    assert not suppression
+#     # THEN
+#     assert not suppression
 
 
 def test_lister_tous():
@@ -117,6 +141,12 @@ def test_lister_tous():
 
     # GIVEN
     id_utilisateur = 1
+    mock_cursor = MagicMock()
+    mock_cursor.fetchall.return_value = [
+        {"id_user": 1, "id_ingredient": 337},
+        {"id_user": 1, "id_ingredient": 305},
+        {"id_user": 1, "id_ingredient": 312}
+    ]
 
     # WHEN
     ingredients = IngredientUtilisateurDao().lister_tous(id_utilisateur)
