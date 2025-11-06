@@ -11,16 +11,7 @@ from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
 
 from business_object.ingredient import Ingredient
 
-
 from dao.db_connection import DBConnection
-
-
-# @pytest.fixture(scope="session", autouse=True)
-# def setup_test_environment():
-#     """Initialisation des données de test"""
-#     with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-#         ResetDatabase().lancer(test_dao=True)
-#         yield
 
 
 def test_ajouter_ok():
