@@ -60,6 +60,7 @@ def test_supprimer_ok():
     # THEN
     assert suppression
 
+
 def test_supprimer_ko():
     """Suppression de Ingredient échouée (id inconnu)"""
 
@@ -72,3 +73,21 @@ def test_supprimer_ko():
 
     # THEN
     assert not suppression
+
+
+def test_lister_tous():
+    """Vérifie que la méthode renvoie une liste de Joueur
+    de taille supérieure ou égale à 2
+    """
+
+    # GIVEN
+    id_utilisateur = 1
+
+    # WHEN
+    ingredients = IngredientUtilisateurDao().lister_tous(id_utilisateur)
+
+    # THEN
+    assert isinstance(ingredients, list)
+    for ing in ingredients:
+        assert isinstance(ing, Ingredient)
+    assert len(ingredients) >= 2
