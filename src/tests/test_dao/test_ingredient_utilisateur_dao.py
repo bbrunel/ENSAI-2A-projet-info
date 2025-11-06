@@ -27,21 +27,29 @@ def test_ajouter_ok():
     id_ingredient = 513
 
     # WHEN
-    ajout = IngredientUtilisateurDao().ajouter(id_utilisateur, id_joueur)
+    ajout = IngredientUtilisateurDao().ajouter(
+        id_utilisateur, 
+        id_ingredient
+    )
 
     # THEN
     assert ajout.id_ingredient == id_ingredient
 
 
 def test_ajouter_ko():
-    """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient incorrects)"""
+    """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient
+    incorrects)
+    """
 
     # GIVEN
     id_utilisateur = 8888888
     id_ingredient = False
 
     # WHEN
-    ajout = IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient)
+    ajout = IngredientUtilisateurDao().ajouter(
+        id_utilisateur, 
+        id_ingredient
+    )
 
     # THEN
     assert ajout is None
@@ -55,21 +63,27 @@ def test_supprimer_ok():
     id_ingredient = 305
 
     # WHEN
-    suppression = IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
+    suppression = IngredientUtilisateurDao().supprimer(
+        id_utilisateur, 
+        id_ingredient
+    )
 
     # THEN
     assert suppression
 
 
 def test_supprimer_ko():
-    """Suppression de Ingredient échouée (id inconnu)"""
+    """Suppression de l'ingrédient échouée (id inconnu)."""
 
     # GIVEN
     id_utilisateur = 8888888888
     id_ingredient = 8888888888888
 
     # WHEN
-    suppression = IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
+    suppression = IngredientUtilisateurDao().supprimer(
+        id_utilisateur, 
+        id_ingredient
+    )
 
     # THEN
     assert not suppression
