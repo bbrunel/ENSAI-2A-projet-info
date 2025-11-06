@@ -25,3 +25,10 @@ async def recherche_cocktail(nom_cocktail: str):
     filtre = FiltreCocktail(nom = nom_cocktail)
     return RechercheService.recherche_cocktail(filtre)
 
+# Run the FastAPI application
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=9876)
+
+    logging.info("Arret du Webservice")
