@@ -10,7 +10,6 @@ from business_object.ingredient import Ingredient
 
 class IngredientUtilisateurDao(metaclass=Singleton):
 
-
     @log
     def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient: # SQL vérifié
         """Creation d'un ingredient dans le bar personnel.
@@ -22,9 +21,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
         Returns
         -------
-        created : bool
-            True si la création est un succès.
-            False sinon.
+        Ingredient
         """
 
         res = None
@@ -34,9 +31,20 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        INSERT INTO have (id_ingredient, id_user) VALUES
-                            (%(id_ingredient)s, %(id_utilisateur)s) 
-                            RETURNING id_ingredient;                                                
+                        INSERT INTO have (id_user, id_ingredient) VALUES
+                            (%(id_utilisateur)s, %(id_ingredient)s) ;  
+
+                        SELECT h.id_ingredient, 
+                               i.ingredient_name, 
+                               i.ingredient_type, 
+                               i.description, 
+                               i.alcoholic, 
+                               i.abv
+                        FROM have h
+                        LEFT JOIN ingredients i
+                            ON h.id_ingredient = i.id_ingredient
+                        WHERE h.id_user = %(id_utilisateur)s
+                            AND h.id_ingredient = %(id_ingredient)s ;                                           
                         """,
                         {
                             "id_utilisateur": id_utilisateur,
@@ -47,10 +55,16 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
 
-        created = False
+        ingredient = None
         if res:
-            ingredient.id_ingredient = res["id_ingredient"]
-            created = True
+            ingredient = Ingredient(
+                id=res["h.id_ingredient"],
+                nom=res["i.ingredient_name"],
+                desc=res["i.description"],
+                type_ing=res["i.ingredient_type"],
+                alcoolise=res["i.alcoholic"],
+                abv=res["i.abv"]
+            )
 
         return created
 
@@ -137,7 +151,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     id_ingredient=row["id_ingredient"],
                     nom=row["ingredient_name"],
                     desc=row["description"],
-                    type=row["ingredient_type"],
+                    type_ing=row["ingredient_type"],
                     alcoolise=row["alcoholic"],
                     abv=row["abv"],
                 )

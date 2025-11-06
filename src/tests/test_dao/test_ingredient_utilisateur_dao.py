@@ -11,9 +11,6 @@ from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
 from business_object.ingredient import Ingredient
 
 
-# Créer un mock ?
-
-
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
     """Initialisation des données de test"""
@@ -26,44 +23,42 @@ def test_ajouter_ok():
     """Ajout de l'ingrédient au bar personnel réussi."""
 
     # GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 2
     id_ingredient = 513
 
     # WHEN
-    ajout_ok = IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient)
+    ajout = IngredientUtilisateurDao().ajouter(id_utilisateur, id_joueur)
 
     # THEN
-    assert ajout_ok == id_ingredient
-    assert ajout_ok
-    assert id_ingredient
+    assert ajout.id_ingredient == id_ingredient
 
 
 def test_ajouter_ko():
     """Ajout de l'ingrédient échoué (id_utilisateur et id_ingredient incorrects)"""
 
     # GIVEN
-    id_utilisateur = "1"
+    id_utilisateur = 8888888
     id_ingredient = False
 
     # WHEN
-    ajout_ok = IngredientUtilisateurDao().ajouter(ingredient)
+    ajout = IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient)
 
     # THEN
-    assert not ajout_ok
+    assert ajout is None
 
 
 def test_supprimer_ok():
     """Suppression de l'ingrédient réussie."""
 
     # GIVEN
-    id_utilisateur = 1
-    id_ingredient = 513
+    id_utilisateur = 2
+    id_ingredient = 305
 
     # WHEN
-    suppression_ok = IngredientUtilisateurDao().supprimer(ingredient)
+    suppression = IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
 
     # THEN
-    assert suppression_ok
+    assert suppression
 
 def test_supprimer_ko():
     """Suppression de Ingredient échouée (id inconnu)"""
@@ -73,7 +68,7 @@ def test_supprimer_ko():
     id_ingredient = 8888888888888
 
     # WHEN
-    suppression_ok = IngredientUtilisateurDao().supprimer(ingredient)
+    suppression = IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
 
     # THEN
-    assert not suppression_ok
+    assert not suppression
