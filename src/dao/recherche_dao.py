@@ -28,9 +28,9 @@ class RechercheDao(metaclass=Singleton):
 
         res = None
         try:
-            with DBConnection.connection as connection:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    query = "SELECT * FROM cocktail WHERE 1=1"
+                    query = "SELECT * FROM cocktails WHERE 1=1"
                     params = []
                     if filtre.nom is not None:
                         query += " AND similarity(LOWER(recipe_name), LOWER(%s)) > 0.5"
@@ -88,7 +88,7 @@ class RechercheDao(metaclass=Singleton):
         """
         res = None
         try:
-            with DBConnection.connection as connection:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     # La requete cherche dans la table composition les couple cocktail/ingredient
                     # dont l'ingredient n'est PAS dans la liste des ingredients possédés, ensuite
@@ -140,7 +140,7 @@ class RechercheDao(metaclass=Singleton):
         res = None
 
         try:
-            with DBConnection.connection as connection:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     query = "SELECT * FROM ingredients WHERE 1=1"
                     params = {}
