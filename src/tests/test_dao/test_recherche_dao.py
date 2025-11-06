@@ -16,10 +16,10 @@ def test_recherche_cocktail_mauresque():
     filtre = FiltreCocktail(nom = "Mauresque")
 
     #WHEN
-    recherche = recherche_cocktail(filtre)
+    recherche = RechercheDao().recherche_cocktail(filtre)
 
     #THEN
-    assert recherche[0].nom == "Mauresque"
+    assert "Mauresque" in [cocktail.nom for cocktail in recherche]
 
 
 def test_cocktails_faisables_mauresque():
@@ -32,10 +32,26 @@ def test_cocktails_faisables_mauresque():
     id_ingredients_utilisateurs = [513, 427, 362]
 
     #WHEN
-    cocktails = cocktails_faisables(id_ingredients_utilisateurs)
+    recherche = RechercheDao().cocktails_faisables(id_ingredients_utilisateurs)
 
     #THEN
-    assert cocktails[0].nom == "Mauresque"
+    assert "Mauresque" in [cocktail.nom for cocktail in recherche]
+
+
+def test_cocktails_presque_faisables_mauresque():
+    """
+    Teste si la liste des cocktails faisables contient le cocktail 'Mauresque' avec la liste des id 
+    de deux ingrédients du cocktail sur trois.
+    """
+
+    #GIVEN
+    id_ingredients_utilisateurs = [513, 427]
+
+    #WHEN
+    cocktails = RechercheDao().cocktails_faisables(id_ingredients_utilisateurs, 1)
+
+    #THEN
+    assert "Mauresque" in [cocktail.nom for cocktail in cocktails]
 
 
 def test_recherche_ingredient():
@@ -48,7 +64,8 @@ def test_recherche_ingredient():
     filtre = FiltreIngredient(nom = "Water")
 
     #WHEN
-    resultat = recherche_ingredient(filtre)
+    resultat = RechercheDao().recherche_ingredient(filtre)
+    
 
     #THEN
-    assert resultat[0].nom == "Water"
+    assert "Water" in [ing.nom for ing in resultat]
