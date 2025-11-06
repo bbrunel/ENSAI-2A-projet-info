@@ -1,4 +1,4 @@
-# Work in progress, ne pas tenir compte pour le moment...
+# Les tests passent !
 
 from unittest.mock import MagicMock
 
@@ -11,12 +11,6 @@ from business_object.utilisateur import Utilisateur
 from business_object.ingredient import Ingredient
 
 
-liste_utilisateurs = [
-    Utilisateur(1, "pseudo1", "mdp"),
-    Utilisateur(2, "pseudo2", "mdp"),
-    Utilisateur(3, "pseudo3", "mdp"),
-]
-
 liste_ingredients = [
     Ingredient(1, "eau", "", "boisson", False, 0),
     Ingredient(2, "citron", "", "fruit frais", False, 0),
@@ -24,8 +18,7 @@ liste_ingredients = [
 ]
 
 
-
-def test_ajout_ingredient_utilisateur_ok(): # revu
+def test_ajout_ingredient_utilisateur_ok():
     """Ajout de l'ingrédient par l'utilisateur réussi."""
 
     # GIVEN
@@ -42,7 +35,7 @@ def test_ajout_ingredient_utilisateur_ok(): # revu
     # THEN
     assert ajout == ingredient
 
-def test_ajout_ingredient_utilisateur_ko(): # revu
+def test_ajout_ingredient_utilisateur_ko():
     """Ajout de l'ingredient par l'utilisateur échoué."""
 
     # GIVEN
@@ -60,7 +53,7 @@ def test_ajout_ingredient_utilisateur_ko(): # revu
     assert ajout is None
 
 
-def test_supprimer_ingredient_utilisateur_ok(): # doutes
+def test_supprimer_ingredient_utilisateur_ok():
     """Suppression de l'ingrédient par l'utilisateur réussie."""
 
     # GIVEN
@@ -78,7 +71,7 @@ def test_supprimer_ingredient_utilisateur_ok(): # doutes
     assert suppression
 
 
-def test_supprimer_ingredient_utilisateur_ko(): # doutes
+def test_supprimer_ingredient_utilisateur_ko():
     """Suppression de l'ingrédient par l'utilisateur échouée.
     """
 
@@ -94,10 +87,10 @@ def test_supprimer_ingredient_utilisateur_ko(): # doutes
     )
 
     # THEN
-    assert suppression
+    assert not suppression
 
 
-def test_liste_tous_ingredients_utilisateur_ok(): # doutes
+def test_liste_tous_ingredients_utilisateur_ok():
     """La liste des ingrédients de l'utilisateur est bien retournée.
     """
 

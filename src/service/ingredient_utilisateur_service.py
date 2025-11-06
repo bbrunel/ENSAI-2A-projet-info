@@ -24,8 +24,8 @@ class IngredientUtilisateurService(metaclass=Singleton):
         ------
         ingredient: Ingredient
         """
-        id_utilisateur = utilisateur["id"]
-        id_ingredient = ingredient["id"]
+        id_utilisateur = utilisateur.id
+        id_ingredient = ingredient.id
         return ingredient if IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient) else None
 
 
@@ -42,8 +42,8 @@ class IngredientUtilisateurService(metaclass=Singleton):
         bool
             True si l'ingrédient a bien été supprimé.
         """
-        id_utilisateur = utilisateur["id"]
-        id_ingredient = ingredient["id"]
+        id_utilisateur = utilisateur.id
+        id_ingredient = ingredient.id
         return IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
 
     def liste_tous_ingredients_utilisateur(self, utilisateur: Utilisateur) -> list[Ingredient]:
@@ -59,5 +59,5 @@ class IngredientUtilisateurService(metaclass=Singleton):
         liste_ingredients_utilisateur: list[Ingredient]
             La liste des ingrédients du bar personnel.
         """
-        id_utilisateur = utilisateur["id"]
+        id_utilisateur = utilisateur.id
         return IngredientUtilisateurDao().lister_tous(id_utilisateur)
