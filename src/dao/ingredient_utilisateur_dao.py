@@ -35,42 +35,35 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         """
                         INSERT INTO have (id_user, id_ingredient) VALUES
                             (%(id_utilisateur)s, %(id_ingredient)s)     
-                          RETURNING id_ingredient ; 
-                                            
-                        SELECT h.id_ingredient,                         
-                               i.ingredient_name,                       
-                               i.ingredient_type,                       
-                               i.description,                            
-                               i.alcoholic,                              
-                               i.abv                                     
-                        FROM have h                                      
-                        LEFT JOIN ingredients i                          
-                            ON h.id_ingredient = i.id_ingredient         
-                        WHERE h.id_user = %(id_utilisateur)s             
-                            AND h.id_ingredient = %(id_ingredient)s ;    
+                          RETURNING id_ingredient ;    
                         """,
                         {
                             "id_utilisateur": id_utilisateur,
                             "id_ingredient": id_ingredient
                         },
                     )
+                    print("Avant le res.")
                     res = cursor.fetchone()
+                    print("res =", res)
+                    print("Après le res.")
         except Exception as e:
             logging.info(e)
 
         # ingredient = None
 
-        print("Voici res :", res)
-        ingredient = Ingredient(
-            id=res["id_ingredient"],
-            nom=res["ingredient_name"],
-            desc=res["description"],
-            type_ing=res["ingredient_type"],
-            alcoolise=res["alcoholic"],
-            abv=res["abv"]
-        )
+        # print("Voici res :", res)
+        # ingredient = Ingredient(
+        #     id=res["id_ingredient"],
+        #     nom=res["ingredient_name"],
+        #     desc=res["description"],
+        #     type_ing=res["ingredient_type"],
+        #     alcoolise=res["alcoholic"],
+        #     abv=res["abv"]
+        # )
 
-        return ingredient
+        print("res =", res)
+
+        return res
 
 
     @log

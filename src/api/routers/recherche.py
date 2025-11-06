@@ -1,5 +1,5 @@
 from typing import Annotated
-from FastAPI import APIRouter, Query
+from fastapi import APIRouter, Query
 
 
 from business_object.filtre_cocktail import FiltreCocktail

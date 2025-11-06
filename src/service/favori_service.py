@@ -12,12 +12,12 @@ class FavorisService:
 
     """
 
-    def __init__(self, favorite_dao: FavoriteDAO):
+    def __init__(self, favorite_dao: FavorisDAO):
         """
         Initialise la classe FavoriteService avec le résultat d'une base de données issue d'un curseur
 
         """
-        self.fav_dao = FavoriteDAO
+        self.fav_dao = FavorisDAO
 
     def aj_fav_cocktail(self, id_utilisateur : int, id_cocktail : int) -> Cocktail:
         """
@@ -44,7 +44,7 @@ class FavorisService:
             raise ValueError("Ce cocktail est déjà en favori pour vous.")
         return id_validation
 
-    def suppr_fav_cocktail(self, id_utilisateur: int, id_cocktail: int):
+    def suppr_fav_cocktail(self, id_utilisateur: int, id_cocktail: int) -> bool:
         """
         retire un cocktail des favoris de l'utilisateur
 
@@ -57,7 +57,7 @@ class FavorisService:
 
         Retour
         ----------
-        Renvoie le cocktail supprimé
+        True si le cocktail a été supprimé
         """
         if id_cocktail is not int:
             raise TypeError("id indiquée non conforme au format")
