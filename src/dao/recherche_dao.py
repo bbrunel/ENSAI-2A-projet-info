@@ -30,7 +30,7 @@ class RechercheDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    query = "SELECT * FROM cocktail WHERE 1=1"
+                    query = "SELECT * FROM cocktails WHERE 1=1"
                     params = []
                     if filtre.nom is not None:
                         query += " AND similarity(LOWER(recipe_name), LOWER(%s)) > 0.5"
