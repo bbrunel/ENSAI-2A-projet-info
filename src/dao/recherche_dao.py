@@ -109,7 +109,7 @@ class RechercheDao(metaclass=Singleton):
 
                     else:
                         query = (
-                            "SELECT c1.id_recipe, count(*) as n FROM cocktails c1"
+                            "SELECT c1.*, count(*) as n FROM cocktails c1"
                             " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
                             " WHERE c2.id_ingredient IN %(liste_ing)s"
                             " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
