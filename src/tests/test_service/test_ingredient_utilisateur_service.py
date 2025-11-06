@@ -24,7 +24,7 @@ def test_ajout_ingredient_utilisateur_ok():
     # GIVEN
     utilisateur = Utilisateur(2, "pseudo", "mdp")
     ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
-    IngredientUtilisateurDao().ajouter = MagicMock(return_value=ingredient)
+    IngredientUtilisateurDao().ajouter = MagicMock(return_value=ingredient.id)
 
     # WHEN
     ajout = IngredientUtilisateurService().ajout_ingredient_utilisateur(
