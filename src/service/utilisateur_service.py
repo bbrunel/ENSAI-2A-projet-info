@@ -8,7 +8,7 @@ from dao.utilisateur_dao import UtilisateurDao
 
 class UtilisateurService:
     """Classe contenant les méthodes de service des utilisateurs"""
-
+    @staticmethod
     @log
     def creer(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs"""
@@ -19,7 +19,8 @@ class UtilisateurService:
         )
 
         return nouvel_utilisateur if UtilisateurDao().creer(nouvel_utilisateur) else None
-
+    
+    @staticmethod
     @log
     def lister_tous(inclure_mdp: bool = False) -> list[Utilisateur]:
         """Lister tous les utilisateurs
@@ -32,16 +33,19 @@ class UtilisateurService:
                 u.mdp = None
         return utilisateurs
 
+    @staticmethod
     @log
     def trouver_par_id(id_utilisateur: int) -> Utilisateur:
         """Trouver un utilisateur à partir de son id"""
         return UtilisateurDao().trouver_par_id(id_utilisateur)
 
+    @staticmethod
     @log
     def trouver_par_nom(nom_utilisateur: str) -> Utilisateur:
         """Trouver un utilisateur à partir de son nom"""
         return UtilisateurDao().trouver_par_nom(nom_utilisateur)
 
+    @staticmethod
     @log
     def modifier(utilisateur: Utilisateur) -> Utilisateur:
         """Modification d'un utilisateur"""
@@ -50,11 +54,13 @@ class UtilisateurService:
         utilisateur.mdp = hash_password(utilisateur.mdp, utilisateur.nom_utilisateur)
         return utilisateur if UtilisateurDao().modifier(utilisateur) else None
 
+    @staticmethod
     @log
     def supprimer(utilisateur: Utilisateur) -> bool:
         """Supprimer le compte d'un utilisateur"""
         return UtilisateurDao().supprimer(utilisateur)
 
+    @staticmethod
     @log
     def se_connecter(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
         """Se connecter à partir de nom_utilisateur et mot_de_passe"""
@@ -63,6 +69,7 @@ class UtilisateurService:
             hash_password(mot_de_passe, nom_utilisateur)
         )
 
+    @staticmethod
     @log
     def nom_utilisateur_deja_utilise(nom_utilisateur: str) -> bool:
         """Vérifie si le nom_utilisateur est déjà utilisé
@@ -70,6 +77,7 @@ class UtilisateurService:
         utilisateurs = UtilisateurDao().lister_tous()
         return nom_utilisateur in [u.nom_utilisateur for u in utilisateurs]
 
+    @staticmethod
     @log
     def afficher_tous() -> str:
         """Afficher tous les utilisateurs
