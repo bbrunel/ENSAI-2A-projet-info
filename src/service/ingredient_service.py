@@ -31,7 +31,7 @@ class IngredientService(metaclass=Singleton):
             abv=abv
         )
 
-        return nouveau_joueur if IngredientDao().ajouter(nouvel_ingredient) else None
+        return nouvel_ingredient if IngredientDao().ajouter(nouvel_ingredient) else None
 
     def supprimer_ingredient(ingredient:Ingredient) -> bool:
         """Supprimer un ingrédient.
@@ -54,7 +54,7 @@ class IngredientService(metaclass=Singleton):
         Parameters
         ----------
         id: int
-            Identifiant de l'ingrédient. ???
+            id de l'ingrédient à vérifier.
 
         Return
         ------
