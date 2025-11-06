@@ -50,3 +50,8 @@ class Cocktail():
         self.verre = verre 
         self.instructions = instructions
         self.url_image = url_image
+
+    def __str__(self):
+        """Permet de voir les caractéristiques du cocktail"""
+        return f'{self.id}, {self.nom}, {self.nom_alt}, {self.alcoolise}, {self.tags}, {self.iba}, \
+{self.categorie}, {self.verre}, {self.instructions}'
