@@ -10,7 +10,7 @@ class IngredientUtilisateurService(metaclass=Singleton):
     """Fait le lien entre les ingrédients et les utilisateurs.
     """
 
-    def ajout_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> Ingredient:
+    def ajout_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> int:
         """Ajoute un ingrédient au bar personnel de l'utilisateur.
 
         Parameters
@@ -26,7 +26,10 @@ class IngredientUtilisateurService(metaclass=Singleton):
         """
         id_utilisateur = utilisateur.id
         id_ingredient = ingredient.id
-        return ingredient if IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient) else None
+        if IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient) == ingredient.id:
+            return ingredient
+        else:
+            return None
 
 
     def supprimer_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> bool: 
