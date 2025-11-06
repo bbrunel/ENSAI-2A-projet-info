@@ -5,6 +5,8 @@ INSERT INTO users(username, hashed_password) VALUES('Hector', '98c1eb4ee93476743
 INSERT INTO have(id_user, id_ingredient) VALUES(1,337);
 INSERT INTO have(id_user, id_ingredient) VALUES(1,305);
 INSERT INTO have(id_user, id_ingredient) VALUES(1,312);
+INSERT INTO have(id_user, id_ingredient) VALUES(1,476);
+INSERT INTO have(id_user, id_ingredient) VALUES(1,455);
 
 INSERT INTO have(id_user, id_ingredient) VALUES(2,337);
 INSERT INTO have(id_user, id_ingredient) VALUES(2,305);
