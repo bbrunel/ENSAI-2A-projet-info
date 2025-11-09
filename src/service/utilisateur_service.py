@@ -12,14 +12,14 @@ class UtilisateurService:
     @log
     def creer(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs"""
-        
+
         nouvel_utilisateur = Utilisateur(
             nom_utilisateur=nom_utilisateur,
             mdp=hash_password(mot_de_passe, nom_utilisateur)
         )
 
         return nouvel_utilisateur if UtilisateurDao().creer(nouvel_utilisateur) else None
-    
+
     @staticmethod
     @log
     def lister_tous(inclure_mdp: bool = False) -> list[Utilisateur]:
@@ -49,7 +49,7 @@ class UtilisateurService:
     @log
     def modifier(utilisateur: Utilisateur) -> Utilisateur:
         """Modification d'un utilisateur"""
-        
+
         # Re-hacher le mot de passe avec le nom d'utilisateur comme sel
         utilisateur.mdp = hash_password(utilisateur.mdp, utilisateur.nom_utilisateur)
         return utilisateur if UtilisateurDao().modifier(utilisateur) else None
@@ -65,7 +65,7 @@ class UtilisateurService:
     def se_connecter(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
         """Se connecter à partir de nom_utilisateur et mot_de_passe"""
         return UtilisateurDao().se_connecter(
-            nom_utilisateur, 
+            nom_utilisateur,
             hash_password(mot_de_passe, nom_utilisateur)
         )
 

@@ -15,11 +15,7 @@ async def recherche_cocktail(nom_cocktail: str):
     """Recherche de cocktail"""
     filtre = FiltreCocktail(nom = nom_cocktail)
     cocktails = recherche_service.recherche_cocktail(filtre)
-    print(cocktails)
-    liste_noms = []
-    for c in cocktails:
-        liste_noms.append(c.nom)
-    return liste_noms
+    return cocktails
 
 @router.get("/recherche_filtre_cocktail", tags=["Cocktails", "Recherche"])
 def recherche_filtre_cocktail(filtre: Annotated[FiltreCocktail, Query()]):
