@@ -9,7 +9,7 @@ class IngredientService(metaclass=Singleton):
     """
 
     @log
-    def ajout_ingredient(self, id: int, nom: str, desc: str, type_ing: str, alcoolise: bool, abv: int) -> Ingredient: # vérifier le type de l'entrée
+    def ajout_ingredient(self, nom: str, desc: str, type_ing: str, alcoolise: bool, abv: int) -> Ingredient: # vérifier le type de l'entrée
         """Ajoute un ingrédient.
 
         Parameters

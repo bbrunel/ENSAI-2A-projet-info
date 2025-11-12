@@ -10,7 +10,11 @@ class IngredientUtilisateurService(metaclass=Singleton):
     """Fait le lien entre les ingrédients et les utilisateurs.
     """
 
-    def ajout_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> int:
+    def ajout_ingredient_utilisateur(
+        self, 
+        utilisateur: Utilisateur, 
+        ingredient: Ingredient
+    ) -> int:
         """Ajoute un ingrédient au bar personnel de l'utilisateur.
 
         Parameters

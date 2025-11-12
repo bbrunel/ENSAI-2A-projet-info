@@ -21,26 +21,38 @@ def test_ajout_ingredient_ok():
     """
 
     # GIVEN
-    pseudo, mdp, age, mail, fan_pokemon = "jp", "1234", 15, "z@mail.oo", True
-    IngredientDao().ajout_ingredient() = MagicMock(return_value=True)
+    nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type", False, 0
+    IngredientDao().ajouter = MagicMock(return_value=True)
 
     # WHEN
-    joueur = IngredientService().ajout_ingredient(pseudo, mdp, age, mail, fan_pokemon)
+    ingredient = IngredientService().ajout_ingredient(
+        nom,
+        desc,
+        type_ing,
+        alcollise,
+        abv
+    )
 
     # THEN
-    assert ingredient.pseudo == pseudo
+    assert ingredient.nom == nom
 
 
-def test_ajout_ingredient_echec():
+def test_ajout_ingredient_ko():
     """Ajout de l'ingrédient échoué.
     """
 
     # GIVEN
-    pseudo, mdp, age, mail, fan_pokemon = "jp", "1234", 15, "z@mail.oo", True
-    IngredientDao().ajout_ingredient = MagicMock(return_value=False)
+    nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type", False, 0
+    IngredientDao().ajouter = MagicMock(return_value=False)
 
     # WHEN
-    ingredient = IngredientService().ajout_ingredient(pseudo, mdp, age, mail, fan_pokemon)
+    ingredient = IngredientService().ajout_ingredient(
+        nom, 
+        desc, 
+        type_ing, 
+        alcoolise, 
+        abv
+    )
 
     # THEN
     assert ingredient is None
@@ -51,56 +63,58 @@ def test_supprimer_ingredient_ok():
     """
 
     # GIVEN
-    JoueurDao().lister_tous = MagicMock(return_value=liste_joueurs)
+    ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
+    IngredientUtilisateurDao().supprimer = MagicMock(return_value=True)
 
     # WHEN
-    res = JoueurService().lister_tous(inclure_mdp=True)
+    suppression = IngredientUtilisateurService().supprimer_ingredient_utilisateur(
+        ingredient
+    )
 
     # THEN
-    assert len(res) == 3
-    for joueur in res:
-        assert joueur.mdp is not None
+    assert suppression
 
 
-def test_supprimer_ingredient_echec():
+def test_supprimer_ingredient_ko():
     """Suppression de l'ingrédient échouée.
     """
 
     # GIVEN
-    JoueurDao().lister_tous = MagicMock(return_value=liste_joueurs)
+    ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
+    IngredientUtilisateurDao().supprimer = MagicMock(return_value=False)
 
     # WHEN
-    res = JoueurService().lister_tous()
+    suppression = IngredientUtilisateurService().supprimer_ingredient_utilisateur(
+        ingredient
+    )
 
     # THEN
-    assert len(res) == 3
-    for joueur in res:
-        assert not joueur.mdp
+    assert not suppression
 
 
-def test_verifier_ingredient_ok():
-    """Vérification de l'ingrédient réussie."""
+def test_verifier_ingredient_true():
+    """Vérification de l'existence de l'ingrédient réussie."""
 
     # GIVEN
-    pseudo = "lea"
+    id = 513
+    IngredientDao().vérifier = MagicMock(return_value=)
 
     # WHEN
-    JoueurDao().lister_tous = MagicMock(return_value=liste_joueurs)
-    res = JoueurService().pseudo_deja_utilise(pseudo)
+    res = IngredientService().verifier_ingredient(id)
 
     # THEN
-    assert res
+    assert True
 
 
-def test_verifier_ingredient_echec():
+def test_verifier_ingredient_false():
     """Vérification de l'ingrédient échouée."""
 
     # GIVEN
-    pseudo = "chaton"
+    id = 888888888888888
 
     # WHEN
-    JoueurDao().lister_tous = MagicMock(return_value=liste_joueurs)
-    res = JoueurService().pseudo_deja_utilise(pseudo)
+    IngredientDao().verifier = MagicMock(return_value=False)
+    res = IngredientService().verifier_ingredient(id)
 
     # THEN
     assert not res
