@@ -1,8 +1,8 @@
-from src.business_object.cocktail import Cocktail
+from business_object.cocktail import Cocktail
 
 ##############################################################
-from src.dao.favoris_dao import FavorisDAO
-from src.service.recherche_service import RechercheService
+from dao.favoris_dao import FavorisDAO
+from service.cocktail_service import CocktailService
 
 
 #######################################################################
@@ -12,14 +12,7 @@ class FavorisService:
 
     """
 
-    def __init__(self, favorite_dao: FavorisDAO):
-        """
-        Initialise la classe FavoriteService avec le résultat d'une base de données issue d'un curseur
-
-        """
-        self.fav_dao = FavorisDAO
-
-    def aj_fav_cocktail(self, id_utilisateur : int, id_cocktail : int) -> Cocktail:
+    def aj_fav_cocktail(self, id_utilisateur: int, id_cocktail: int) -> Cocktail:
         """
         Ajoute un cocktail aux favoris de l'utilisateur
 
@@ -34,9 +27,7 @@ class FavorisService:
         ----------
         Renvoie le cocktail mis en favoris
         """
-        if id_cocktail is not int:
-            raise TypeError("id indiquée non conforme au format.")
-        id_validation = RechercheService().recherche_cocktail(id=id_cocktail)
+        id_validation = CocktailService().verifier_cocktail(id_cocktail)
         if id_validation is None:
             raise ValueError("Aucun cocktail ne possède cet id.")
         ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail)

@@ -6,13 +6,14 @@ from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
 
 from utils.singleton import Singleton
 
+
 class IngredientUtilisateurService(metaclass=Singleton):
     """Fait le lien entre les ingrédients et les utilisateurs.
     """
 
     def ajout_ingredient_utilisateur(
-        self, 
-        utilisateur: Utilisateur, 
+        self,
+        utilisateur: Utilisateur,
         ingredient: Ingredient
     ) -> int:
         """Ajoute un ingrédient au bar personnel de l'utilisateur.
@@ -30,20 +31,26 @@ class IngredientUtilisateurService(metaclass=Singleton):
         """
         id_utilisateur = utilisateur.id
         id_ingredient = ingredient.id
-        if IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient) == ingredient.id:
+        if IngredientUtilisateurDao().ajouter(
+            id_utilisateur,
+            id_ingredient
+        ) == ingredient.id:
             return ingredient
         else:
             return None
 
-
-    def supprimer_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> bool: 
+    def supprimer_ingredient_utilisateur(
+        self,
+        utilisateur: Utilisateur,
+        ingredient: Ingredient
+    ) -> bool:
         """Supprime un ingrédient du bar personnel de l'utilisateur.
 
         Parameters
         ----------
         ingredient: Ingredient
             L'ingrédient à supprimer du bar personnel.
-        
+
         Return
         ------
         bool
@@ -51,16 +58,23 @@ class IngredientUtilisateurService(metaclass=Singleton):
         """
         id_utilisateur = utilisateur.id
         id_ingredient = ingredient.id
-        return IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
+        return IngredientUtilisateurDao().supprimer(
+            id_utilisateur,
+            id_ingredient
+        )
 
-    def liste_tous_ingredients_utilisateur(self, utilisateur: Utilisateur) -> list[Ingredient]:
+    def liste_tous_ingredients_utilisateur(
+        self,
+        utilisateur: Utilisateur
+    ) -> list[Ingredient]:
         """Liste les ingrédients du bar personnel de l'utilisateur.
 
         Parameters
         ----------
         utilisateur: Utilisateur
-            L'utilisateur dont on veut connaître les ingrédients du bar personnel.
-        
+            L'utilisateur dont on veut connaître les ingrédients du bar
+            personnel.
+
         Return
         ------
         liste_ingredients_utilisateur: list[Ingredient]

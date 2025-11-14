@@ -1,17 +1,18 @@
 import logging
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
+from api.routers import auth, favoris, recherche
 from utils.log_init import initialiser_logs
 
-from api.routers import recherche, auth
-
-app = FastAPI(title="Cocktailopedia", docs_url='/docs', root_path='/proxy/9876')
+app = FastAPI(title="Cocktailopedia", docs_url="/docs", root_path="/proxy/9876")
 
 app.include_router(recherche.router)
 app.include_router(auth.router)
+app.include_router(favoris.router)
 initialiser_logs("Webservice")
+
 
 @app.get("/", include_in_schema=False)
 async def redirect_to_docs():
