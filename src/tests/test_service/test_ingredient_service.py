@@ -1,16 +1,8 @@
 from unittest.mock import MagicMock
+
 from business_object.ingredient import Ingredient
 from dao.ingredient_dao import IngredientDao
 from service.ingredient_service import IngredientService
-
-
-
-
-liste_ingredients = [
-    Ingredient(id=1, nom="eau", desc="", type="boisson", alcoolise=False, abv=0),
-    Ingredient(id=2, nom="citron", desc="", type="fruit frais", alcoolise=False, abv=0),
-    Ingredient(id=3, nom="menthe", desc="", type="herbe", alcoolise=False, abv=0),
-]
 
 
 def test_ajout_ingredient_ok():
@@ -18,20 +10,14 @@ def test_ajout_ingredient_ok():
     """
 
     # GIVEN
-    nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type", False, 0
-    IngredientDao().ajouter = MagicMock(return_value=True)
+    ingredient = Ingredient("nom", "desc", "type", False, 0)
+    IngredientDao().ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
-    ingredient = IngredientService().ajout_ingredient(
-        nom,
-        desc,
-        type_ing,
-        alcoolise,
-        abv
-    )
+    nouvel_ingredient = IngredientService().ajout_ingredient(ingredient)
 
     # THEN
-    assert ingredient.nom == nom
+    assert nouvel_ingredient.nom == ingredient.nom
 
 
 def test_ajout_ingredient_ko():
@@ -39,20 +25,14 @@ def test_ajout_ingredient_ko():
     """
 
     # GIVEN
-    nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type", False, 0
-    IngredientDao().ajouter = MagicMock(return_value=False)
+    ingredient = Ingredient("nom", "desc", "type", False, 0)
+    IngredientDao().ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
-    ingredient = IngredientService().ajout_ingredient(
-        nom,
-        desc,
-        type_ing,
-        alcoolise,
-        abv
-    )
+    nouvel_ingredient = IngredientService().ajout_ingredient(ingredient)
 
     # THEN
-    assert ingredient is None
+    assert nouvel_ingredient is None
 
 
 def test_supprimer_ingredient_ok():
