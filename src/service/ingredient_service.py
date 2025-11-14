@@ -57,7 +57,8 @@ class IngredientService(metaclass=Singleton):
         bool
             True si l'ingrédient a bien été supprimé.
         """
-        return IngredientDao().supprimer(ingredient)
+        id_ingredient = ingredient.id
+        return IngredientDao().supprimer(id_ingredient)
 
     def verifier_ingredient(id_ingredient: int) -> Ingredient:
         """Vérifier qu'un ingrédient existe.
