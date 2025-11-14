@@ -50,7 +50,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         return res
 
     @log
-    def supprimer(self, id_utilisateur, id_ingredient):
+    def supprimer(self, id_utilisateur, id_ingredient) -> bool:
         """Suppression d'un ingrédient dans le bar personnel.
 
         Parameters
@@ -91,7 +91,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         return res > 0
 
     @log
-    def lister_tous(self, id_utilisateur):  # SQL vérifié
+    def lister_tous(self, id_utilisateur) -> list[Ingredient]:  # SQL vérifié
         """Lister tous les ingredients du bar personnel de l'utilisateur.
 
         Parameters

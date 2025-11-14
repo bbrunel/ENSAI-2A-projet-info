@@ -23,10 +23,6 @@ class Token(BaseModel):
     token_type: str
 
 
-class TokenData(BaseModel):
-    username: str | None = None
-
-
 def verify_password(plain_password, hashed_password):
     return password_hash.verify(plain_password, hashed_password)
 
@@ -66,10 +62,9 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         username = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
-    user = UtilisateurService.trouver_par_nom(token_data.username)
+    user = UtilisateurService.trouver_par_nom(username)
     if user is None:
-        raise create_access_token
+        raise credentials_exception
     return user

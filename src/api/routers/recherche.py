@@ -21,7 +21,9 @@ async def recherche_cocktail(nom_cocktail: str):
 
 
 @router.get("/recherche_filtre_cocktail", tags=["Cocktails", "Recherche"])
-def recherche_filtre_cocktail(filtre: Annotated[FiltreCocktail, Query()]):
+def recherche_filtre_cocktail(
+    filtre: Annotated[FiltreCocktail, Query()],
+):
     cocktails = recherche_service.recherche_cocktail(filtre)
     return cocktails
 

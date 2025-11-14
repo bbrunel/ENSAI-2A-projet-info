@@ -7,6 +7,7 @@ from dao.db_connection import DBConnection
 
 from business_object.ingredient import Ingredient
 
+
 class IngredientDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux ingrédients de la
     base de données.
@@ -54,8 +55,7 @@ class IngredientDao(metaclass=Singleton):
 
         return res
 
-
-    def supprimer(self, ingredient: Ingredient) -> bool:
+    def supprimer(self, id_ingredient: int) -> bool:
 
         try:
             with DBConnection().connection as connection:
@@ -64,13 +64,11 @@ class IngredientDao(metaclass=Singleton):
                     cursor.execute(
                         """
                         DELETE
-                            FROM have
+                            FROM ingredients
                             WHERE id_ingredient=%(id_ingredient)s
-                              AND id_user=%(id_utilisateur)s
                         """,
                         {
-                            "id_ingredient": id_ingredient,
-                            "id_utilisateur": id_utilisateur
+                            "id_ingredient": id_ingredient
                         },
                     )
                     res = cursor.rowcount
