@@ -1,6 +1,6 @@
-INSERT INTO users(username, hashed_password) VALUES('Gerald', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824');
+INSERT INTO users(username, hashed_password) VALUES('Gerald', '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk');
 
-INSERT INTO users(username, hashed_password) VALUES('Hector', '98c1eb4ee93476743763878fcb96a25fbc9a175074d64004779ecb5242f645e6');
+INSERT INTO users(username, hashed_password) VALUES('Hector', '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk');
 
 INSERT INTO users(username, hashed_password) VALUES('Bastien', '$argon2id$v=19$m=65536,t=3,p=4$no0skltpLijPPfoPrOI6oA$D2mFj6DsTl7qKXEAyp3+TCJAT/5t9xIhhbQYjXH8Ddk');
 

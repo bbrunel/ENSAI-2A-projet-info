@@ -19,10 +19,10 @@ with DBConnection().connection as connection:
 
 ## Création des tables
 
-execute_sql_file('../data/init.sql')
+execute_sql_file("data/init.sql")
 
 ## Remplissage des tables avec les données brutes de thecocktaildb.com
-with open("../data/ingredients.json", "r") as f:
+with open("data/ingredients.json", "r") as f:
     ingredients = json.load(f)
     with DBConnection().connection as connection:
         for ing in ingredients:
@@ -40,14 +40,14 @@ with open("../data/ingredients.json", "r") as f:
                         "ingredient_type": ing["strType"],
                         "description": ing["strDescription"],
                         "alcoholic": ing["strAlcohol"] == "Yes",
-                        "abv": abv
+                        "abv": abv,
                     },
                 )
                 res = cursor.fetchone()
                 if res is None or res["id_ingredient"] != int(ing["idIngredient"]):
                     print(f"Ingredient n°{ing['idIngredient']} not created! res = {res}")
 
-with open("../data/cocktails.json", "r") as f:
+with open("data/cocktails.json", "r") as f:
     cocktails = json.load(f)
     with DBConnection().connection as connection:
         for cocktail in cocktails:
@@ -65,24 +65,24 @@ with open("../data/cocktails.json", "r") as f:
                             "glass_type": cocktail["strGlass"],
                             "iba_category": cocktail["strIBA"],
                             "instruction": cocktail["strInstructions"],
-                            "pic_url": cocktail["strDrinkThumb"]
-                        }
+                            "pic_url": cocktail["strDrinkThumb"],
+                        },
                     )
                 except psycopg2.Error as e:
                     connection.rollback()
                     print(e)
                     continue
                 res = cursor.fetchone()
-            if res is None or res['id_recipe'] != int(cocktail["idDrink"]):
+            if res is None or res["id_recipe"] != int(cocktail["idDrink"]):
                 print(f"Cocktail n°{cocktail['idDrink']} not created! res = {res}")
 
     with DBConnection().connection as connection:
-        unknown = {} # This dict saves unkown ingredients so I can add them in the database
+        unknown = {}  # This dict saves unkown ingredients so I can add them in the database
         for cocktail in cocktails:
-            for i in range(1,16):
-                ingredient_name = cocktail[f'strIngredient{i}']
-                measure = cocktail[f'strMeasure{i}']
-                if ingredient_name == '':
+            for i in range(1, 16):
+                ingredient_name = cocktail[f"strIngredient{i}"]
+                measure = cocktail[f"strMeasure{i}"]
+                if ingredient_name == "":
                     continue
                 if ingredient_name is None:
                     break
@@ -91,9 +91,7 @@ with open("../data/cocktails.json", "r") as f:
                         cursor.execute(
                             "SELECT id_ingredient FROM ingredients WHERE "
                             "UPPER(ingredient_name) = %(name)s;   ",
-                            {
-                                'name': unaccent(ingredient_name).upper()
-                            }
+                            {"name": unaccent(ingredient_name).upper()},
                         )
                     except psycopg2.Error as e:
                         connection.rollback()
@@ -104,7 +102,7 @@ with open("../data/cocktails.json", "r") as f:
                         if ingredient_name not in unknown:
                             unknown[ingredient_name] = None
                         continue
-                    id_ingredient = int(res['id_ingredient'])
+                    id_ingredient = int(res["id_ingredient"])
 
                 with connection.cursor() as cursor:
                     try:
@@ -112,10 +110,10 @@ with open("../data/cocktails.json", "r") as f:
                             "INSERT INTO composition(id_recipe, id_ingredient, quantity)"
                             "VALUES(%(id_recipe)s, %(id_ingredient)s, %(quantity)s)",
                             {
-                                'id_recipe': int(cocktail['idDrink']),
-                                'id_ingredient': id_ingredient,
-                                'quantity': measure
-                            }
+                                "id_recipe": int(cocktail["idDrink"]),
+                                "id_ingredient": id_ingredient,
+                                "quantity": measure,
+                            },
                         )
                     except psycopg2.errors.UniqueViolation as e:
                         connection.rollback()
@@ -126,7 +124,7 @@ with open("../data/cocktails.json", "r") as f:
                         print(e)
                         continue
     for ing in unknown.keys():
-        print(f'{ing}, ')
+        print(f"{ing}, ")
 
 # Ajout des mock users, etc.
-execute_sql_file('../data/mock.sql')
+execute_sql_file("data/data_insert.sql")
