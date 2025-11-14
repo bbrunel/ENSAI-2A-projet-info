@@ -39,8 +39,10 @@ class IngredientService(metaclass=Singleton):
             alcoolise=alcoolise,
             abv=abv
         )
-
-        return nouvel_ingredient if IngredientDao().ajouter(nouvel_ingredient) else None
+        if IngredientDao().ajouter(nouvel_ingredient):
+            return nouvel_ingredient
+        else:
+            return None
 
     def supprimer_ingredient(ingredient: Ingredient) -> bool:
         """Supprimer un ingrédient.

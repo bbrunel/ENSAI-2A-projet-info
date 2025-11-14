@@ -58,15 +58,22 @@ class IngredientUtilisateurService(metaclass=Singleton):
         """
         id_utilisateur = utilisateur.id
         id_ingredient = ingredient.id
-        return IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
+        return IngredientUtilisateurDao().supprimer(
+            id_utilisateur,
+            id_ingredient
+        )
 
-    def liste_tous_ingredients_utilisateur(self, utilisateur: Utilisateur) -> list[Ingredient]:
+    def liste_tous_ingredients_utilisateur(
+        self,
+        utilisateur: Utilisateur
+    ) -> list[Ingredient]:
         """Liste les ingrédients du bar personnel de l'utilisateur.
 
         Parameters
         ----------
         utilisateur: Utilisateur
-            L'utilisateur dont on veut connaître les ingrédients du bar personnel.
+            L'utilisateur dont on veut connaître les ingrédients du bar
+            personnel.
 
         Return
         ------

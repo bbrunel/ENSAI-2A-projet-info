@@ -13,7 +13,7 @@ from business_object.ingredient import Ingredient
 class IngredientUtilisateurDao(metaclass=Singleton):
 
     @log
-    def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient: 
+    def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient:
         """Creation d'un ingredient dans le bar personnel.
 
         Parameters
@@ -34,8 +34,8 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         """
                         INSERT INTO have (id_user, id_ingredient) VALUES
-                            (%(id_utilisateur)s, %(id_ingredient)s)     
-                          RETURNING id_ingredient ;    
+                            (%(id_utilisateur)s, %(id_ingredient)s)
+                          RETURNING id_ingredient ;
                         """,
                         {
                             "id_utilisateur": id_utilisateur,
@@ -56,10 +56,10 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         Parameters
         ----------
         id_utilisateur : int
-            Identifiant de l'utilisateur qui supprime un ingrédient de son 
+            Identifiant de l'utilisateur qui supprime un ingrédient de son
             bar personnel.
         id_ingredient : int
-            Identifiant de l'ingredient à supprimer du bar personnel de 
+            Identifiant de l'ingredient à supprimer du bar personnel de
             l'utilisateur.
 
         Returns
@@ -73,7 +73,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un ingredient
                     cursor.execute(
                         """
-                        DELETE 
+                        DELETE
                             FROM have
                             WHERE id_ingredient=%(id_ingredient)s
                               AND id_user=%(id_utilisateur)s
@@ -90,21 +90,20 @@ class IngredientUtilisateurDao(metaclass=Singleton):
 
         return res > 0
 
-
     @log
-    def lister_tous(self, id_utilisateur): # SQL vérifié
+    def lister_tous(self, id_utilisateur):  # SQL vérifié
         """Lister tous les ingredients du bar personnel de l'utilisateur.
 
         Parameters
         ----------
         id_utilisateur: int
-            L'identifiant de l'utilisateur dont on veut lister le 
+            L'identifiant de l'utilisateur dont on veut lister le
             bar personnel.
 
         Returns
         -------
         liste_ingredients : list[Ingredient]
-            renvoie la liste de tous les ingredients du bar personnel de 
+            renvoie la liste de tous les ingredients du bar personnel de
             l'utilisateur
         """
 
@@ -115,7 +114,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         """
                         SELECT *
                             FROM have h
-                            LEFT JOIN ingredients i 
+                            LEFT JOIN ingredients i
                                 ON h.id_ingredient = i.id_ingredient
                             WHERE h.id_user=%(id_utilisateur)s;
                         """,
@@ -124,7 +123,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                         }
                     )
                     res = cursor.fetchall()
-            
+
         except Exception as e:
             logging.info(e)
             raise

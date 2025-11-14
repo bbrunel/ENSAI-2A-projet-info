@@ -1,12 +1,9 @@
-# Work in progress
-
 from unittest.mock import MagicMock
-
+from business_object.ingredient import Ingredient
+from dao.ingredient_dao import IngredientDao
 from service.ingredient_service import IngredientService
 
-from dao.ingredient_dao import IngredientDao
 
-from business_object.ingredient import Ingredient
 
 
 liste_ingredients = [
@@ -29,7 +26,7 @@ def test_ajout_ingredient_ok():
         nom,
         desc,
         type_ing,
-        alcollise,
+        alcoolise,
         abv
     )
 
@@ -47,10 +44,10 @@ def test_ajout_ingredient_ko():
 
     # WHEN
     ingredient = IngredientService().ajout_ingredient(
-        nom, 
-        desc, 
-        type_ing, 
-        alcoolise, 
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
         abv
     )
 
@@ -64,10 +61,10 @@ def test_supprimer_ingredient_ok():
 
     # GIVEN
     ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
-    IngredientUtilisateurDao().supprimer = MagicMock(return_value=True)
+    IngredientDao().supprimer = MagicMock(return_value=True)
 
     # WHEN
-    suppression = IngredientUtilisateurService().supprimer_ingredient_utilisateur(
+    suppression = IngredientService().supprimer_ingredient_utilisateur(
         ingredient
     )
 
@@ -81,10 +78,10 @@ def test_supprimer_ingredient_ko():
 
     # GIVEN
     ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
-    IngredientUtilisateurDao().supprimer = MagicMock(return_value=False)
+    IngredientDao().supprimer = MagicMock(return_value=False)
 
     # WHEN
-    suppression = IngredientUtilisateurService().supprimer_ingredient_utilisateur(
+    suppression = IngredientService().supprimer_ingredient_utilisateur(
         ingredient
     )
 
@@ -97,13 +94,14 @@ def test_verifier_ingredient_true():
 
     # GIVEN
     id = 513
-    IngredientDao().vérifier = MagicMock(return_value=)
+    ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
+    IngredientDao().vérifier = MagicMock(return_value=[ingredient])
 
     # WHEN
     res = IngredientService().verifier_ingredient(id)
 
     # THEN
-    assert True
+    assert res[0] == ingredient
 
 
 def test_verifier_ingredient_false():
@@ -113,11 +111,11 @@ def test_verifier_ingredient_false():
     id = 888888888888888
 
     # WHEN
-    IngredientDao().verifier = MagicMock(return_value=False)
+    IngredientDao().verifier = MagicMock(return_value=None)
     res = IngredientService().verifier_ingredient(id)
 
     # THEN
-    assert not res
+    assert res is None
 
 
 if __name__ == "__main__":
