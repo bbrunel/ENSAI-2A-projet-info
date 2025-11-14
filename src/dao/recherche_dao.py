@@ -32,21 +32,31 @@ class RechercheDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     query = "SELECT * FROM cocktails WHERE 1=1"
                     params = []
+
+                    if filtre.id is not None:
+                        query += " AND id_recipe = %s"
+                        params.append(filtre.id)
+
                     if filtre.nom is not None:
                         query += " AND similarity(LOWER(recipe_name), LOWER(%s)) > 0.5"
                         params.append(filtre.nom)
+
                     if filtre.alcoolise is not None:
                         query += " AND alcoholic = %s"
                         params.append(filtre.alcoolise)
+
                     if filtre.iba is not None:
                         query += " AND iba_category = %s"
                         params.append(filtre.iba)
+
                     if filtre.categorie is not None:
                         query += " AND category = %s"
                         params.append(filtre.categorie)
+
                     if filtre.verre is not None:
                         query += "AND glass_type = %s"
                         params.append(filtre.verre)
+
                     cursor.execute(query, params)
                     res = cursor.fetchall()
         except Exception as e:
@@ -164,6 +174,10 @@ class RechercheDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     query = "SELECT * FROM ingredients WHERE 1=1"
                     params = {}
+
+                    if filtre.id is not None:
+                        query += " AND id_ingredient = %s"
+                        params["id"] = filtre.id
 
                     if filtre.nom is not None:
                         query += " AND similarity(LOWER(ingredient_name), LOWER(%(name)s)) > 0.5"
