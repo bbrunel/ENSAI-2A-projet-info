@@ -1,9 +1,10 @@
 import logging
 
 from dao.db_connection import DBConnection
-from src.business_object.cocktail import Cocktail
-from src.business_object.ingredient import Ingredient
-from src.service.recherche_service import RechercheService
+from business_object.cocktail import Cocktail
+from business_object.ingredient import Ingredient
+from business_object.filtre_ingredient import FiltreIngredient
+from service.recherche_service import RechercheService
 
 
 class CocktailDAO:
@@ -11,7 +12,7 @@ class CocktailDAO:
     Classe DAO regroupant les méthodes utiles à la gestion des cocktails
     """
 
-    def ingredients_ckt(id_cocktail) -> list[Ingredient]:
+    def ingredients_ckt(self, id_cocktail) -> list[Ingredient]:
         """
         Méthode servant à regarder les ingrédients dans un cocktail
 
@@ -44,7 +45,8 @@ class CocktailDAO:
 
         if res:
             for ligne in res:
-                ingredient_sorti = RechercheService().recherche_ingredient(id=ligne)
+                filtre = FiltreIngredient(id=ligne)
+                ingredient_sorti = RechercheService().recherche_ingredient(filtre)
                 ingr = Ingredient(
                     id=ingredient_sorti["id"],
                     nom=ingredient_sorti["nom"],
@@ -57,6 +59,23 @@ class CocktailDAO:
                 list_ingr.append(ingr)
 
         return list_ingr
+    
+
+    def nb_cocktails(self) -> int:
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT count(*)                              "
+                        "  FROM cocktails                              "
+                    )
+                    res = cursor.fetchone()
+
+        except Exception as e:
+            logging.info(e)
+            raise
+        print((res, 'hello'))
+        return res
 
     def list_ts_cocktails(self) -> list[Cocktail]:
         """

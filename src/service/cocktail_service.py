@@ -1,7 +1,8 @@
-from src.business_object.cocktail import Cocktail
-from src.business_object.ingredient import Ingredient
-from src.dao.cocktail_dao import CocktailDAO
-from src.service.recherche_service import RechercheService
+from business_object.cocktail import Cocktail
+from business_object.ingredient import Ingredient
+from dao.cocktail_dao import CocktailDAO
+from service.recherche_service import RechercheService
+from business_object.filtre_cocktail import FiltreCocktail
 
 class CocktailService:
     """
@@ -9,8 +10,8 @@ class CocktailService:
 
     """
 
-    def __init__(self, cocktail_dao: CocktailDAO) -> None:
-        self.dao.cocktail_dao = cocktail_dao
+    def __init__(self) -> None:
+        pass
 
     def verifier_cocktail(self, id_cocktail: int) -> Cocktail:
         """Vérifie si un cocktail existe bel et bien déjà.
@@ -25,15 +26,17 @@ class CocktailService:
         renvoie ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
         retourne le cocktail dont on vérifie la présence
         """
-        if id_cocktail is not int:
+        if not isinstance(id_cocktail, int):
             raise TypeError("id indiquée non conforme au format")
-        cocktail = RechercheService().recherche_cocktail(id=id_cocktail)
+
+        filtre = FiltreCocktail(id=id_cocktail)
+        cocktail = RechercheService().recherche_cocktail(filtre)
         if cocktail is None:
             raise ValueError("Pas de cocktail correspondant à cet id.")
             
         return cocktail
 
-    def ingredient_cocktail(self, id_cocktail) -> list[Ingredient]:
+    def ingredient_cocktail(self, id_cocktail: int) -> list[Ingredient]:
         """
         liste des ingrédients composant un cocktail demandé
 
@@ -47,14 +50,16 @@ class CocktailService:
         Affiche ErreurCocktailPasTrouvé: si le cocktail n'a pas été trouvé
         Renvoie la liste des ingrédients composant le cocktail en question
         """
-        if id_cocktail is not int:
+        if not isinstance(id_cocktail, int):
             raise TypeError("id indiquée non conforme au format")
+
         ingredients = CocktailDAO().ingredients_ckt(id_cocktail)
         if ingredients is None:
             raise ValueError("Pas de cocktail correspondant à cet id.")
+
         return ingredients
 
-    def lister_tous_cocktail() -> list[Cocktail]:
+    def lister_tous_cocktail(self) -> list[Cocktail]:
         """Lister l'ensemble des cocktails
 
         Paramètres
@@ -69,3 +74,9 @@ class CocktailService:
         if list_cocktails is None:
             raise ValueError("Pas de cocktail.")
         return list_cocktails
+
+    def nb_cocktails(self) -> int:
+        """
+        
+        """
+        return CocktailDAO().nb_cocktails()

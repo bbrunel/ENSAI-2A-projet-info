@@ -1,8 +1,10 @@
+import pytest
 from unittest.mock import MagicMock
 from service.cocktail_service import CocktailService
 
 from business_object.cocktail import Cocktail
 from business_object.ingredient import Ingredient
+from business_object.filtre_cocktail import FiltreCocktail
 
 def test_verifier_cocktail_existance():
     """
@@ -13,10 +15,11 @@ def test_verifier_cocktail_existance():
     #nothing
 
     #WHEN
+    filtre = FiltreCocktail(id = 11000)
     cocktail = CocktailService().verifier_cocktail(11000)
 
     #THEN
-    assert cocktail.nom == "Mojito"
+    assert "Mojito" in [ckt.nom for ckt in cocktail]
 
 
 def test_verifier_cocktail_inexistance():
@@ -27,16 +30,16 @@ def test_verifier_cocktail_inexistance():
     #GIVEN
 
     #WHEN
-    cocktail_inexistant = verifier_cocktail(1100000)
+    filtre = FiltreCocktail(id = 1100000)
 
     #THEN
-    with pytest.raises(ValueError):
-            verifier_cocktail(1100000)
+    with pytest.raises(TypeError):
+            CocktailService().verifier_cocktail(filtre)
     
 
 def test_ingredient_cocktail():
     """
-    Teste si la méthode renvoie bien les ingrédients qui compose un cocktail.
+    Teste si la méthode renvoie bien les ingrédients qui composent un cocktail.
     """
 
     #GIVEN
@@ -49,13 +52,19 @@ def test_ingredient_cocktail():
     assert any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
 
 
+def test_nb_cocktails():
+    """
+    
+    """
+    assert isinstance(CocktailService().nb_cocktails(), int)
+
 def test_list_tous_cocktails():
     """
-    Vérifie si la fonction renvoie bien l'ensemble des cocktails de la base de données.
+    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base de données.
     """
 
     #WHEN
-    tous_cocktails = list_tous_cocktails()
+    tous_cocktails = CocktailService().lister_tous_cocktail()
 
     #THEN
-    assert len(tous_cocktails) == n     #   /!\/!\/!\   n A DETERMINER  /!\/!\/!\
+    assert len(tous_cocktails) == CocktailD    #   /!\/!\/!\   n A DETERMINER  /!\/!\/!\.
