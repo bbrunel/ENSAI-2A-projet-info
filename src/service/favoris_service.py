@@ -27,13 +27,11 @@ class FavorisService:
         ----------
         Renvoie le cocktail mis en favoris
         """
-        id_validation = CocktailService().verifier_cocktail(id_cocktail)
-        if id_validation is None:
-            raise ValueError("Aucun cocktail ne possède cet id.")
+        cocktail = CocktailService().verifier_cocktail(id_cocktail)
         ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail)
-        if ajout is False:
+        if not ajout:
             raise ValueError("Ce cocktail est déjà en favori pour vous.")
-        return id_validation
+        return cocktail
 
     def suppr_fav_cocktail(self, id_utilisateur: int, id_cocktail: int) -> bool:
         """
@@ -50,8 +48,6 @@ class FavorisService:
         ----------
         True si le cocktail a été supprimé
         """
-        if id_cocktail is not int:
-            raise TypeError("id indiquée non conforme au format")
         suppression = FavorisDAO().suppr_fav(id_utilisateur, id_cocktail)
         if suppression is False:
             raise ValueError("Pas de cocktail correspondant parmi les favoris")

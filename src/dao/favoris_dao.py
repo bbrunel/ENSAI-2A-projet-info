@@ -2,7 +2,6 @@ import logging
 
 from business_object.cocktail import Cocktail
 from dao.db_connection import DBConnection
-from service.recherche_service import RechercheService
 
 
 class FavorisDAO:
@@ -34,8 +33,8 @@ class FavorisDAO:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO favorites(id_user, id_recipe) VALUES        "
-                        "(%(id_user)s, %(id_recipe)s);                           ",
+                        "INSERT INTO favorites(id_user, id_recipe) VALUES "
+                        "(%(id_user)s, %(id_recipe)s) RETURNING id_recipe;",
                         {
                             "id_user": id_utilisateur,
                             "id_recipe": id_cocktail,
@@ -101,9 +100,8 @@ class FavorisDAO:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT id_recipe                              "
-                        "  FROM favorites                              "
-                        "  WHERE id_user = %(id_user)s;                ",
+                        "SELECT * FROM cocktails c JOIN favorites f ON c.id_recipe = f.id_recipe "
+                        "WHERE id_user = %(id_user)s;",
                         {"id_user": id_utilisateur},
                     )
                     res = cursor.fetchall()
@@ -115,18 +113,17 @@ class FavorisDAO:
 
         if res:
             for ligne in res:
-                cocktail_sorti = RechercheService().recherche_cocktail(id=ligne)
                 cocktail = Cocktail(
-                    id=cocktail_sorti["id"],
-                    nom=cocktail_sorti["nom"],
-                    nom_alt=cocktail_sorti["nom_alt"],
-                    tags=cocktail_sorti["tags"],
-                    categorie=cocktail_sorti["categorie"],
-                    iba=cocktail_sorti["iba"],
-                    alcolise=cocktail_sorti["alcolise"],
-                    verre=cocktail_sorti["verre"],
-                    instructions=cocktail_sorti["instructions"],
-                    url_image=cocktail_sorti["url_image"],
+                    id=ligne["id_recipe"],
+                    nom=ligne["recipe_name"],
+                    nom_alt=None,
+                    tags=None,
+                    categorie=ligne["category"],
+                    iba=ligne["iba_category"],
+                    alcolise=ligne["alcoholic"],
+                    verre=ligne["glass_type"],
+                    instructions=ligne["instruction"],
+                    url_image=ligne["cocktail_pic_url"],
                 )
 
                 list_fav.append(cocktail)
