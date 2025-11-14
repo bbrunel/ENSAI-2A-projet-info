@@ -1,8 +1,8 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
 
-from api.securite import *
+from api.securite import get_current_user
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.utilisateur import Utilisateur
 from service.recherche_service import RechercheService

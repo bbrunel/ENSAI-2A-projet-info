@@ -1,18 +1,16 @@
 import logging
 
-from utils.singleton import Singleton
-from dao.db_connection import DBConnection
-from utils.log_decorator import log
-
 from business_object.cocktail import Cocktail
-from src.service.recherche_service import RechercheService
+from dao.db_connection import DBConnection
+from service.recherche_service import RechercheService
+
 
 class FavorisDAO:
     """
     Classe DAO regroupant les méthodes utiles à la gestion des favoris
     """
 
-    def aj_fav(self, id_utilisateur : int, id_cocktail : int) -> bool:
+    def aj_fav(self, id_utilisateur: int, id_cocktail: int) -> bool:
         """
         Creation d'un favori dans la base de données
 
@@ -20,7 +18,7 @@ class FavorisDAO:
         ----------
         id_utilisateur : int
             id de l'utilisateur voulant ajouter un favori
-        id_cocktail : int 
+        id_cocktail : int
             id du cocktail à mettre en favori
 
         Retour
@@ -53,20 +51,20 @@ class FavorisDAO:
 
         return fav_ajoute
 
-    def suppr_fav(self, id_utilisateur : int, id_cocktail : int) -> bool:
+    def suppr_fav(self, id_utilisateur: int, id_cocktail: int) -> bool:
         """
         Méthode servant à supprimer un cocktail des favoris d'un utilisateur
 
         Paramètres
         ----------
         id_utilisateur : int
-            id de l'utilisateur souhaitant supprimer un de ses favoris 
-        id_cocktail : int 
-            id du cocktail à supprimer des favoris 
+            id de l'utilisateur souhaitant supprimer un de ses favoris
+        id_cocktail : int
+            id du cocktail à supprimer des favoris
 
         Retour
         -------
-            True si le favori a bien été supprimé pour l'utilisateur 
+            True si le favori a bien été supprimé pour l'utilisateur
         """
 
         try:
@@ -76,23 +74,21 @@ class FavorisDAO:
                         "DELETE FROM favorites                  "
                         " WHERE id_user = %(id_user)s           "
                         "   AND id_recipe = %(id_recipe)s;      ",
-                        {
-                            "id_user": id_utilisateur,
-                            "id_recipe": id_cocktail},
+                        {"id_user": id_utilisateur, "id_recipe": id_cocktail},
                     )
                     res = cursor.rowcount
         except Exception as e:
-            logging.info(e) 
+            logging.info(e)
 
         return res > 0
-        
-    def lister_ts_fav(self, id_utilisateur : int ) -> list[Cocktail]:
+
+    def lister_ts_fav(self, id_utilisateur: int) -> list[Cocktail]:
         """
-        Méthode servant à lister l'intégralité des favoris d'un utilisateur 
+        Méthode servant à lister l'intégralité des favoris d'un utilisateur
 
         Paramètres
         ----------
-        id_utilisateur : int 
+        id_utilisateur : int
             id de l'utilisateur voulant consulter ses favoris
 
         Retour
@@ -108,8 +104,7 @@ class FavorisDAO:
                         "SELECT id_recipe                              "
                         "  FROM favorites                              "
                         "  WHERE id_user = %(id_user)s;                ",
-                        {
-                            "id_user": id_utilisateur},
+                        {"id_user": id_utilisateur},
                     )
                     res = cursor.fetchall()
         except Exception as e:

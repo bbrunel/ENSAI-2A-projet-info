@@ -70,7 +70,9 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
-    def cocktails_faisables(self, id_ingredients: list[int], nb_manquants: int = 0) -> list[Cocktail]:
+    def cocktails_faisables(
+        self, id_ingredients: list[int], nb_manquants: int = 0
+    ) -> list[Cocktail]:
         """Cette fonction récupère dans la base de données la liste des cocktails
         faisables (ou quasi-faisable si nb_manquants > 0) avec une liste d'ingrédients donnés.
 
@@ -94,6 +96,19 @@ class RechercheDao(metaclass=Singleton):
                     # dont l'ingredient n'est PAS dans la liste des ingredients possédés, ensuite
                     # on garde uniquement les cocktails dont le nombre d'occurence (donc le nombre
                     # d'ingredient supplementaire à utiliser) est inférieur à nb_manquants.
+                    query = (
+                        "SELECT c1.*, count(*) as n FROM cocktails c1"
+                        " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
+                        " WHERE c2.id_ingredient IN %(liste_ing)s"
+                        " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
+                        " (SELECT c1.id_recipe FROM cocktails c1"
+                        " JOIN composition c2 ON c1.id_recipe = c2.id_recipe "
+                        " WHERE NOT c2.id_ingredient IN %(liste_ing)s "
+                        " GROUP BY c1.id_recipe);"
+                    )
+                    params = {"liste_ing": tuple(id_ingredients)}
+                    cursor.execute(query, params)
+                    res = cursor.fetchall()
                     if nb_manquants > 0:
                         query = (
                             "SELECT c1.*, count(*) as nb_missing FROM cocktails c1"
@@ -102,25 +117,14 @@ class RechercheDao(metaclass=Singleton):
                             " GROUP BY c1.id_recipe HAVING count(*) <= %(nb_max)s"
                             " ORDER BY nb_missing;"
                         )
-                        params = {
-                                    "liste_ing": tuple(id_ingredients),
-                                    "nb_max": nb_manquants
-                                 }
+                        params = {"liste_ing": tuple(id_ingredients), "nb_max": nb_manquants}
+                        cursor.execute(query, params)
+                        res2 = cursor.fetchall()
+                        if res:
+                            res.extend(res2)
+                        else:
+                            res = res2
 
-                    else:
-                        query = (
-                            "SELECT c1.*, count(*) as n FROM cocktails c1"
-                            " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
-                            " WHERE c2.id_ingredient IN %(liste_ing)s"
-                            " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
-                            " (SELECT c1.id_recipe FROM cocktails c1"
-                            " JOIN composition c2 ON c1.id_recipe = c2.id_recipe "
-                            " WHERE NOT c2.id_ingredient IN %(liste_ing)s "
-                            " GROUP BY c1.id_recipe);"
-                        )
-                        params = {"liste_ing" : tuple(id_ingredients)}
-                    cursor.execute(query, params)
-                    res = cursor.fetchall()
         except Exception as e:
             logging.info(e)
 
@@ -190,4 +194,3 @@ class RechercheDao(metaclass=Singleton):
                 )
                 liste_ingredients.append(ingredient)
         return liste_ingredients
-
