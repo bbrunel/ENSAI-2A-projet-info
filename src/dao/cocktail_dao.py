@@ -33,7 +33,7 @@ class CocktailDAO:
                     cursor.execute(
                         "SELECT id_ingredient                              "
                         "  FROM composition                              "
-                        "  WHERE id_recipe = %(id_recipe)s;                ",
+                        "  WHERE id_recipe = %(id_user)s;                ",
                         {"id_user": id_cocktail},
                     )
                     res = cursor.fetchall()
@@ -45,15 +45,16 @@ class CocktailDAO:
 
         if res:
             for ligne in res:
-                filtre = FiltreIngredient(id=ligne)
-                ingredient_sorti = RechercheService().recherche_ingredient(filtre)
+                filtre = FiltreIngredient(id=ligne['id_ingredient'])
+                print(filtre)
+                ingredient_sorti = RechercheService().recherche_ingredient(filtre)[0]
                 ingr = Ingredient(
-                    id=ingredient_sorti["id"],
-                    nom=ingredient_sorti["nom"],
-                    desc=ingredient_sorti["desc"],
-                    type_ing=ingredient_sorti["type_ing"],
-                    alcoolise=ingredient_sorti["alcoolise"],
-                    abv=ingredient_sorti["abv"],
+                    id=ingredient_sorti.id,
+                    nom=ingredient_sorti.nom,
+                    desc=ingredient_sorti.desc,
+                    type_ing=ingredient_sorti.type_ing,
+                    alcoolise=ingredient_sorti.alcoolise,
+                    abv=ingredient_sorti.abv,
                 )
 
                 list_ingr.append(ingr)
@@ -74,8 +75,7 @@ class CocktailDAO:
         except Exception as e:
             logging.info(e)
             raise
-        print((res, 'hello'))
-        return res
+        return res['count']
 
     def list_ts_cocktails(self) -> list[Cocktail]:
         """
@@ -91,4 +91,33 @@ class CocktailDAO:
         list_tt_ckt : list[Cocktail]
             La liste de tous les cocktails
         """
-        return RechercheService().recherche_cocktail()
+        #return RechercheService().recherche_cocktail()
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                             "
+                        "  FROM cocktails                              "
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+
+        liste_cocktails = []
+        if res:
+            for row in res:
+                cocktail = Cocktail(
+                    row["id_recipe"],
+                    row["recipe_name"],
+                    None,
+                    None,
+                    row["category"],
+                    row["iba_category"],
+                    row["alcoholic"],
+                    row["glass_type"],
+                    row["instruction"],
+                    row["cocktail_pic_url"],
+                )
+                liste_cocktails.append(cocktail)
+        return liste_cocktails

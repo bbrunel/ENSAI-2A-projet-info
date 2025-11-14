@@ -176,7 +176,7 @@ class RechercheDao(metaclass=Singleton):
                     params = {}
 
                     if filtre.id is not None:
-                        query += " AND id_ingredient = %s"
+                        query += " AND id_ingredient = %(id)s"
                         params["id"] = filtre.id
 
                     if filtre.nom is not None:

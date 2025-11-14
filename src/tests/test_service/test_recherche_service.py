@@ -11,6 +11,20 @@ from dao.utilisateur_dao import UtilisateurDao
 
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
 
+def test_recherche_cocktail_filtre_id():
+    """
+    Teste si la fonction renvoie bien les cocktails dont l'id correspond à 11000.
+    """
+    
+    #GIVEN
+    filtre = FiltreCocktail(id = 11000)
+
+    #WHEN
+    recherche = RechercheService().recherche_cocktail(filtre)
+
+    #THEN
+    assert "Mojito" in [cocktail.nom for cocktail in recherche]
+
 
 def test_recherche_cocktail_filtre_nom():
     """
@@ -25,6 +39,21 @@ def test_recherche_cocktail_filtre_nom():
 
     #THEN
     assert "Mauresque" in [cocktail.nom for cocktail in recherche]
+
+
+def test_recherche_ingredient_filtre_id():
+    """
+    Teste si la fonction renvoie bien les cocktails dont le nom correspond à 'Mauresque'.
+    """
+    
+    #GIVEN
+    filtre = FiltreIngredient(id = 305)
+
+    #WHEN
+    recherche = RechercheService().recherche_ingredient(filtre)
+
+    #THEN
+    assert "Light Rum" in [ing.nom for ing in recherche]
 
 
 def test_recherche_ingredient_filtre_nom():

@@ -73,6 +73,7 @@ class CocktailService:
         list_cocktails = CocktailDAO().list_ts_cocktails()
         if list_cocktails is None:
             raise ValueError("Pas de cocktail.")
+            
         return list_cocktails
 
     def nb_cocktails(self) -> int:

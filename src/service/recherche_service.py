@@ -13,7 +13,7 @@ class RechercheService:
     def __init__(self):
         pass
 
-    def recherche_cocktail(self, filtre):
+    def recherche_cocktail(self, filtre=None):
         """Renvoie les cocktails correspondant aux filtres.
         Lève une erreur si aucun cocktail de la base de donnée ne correspond au filtre.
 
@@ -27,7 +27,8 @@ class RechercheService:
             list[Cocktail]
                 La liste des cocktails correspondant aux filtres.
         """
-        if not isinstance(filtre, FiltreCocktail):
+        
+        if not (isinstance(filtre, FiltreCocktail) or filtre is None):
             raise TypeError(f'Filtre pas adapté à la recherche de cocktails.')
 
         cocktails = RechercheDao().recherche_cocktail(filtre)

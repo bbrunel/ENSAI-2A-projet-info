@@ -47,14 +47,14 @@ def test_ingredient_cocktail():
 
     #WHEN
     ingredients = CocktailService().ingredient_cocktail(11000)
-
+    
     #THEN
-    assert any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
+    assert not any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
 
 
 def test_nb_cocktails():
     """
-    
+    teste si 
     """
     assert isinstance(CocktailService().nb_cocktails(), int)
 
@@ -67,4 +67,4 @@ def test_list_tous_cocktails():
     tous_cocktails = CocktailService().lister_tous_cocktail()
 
     #THEN
-    assert len(tous_cocktails) == CocktailD    #   /!\/!\/!\   n A DETERMINER  /!\/!\/!\.
+    assert len(tous_cocktails) == CocktailService().nb_cocktails()
