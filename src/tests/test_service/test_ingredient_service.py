@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 from business_object.ingredient import Ingredient
 from dao.ingredient_dao import IngredientDao
 from service.ingredient_service import IngredientService
+from service.recherche_service import RechercheService
 
 
 def test_ajout_ingredient_ok():
@@ -98,13 +99,13 @@ def test_verifier_ingredient_true():
     # GIVEN
     id = 513
     ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
-    IngredientDao().vérifier = MagicMock(return_value=[ingredient])
+    RechercheService().recherche_ingredient = MagicMock(return_value=[ingredient])
 
     # WHEN
-    res = IngredientService().verifier_ingredient(id)
+    ingredient_verifie = IngredientService().verifier_ingredient(id)
 
     # THEN
-    assert res[0] == ingredient
+    assert ingredient_verifie == ingredient
 
 
 def test_verifier_ingredient_false():
@@ -114,11 +115,12 @@ def test_verifier_ingredient_false():
     id = 888888888888888
 
     # WHEN
-    IngredientDao().verifier = MagicMock(return_value=None)
+    RechercheService().recherche_ingredient = MagicMock(return_value=None)
     res = IngredientService().verifier_ingredient(id)
 
     # THEN
-    assert res is None
+    assert pytest.raises(ValueError)
+    # CocktailService().verifier_cocktail(filtre)
 
 
 if __name__ == "__main__":

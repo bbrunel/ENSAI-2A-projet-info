@@ -8,7 +8,15 @@ from utils.singleton import Singleton
 
 
 class IngredientUtilisateurService(metaclass=Singleton):
-    """Fait le lien entre les ingrédients et les utilisateurs.
+    """Gère le bar personnel des utilisateurs en faisant le lien entre les
+    ingrédients et les utilisateurs.
+
+    Methods
+    -------
+
+    ajout_ingredient_utilisateur
+    supprimer_ingredient_utilisateur
+    liste_tous_ingredient_utilisateur
     """
 
     def ajout_ingredient_utilisateur(
@@ -20,14 +28,15 @@ class IngredientUtilisateurService(metaclass=Singleton):
 
         Parameters
         ----------
-        utilisateur: Utilisateur
+        utilisateur : Utilisateur
             L'utilisateur qui ajoute un ingrédient dans son bar personnel.
-        ingredient: Ingredient
+        ingredient : Ingredient
             L'ingredient à ajouter dans le bar personnel de l'utilisateur.
 
         Return
         ------
-        ingredient: Ingredient
+        Ingredient
+            L'ingrédient ajouté.
         """
         id_utilisateur = utilisateur.id
         id_ingredient = ingredient.id
@@ -48,7 +57,9 @@ class IngredientUtilisateurService(metaclass=Singleton):
 
         Parameters
         ----------
-        ingredient: Ingredient
+        utilisateur : Utilisateur
+            L'utilisateur dont on supprime l'ingrédient du bar personnel.
+        ingredient : Ingredient
             L'ingrédient à supprimer du bar personnel.
 
         Return
