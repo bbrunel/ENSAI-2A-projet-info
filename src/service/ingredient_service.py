@@ -71,7 +71,7 @@ class IngredientService(metaclass=Singleton):
         Return
         ------
         """
-        if id_ingredient is not int:
+        if not isinstance(id_ingredient, int):
             raise TypeError("L'id indiquée n'est pas conforme au format.")
         ingredient = RechercheService().recherche_ingredient(id=id_ingredient)
         if ingredient is None:

@@ -42,11 +42,17 @@ def test_ajout_ingredient_ko():
     """
 
     # GIVEN
-    ingredient = Ingredient("nom", "desc", "type", False, 0)
-    IngredientDao().ajouter = MagicMock(return_value=ingredient)
+    nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type_ing", False, 0
+    IngredientDao().ajouter = MagicMock(return_value=None)
 
     # WHEN
-    nouvel_ingredient = IngredientService().ajout_ingredient(ingredient)
+    nouvel_ingredient = IngredientService().ajout_ingredient(
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
+        abv
+    )
 
     # THEN
     assert nouvel_ingredient is None
@@ -61,7 +67,7 @@ def test_supprimer_ingredient_ok():
     IngredientDao().supprimer = MagicMock(return_value=True)
 
     # WHEN
-    suppression = IngredientService().supprimer_ingredient_utilisateur(
+    suppression = IngredientService().supprimer_ingredient(
         ingredient
     )
 
@@ -78,7 +84,7 @@ def test_supprimer_ingredient_ko():
     IngredientDao().supprimer = MagicMock(return_value=False)
 
     # WHEN
-    suppression = IngredientService().supprimer_ingredient_utilisateur(
+    suppression = IngredientService().supprimer_ingredient(
         ingredient
     )
 
