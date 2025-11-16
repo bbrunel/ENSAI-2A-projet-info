@@ -44,7 +44,7 @@ class IngredientService(metaclass=Singleton):
         else:
             return None
 
-    def supprimer_ingredient(ingredient: Ingredient) -> bool:
+    def supprimer_ingredient(self, ingredient: Ingredient) -> bool:
         """Supprimer un ingrédient.
 
         Parameters
@@ -60,7 +60,7 @@ class IngredientService(metaclass=Singleton):
         id_ingredient = ingredient.id
         return IngredientDao().supprimer(id_ingredient)
 
-    def verifier_ingredient(id_ingredient: int) -> Ingredient:
+    def verifier_ingredient(self, id_ingredient: int) -> Ingredient:
         """Vérifier qu'un ingrédient existe.
 
         Parameters

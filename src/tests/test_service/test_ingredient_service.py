@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../src')
+
 from unittest.mock import MagicMock
 
 from business_object.ingredient import Ingredient
@@ -10,14 +13,28 @@ def test_ajout_ingredient_ok():
     """
 
     # GIVEN
-    ingredient = Ingredient("nom", "desc", "type", False, 0)
+    id, nom, desc, type_ing, alcoolise, abv = 88, "nom", "desc", "type_ing", False, 0
+    ingredient = Ingredient(
+        id,
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
+        abv
+    )
     IngredientDao().ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
-    nouvel_ingredient = IngredientService().ajout_ingredient(ingredient)
+    nouvel_ingredient = IngredientService().ajout_ingredient(
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
+        abv
+    )
 
     # THEN
-    assert nouvel_ingredient.nom == ingredient.nom
+    assert nouvel_ingredient.nom == nom
 
 
 def test_ajout_ingredient_ko():
