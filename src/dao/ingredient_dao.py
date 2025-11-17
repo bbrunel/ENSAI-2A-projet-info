@@ -23,6 +23,26 @@ class IngredientDao(metaclass=Singleton):
         alcoolise: bool,
         abv: int
     ) -> Ingredient | None:
+        """Création d'un ingrédient dans la base de données.
+
+        Parameters
+        ----------
+        nom : str
+            Nom de l'ingrédient à créer.
+        desc: str
+            Description de l'ingrédient à créer.
+        type_ing: str
+            Type de l'ingrédient à créer.
+        alcoolise: bool
+            Si l'ingrédient à créer est alcoolisé.
+        abv: int
+            Degré d'alcool de l'ingrédient à créer.
+
+        Returns
+        -------
+        Ingredient
+            L'ingrédient créé.
+        """
 
         res = None
 
@@ -63,6 +83,18 @@ class IngredientDao(metaclass=Singleton):
         return res
 
     def supprimer(self, id_ingredient: int) -> bool:
+        """Supprime un ingrédient de la base de données.
+
+        Parameters
+        ----------
+        id_ingredient : int
+            id de l'ingrédient que l'on souhaite supprimer.
+
+        Returns
+        -------
+        bool
+            Si l'ingrédient a bien été supprimé.
+        """
 
         try:
             with DBConnection().connection as connection:
