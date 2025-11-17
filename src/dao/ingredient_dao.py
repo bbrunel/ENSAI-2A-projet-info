@@ -15,7 +15,14 @@ class IngredientDao(metaclass=Singleton):
     """
 
     @log
-    def ajouter(self, ingredient: Ingredient) -> Ingredient | None:
+    def ajouter(
+        self,
+        nom: str,
+        desc: str,
+        type_ing: str,
+        alcoolise: bool,
+        abv: int
+    ) -> Ingredient | None:
 
         res = None
 
@@ -41,11 +48,11 @@ class IngredientDao(metaclass=Singleton):
                           RETURNING id_ingredient ;
                         """,
                         {
-                            "nom": ingredient.nom,
-                            "desc": ingredient.desc,
-                            "type": ingredient.type_ing,
-                            "alcoolise": ingredient.alcoolise,
-                            "abv": ingredient.abv
+                            "nom": nom,
+                            "desc": desc,
+                            "type": type_ing,
+                            "alcoolise": alcoolise,
+                            "abv": abv
                         },
                     )
                     res = cursor.fetchone()

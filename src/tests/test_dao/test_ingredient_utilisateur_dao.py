@@ -23,7 +23,7 @@ def test_ajouter_ok():
 
     # WHEN
     ajout = IngredientUtilisateurDao().ajouter(
-        id_utilisateur, 
+        id_utilisateur,
         id_ingredient
     )
 
@@ -78,7 +78,7 @@ def test_supprimer_ko():
 
     # WHEN
     suppression = IngredientUtilisateurDao().supprimer(
-        id_utilisateur, 
+        id_utilisateur,
         id_ingredient
     )
 
