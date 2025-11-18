@@ -1,24 +1,20 @@
 from tabulate import tabulate
-from utils.log_decorator import log
-from utils.securite import hash_password
 
 from business_object.utilisateur import Utilisateur
 from dao.utilisateur_dao import UtilisateurDao
+from utils.log_decorator import log
+from utils.securite import hash_password
 
 
 class UtilisateurService:
     """Classe contenant les méthodes de service des utilisateurs"""
+
     @staticmethod
     @log
-    def creer(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
+    def creer(nom_utilisateur: str, hash_mdp: str):
         """Création d'un utilisateur à partir de ses attributs"""
-
-        nouvel_utilisateur = Utilisateur(
-            nom_utilisateur=nom_utilisateur,
-            mdp=hash_password(mot_de_passe, nom_utilisateur)
-        )
-
-        return nouvel_utilisateur if UtilisateurDao().creer(nouvel_utilisateur) else None
+        nouvel_utilisateur = Utilisateur(None, nom_utilisateur, hash_mdp)
+        return UtilisateurDao().creer(nouvel_utilisateur)
 
     @staticmethod
     @log
@@ -65,8 +61,7 @@ class UtilisateurService:
     def se_connecter(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
         """Se connecter à partir de nom_utilisateur et mot_de_passe"""
         return UtilisateurDao().se_connecter(
-            nom_utilisateur,
-            hash_password(mot_de_passe, nom_utilisateur)
+            nom_utilisateur, hash_password(mot_de_passe, nom_utilisateur)
         )
 
     @staticmethod

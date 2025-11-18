@@ -1,10 +1,9 @@
 import logging
 
-from utils.singleton import Singleton
-from utils.log_decorator import log
-
-from dao.db_connection import DBConnection
 from business_object.utilisateur import Utilisateur
+from dao.db_connection import DBConnection
+from utils.log_decorator import log
+from utils.singleton import Singleton
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -43,12 +42,10 @@ class UtilisateurDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
 
-        created = False
         if res:
             utilisateur.id = res["id_user"]
-            created = True
-
-        return created
+            return utilisateur
+        return None
 
     @log
     def trouver_par_id(self, id_utilisateur) -> Utilisateur:
@@ -81,9 +78,7 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur = None
         if res:
             utilisateur = Utilisateur(
-                id=res["id_user"],
-                nom_utilisateur=res["username"],
-                mdp=res["hashed_password"]
+                id=res["id_user"], nom_utilisateur=res["username"], mdp=res["hashed_password"]
             )
 
         return utilisateur
@@ -119,9 +114,7 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur = None
         if res:
             utilisateur = Utilisateur(
-                id=res["id_user"],
-                nom_utilisateur=res["username"],
-                mdp=res["hashed_password"]
+                id=res["id_user"], nom_utilisateur=res["username"], mdp=res["hashed_password"]
             )
 
         return utilisateur
@@ -153,9 +146,7 @@ class UtilisateurDao(metaclass=Singleton):
         if res:
             for row in res:
                 utilisateur = Utilisateur(
-                    id=row["id_user"],
-                    nom_utilisateur=row["username"],
-                    mdp=row["hashed_password"]
+                    id=row["id_user"], nom_utilisateur=row["username"], mdp=row["hashed_password"]
                 )
                 liste_utilisateurs.append(utilisateur)
 
@@ -221,13 +212,13 @@ class UtilisateurDao(metaclass=Singleton):
                         "WHERE id_user = %(id_user)s;          ",
                         {"id_user": utilisateur.id},
                     )
-                    
+
                     cursor.execute(
                         "DELETE FROM favorites                 "
                         "WHERE id_user = %(id_user)s;          ",
                         {"id_user": utilisateur.id},
                     )
-                    
+
                     # Puis supprimer l'utilisateur
                     cursor.execute(
                         "DELETE FROM users                     "
@@ -276,9 +267,7 @@ class UtilisateurDao(metaclass=Singleton):
 
         if res:
             utilisateur = Utilisateur(
-                id=res["id_user"],
-                nom_utilisateur=res["username"],
-                mdp=res["hashed_password"]
+                id=res["id_user"], nom_utilisateur=res["username"], mdp=res["hashed_password"]
             )
 
         return utilisateur
