@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../src')
+
 import pytest
 from unittest.mock import MagicMock
 from service.cocktail_service import CocktailService
@@ -11,40 +14,44 @@ from business_object.filtre_cocktail import FiltreCocktail
 # Tests unitaires
 
 
-def test_verifier_cocktail_existence():
+def test_verifier_cocktail_ingredient():
     """
     Teste si la méthode vérifie correctement l'existence d'un cocktail.
     """
 
     # GIVEN
-    RechercheService().recherche_cocktail = MagicMock(return_value=["Mojito"])  # ???
+    RechercheService().recherche_cocktail = MagicMock(
+        return_value=["Mojito"]
+    )  # ???
 
     # WHEN
-    filtre = FiltreCocktail(id = 11000)
+    filtre = FiltreCocktail(id=11000)
     cocktail = CocktailService().verifier_cocktail(11000)
 
     # THEN
     assert "Mojito" in [ckt.nom for ckt in cocktail]
 
 
-def test_verifier_cocktail_inexistence():
+def test_verifier_cocktail_erreur():
     """
-    Teste si un cocktail qui n'existe pas est recherché une erreur se lève bien.
+    Teste si un cocktail qui n'existe pas est recherché une erreur se
+    lève bien.
     """
 
-    #GIVEN
+    # GIVEN
 
-    #WHEN
-    filtre = FiltreCocktail(id = 1100000)
+    # WHEN
+    filtre = FiltreCocktail(id=1100000)
 
-    #THEN
+    # THEN
     with pytest.raises(TypeError):
-            CocktailService().verifier_cocktail(filtre)
+        CocktailService().verifier_cocktail(filtre)
 
 
 def test_ingredient_cocktail_ok():
     """
-    Teste si la méthode renvoie bien les ingrédients qui composent un cocktail.
+    Teste si la méthode renvoie bien les ingrédients qui composent un
+    cocktail.
     Valeur retournée par la DAO fixée auparavant.
     """
 
@@ -64,12 +71,17 @@ def test_ingredient_cocktail_ok():
     ingredients = CocktailService().ingredient_cocktail(11000)
 
     # THEN
-    assert not any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
+    assert not any(
+        [
+            not (ing.id in id_ingredients_mojito) for ing in ingredients
+        ]
+    )
 
 
 def test_ingredient_cocktail_ko():
     """
-    Teste si la méthode renvoie bien les ingrédients qui composent un cocktail.
+    Teste si la méthode renvoie bien les ingrédients qui composent un
+    cocktail.
     Valeur retournée par la DAO fixée auparavant.
     """
 
@@ -89,12 +101,16 @@ def test_ingredient_cocktail_ko():
     ingredients = CocktailService().ingredient_cocktail(11000)
 
     # THEN
-    assert any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
+    assert any(
+        [
+            not (ing.id in id_ingredients_mojito) for ing in ingredients
+        ]
+    )
 
 
 def test_nb_cocktails_ok():
     """
-    teste si 
+    teste si
     """
     # GIVEN
     CocktailDAO().nb_cocktails = MagicMock(return_value=12000)
@@ -109,7 +125,7 @@ def test_nb_cocktails_ok():
 
 def test_nb_cocktails_ko():
     """
-    teste si 
+    teste si
     """
     # GIVEN
     CocktailDAO().nb_cocktails = MagicMock(return_value=None)
@@ -123,7 +139,8 @@ def test_nb_cocktails_ko():
 
 def test_list_tous_cocktails_ok():
     """
-    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base de données.
+    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base
+    de données.
     """
     # GIVEN
     CocktailDAO().list_ts_cocktails = MagicMock(
@@ -146,7 +163,8 @@ def test_list_tous_cocktails_ok():
 
 def test_list_tous_cocktails_ko():
     """
-    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base de données.
+    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base
+    de données.
     """
     # GIVEN
     CocktailDAO().list_ts_cocktails = MagicMock(return_value=[None])
@@ -170,7 +188,7 @@ def test_verifier_cocktail_existence():
     # nothing
 
     # WHEN
-    filtre = FiltreCocktail(id = 11000)
+    filtre = FiltreCocktail(id=11000)
     cocktail = CocktailService().verifier_cocktail(11000)
 
     # THEN
@@ -179,22 +197,24 @@ def test_verifier_cocktail_existence():
 
 def test_verifier_cocktail_inexistence():
     """
-    Teste si un cocktail qui n'existe pas est recherché une erreur se lève bien.
+    Teste si un cocktail qui n'existe pas est recherché une erreur se
+    lève bien.
     """
 
     # GIVEN
 
     # WHEN
-    filtre = FiltreCocktail(id = 1100000)
+    filtre = FiltreCocktail(id=1100000)
 
     # THEN
     with pytest.raises(TypeError):
-            CocktailService().verifier_cocktail(filtre)
-  
+        CocktailService().verifier_cocktail(filtre)
+
 
 def test_ingredient_cocktail():
     """
-    Teste si la méthode renvoie bien les ingrédients qui composent un cocktail.
+    Teste si la méthode renvoie bien les ingrédients qui composent
+    un cocktail.
     """
 
     # GIVEN
@@ -204,19 +224,24 @@ def test_ingredient_cocktail():
     ingredients = CocktailService().ingredient_cocktail(11000)
 
     # THEN
-    assert not any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
+    assert not any(
+        [
+            not (ing.id in id_ingredients_mojito) for ing in ingredients
+        ]
+    )
 
 
 def test_nb_cocktails():
     """
-    teste si 
+    teste si
     """
     assert isinstance(CocktailService().nb_cocktails(), int)
 
 
 def test_list_tous_cocktails():
     """
-    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base de données.
+    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base
+    de données.
     """
 
     # WHEN
