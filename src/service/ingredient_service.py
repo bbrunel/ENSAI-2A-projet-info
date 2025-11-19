@@ -90,17 +90,17 @@ class IngredientService(metaclass=Singleton):
         ------
         Ingredient
         """
-        
+
         if not isinstance(id_ingredient, int):
             raise TypeError("L'id indiquée n'est pas conforme au format.")
 
         filtre = FiltreIngredient(id=id_ingredient)
         ingredient_liste = RechercheService().recherche_ingredient(filtre)
-    
+
         if ingredient_liste == []:
             ingredient = None
             raise ValueError("Pas d'ingrédient correspondant à cet id.")
-    
+
         print("Ce que retourne ingredient_liste :", ingredient_liste)
         ingredient = ingredient_liste[0]
 
