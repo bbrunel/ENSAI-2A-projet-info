@@ -88,7 +88,7 @@ class IngredientService(metaclass=Singleton):
 
         Return
         ------
-        Ingredient
+            Ingredient
         """
 
         if not isinstance(id_ingredient, int):
@@ -101,7 +101,6 @@ class IngredientService(metaclass=Singleton):
             ingredient = None
             raise ValueError("Pas d'ingrédient correspondant à cet id.")
 
-        print("Ce que retourne ingredient_liste :", ingredient_liste)
         ingredient = ingredient_liste[0]
 
         return ingredient
