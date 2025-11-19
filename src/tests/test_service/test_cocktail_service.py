@@ -92,23 +92,70 @@ def test_ingredient_cocktail_ko():
     assert any([not (ing.id in id_ingredients_mojito) for ing in ingredients])
 
 
-def test_nb_cocktails():
+def test_nb_cocktails_ok():
     """
     teste si 
     """
-    assert isinstance(CocktailService().nb_cocktails(), int)
+    # GIVEN
+    CocktailDAO().nb_cocktails = MagicMock(return_value=12000)
 
-def test_list_tous_cocktails():
+    # WHEN
+    res = CocktailService().nb_cocktails()
+
+    # THEN
+    assert isinstance(res, int)
+    assert res > 1
+
+
+def test_nb_cocktails_ko():
+    """
+    teste si 
+    """
+    # GIVEN
+    CocktailDAO().nb_cocktails = MagicMock(return_value=None)
+
+    # WHEN
+    res = CocktailService().nb_cocktails()
+
+    # THEN
+    assert not isinstance(res, int)
+
+
+def test_list_tous_cocktails_ok():
     """
     Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base de données.
     """
+    # GIVEN
+    CocktailDAO().list_ts_cocktails = MagicMock(
+        return_value=[
+            Cocktail(1, "cocktail 1", "", "", "", "", True, "", "", ""),
+            Cocktail(2, "cocktail 2", "", "", "", "", True, "", "", ""),
+            Cocktail(3, "cocktail 3", "", "", "", "", True, "", "", ""),
+            Cocktail(4, "cocktail 4", "", "", "", "", True, "", "", "")
+        ]
+    )
 
     # WHEN
     tous_cocktails = CocktailService().lister_tous_cocktail()
 
     # THEN
-    assert len(tous_cocktails) == CocktailService().nb_cocktails()
+    assert isinstance(tous_cocktails, list[Cocktail])
+    assert len(tous_cocktails) > 1
+    assert len(tous_cocktails) == 4
 
+
+def test_list_tous_cocktails_ko():
+    """
+    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base de données.
+    """
+    # GIVEN
+    CocktailDAO().list_ts_cocktails = MagicMock(return_value=[None])
+
+    # WHEN
+    tous_cocktails = CocktailService().lister_tous_cocktail()
+
+    # THEN
+    assert not isinstance(tous_cocktails, list[Cocktail])
 
 
 # Tests d'intégration
