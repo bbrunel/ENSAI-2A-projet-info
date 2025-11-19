@@ -4,6 +4,7 @@ from dao.cocktail_dao import CocktailDAO
 from service.recherche_service import RechercheService
 from business_object.filtre_cocktail import FiltreCocktail
 
+
 class CocktailService:
     """
     Classe service pour les cocktails
