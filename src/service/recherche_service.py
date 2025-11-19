@@ -1,19 +1,17 @@
-from business_object.filtre_ingredient import FiltreIngredient
 from business_object.filtre_cocktail import FiltreCocktail
-
+from business_object.filtre_ingredient import FiltreIngredient
+from business_object.utilisateur import Utilisateur
 from dao.recherche_dao import RechercheDao
-from business_object.utilisateur import Utilisateur 
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
 
 
 class RechercheService:
-    """Permet de rechercher des cocktails et des ingrédients en appliquant un filte de recherche.
-    """
+    """Permet de rechercher des cocktails et des ingrédients en appliquant un filte de recherche."""
 
     def __init__(self):
         pass
 
-    def recherche_cocktail(self, filtre=None):
+    def recherche_cocktail(self, filtre: FiltreCocktail = None):
         """Renvoie les cocktails correspondant aux filtres.
         Lève une erreur si aucun cocktail de la base de donnée ne correspond au filtre.
 
@@ -27,15 +25,14 @@ class RechercheService:
             list[Cocktail]
                 La liste des cocktails correspondant aux filtres.
         """
-        
+
         if not (isinstance(filtre, FiltreCocktail) or filtre is None):
-            raise TypeError(f'Filtre pas adapté à la recherche de cocktails.')
+            raise TypeError("Filtre pas adapté à la recherche de cocktails.")
 
         cocktails = RechercheDao().recherche_cocktail(filtre)
         if cocktails is None:
-            raise ValueError(f'Pas de cocktail correspondant au filtre.')
+            raise ValueError("Pas de cocktail correspondant au filtre.")
         return cocktails
-
 
     def recherche_ingredient(self, filtre):
         """Renvoie les ingrédients correspondant aux filtres.
@@ -53,18 +50,17 @@ class RechercheService:
         """
 
         if not isinstance(filtre, FiltreIngredient):
-            raise TypeError(f"Filtre pas adapté à la recherche d'ingrédients")
+            raise TypeError("Filtre pas adapté à la recherche d'ingrédients")
 
         ingredients = RechercheDao().recherche_ingredient(filtre)
 
         if ingredients is None:
-            raise ValueError(f"Pas d'ingrédient correspondant au filtre.")
+            raise ValueError("Pas d'ingrédient correspondant au filtre.")
 
         return ingredients
 
-
-    def liste_cocktails_faisables(self, utilisateur:Utilisateur, nb_ing_manquants:int = 0):
-        """Renvoie la liste des cocktails faisables ou presque en fonction des ingrédients de 
+    def liste_cocktails_faisables(self, utilisateur: Utilisateur, nb_ing_manquants: int = 0):
+        """Renvoie la liste des cocktails faisables ou presque en fonction des ingrédients de
         l'utilisateur.
         Utilise l'utilisateur en argument pour en extraire son inventaire, puis les id des
         ingrédients de son inventaire, pour les donner en argument de la fonction DAO
@@ -81,7 +77,7 @@ class RechercheService:
         Return
         -------
             list[Cocktail]
-                La liste des cocktails faisables selon les ingrédients de l'utilisateur et le 
+                La liste des cocktails faisables selon les ingrédients de l'utilisateur et le
                 nombre d'ingrédients manquants.
         """
 
@@ -89,4 +85,3 @@ class RechercheService:
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
 
         return RechercheDao().cocktails_faisables(id_ing_inventaire, nb_ing_manquants)
-

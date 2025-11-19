@@ -15,4 +15,5 @@ def creer_compte(username: Annotated[str, Form()], password: Annotated[str, Form
 
 @router.delete("/supprimer_compte", tags=["Utilisateur"])
 def supprimer_compte(current_user: Annotated[str, Depends(get_current_user)]):
+    
     return UtilisateurService.supprimer(current_user)

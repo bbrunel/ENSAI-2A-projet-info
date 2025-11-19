@@ -12,7 +12,7 @@ router = APIRouter()
 recherche_service = RechercheService()
 
 
-@router.get("/recherche_cocktail/{nom_cocktail}", tags=["Cocktails", "Recherche"])
+@router.get("/recherche_cocktail/{nom_cocktail}", tags=["Cocktails"])
 async def recherche_cocktail(nom_cocktail: str):
     """Recherche de cocktail"""
     filtre = FiltreCocktail(nom=nom_cocktail)
@@ -20,7 +20,7 @@ async def recherche_cocktail(nom_cocktail: str):
     return cocktails
 
 
-@router.get("/recherche_filtre_cocktail", tags=["Cocktails", "Recherche"])
+@router.get("/recherche_filtre_cocktail", tags=["Cocktails"])
 def recherche_filtre_cocktail(
     filtre: Annotated[FiltreCocktail, Query()],
 ):
