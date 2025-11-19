@@ -53,6 +53,22 @@ class FavorisService:
             raise ValueError("Pas de cocktail correspondant parmi les favoris")
         return suppression
 
+    def supprimer_tous(self, id_utilisateur: int) -> bool:
+        """
+        retire tous les cocktails des favoris de l'utilisateur
+
+        Paramètres
+        ----------
+        id_utilisateur : int
+            id de l'utilisateur qui demande à supprimer un de ses favoris
+
+        Retour
+        ------
+        True si les cocktails ont été supprimés
+        """
+        suppression = FavorisDAO().supprimer_tous(id_utilisateur)
+        return suppression
+
     def list_all_fav_cocktails(self, id_utilisateur: int) -> list[Cocktail]:
         """
         Liste l'ensemble des cocktails mis en favoris par l'utilisateur

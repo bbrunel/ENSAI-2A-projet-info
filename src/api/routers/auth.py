@@ -4,7 +4,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from api.securite import *
+from api.securite import (
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    Token,
+    authenticate_user,
+    create_access_token,
+    get_current_user,
+)
 from business_object.utilisateur import Utilisateur
 
 router = APIRouter()

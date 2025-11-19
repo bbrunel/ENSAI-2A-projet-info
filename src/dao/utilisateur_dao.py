@@ -1,10 +1,9 @@
 import logging
 
-from utils.singleton import Singleton
-from utils.log_decorator import log
-
-from dao.db_connection import DBConnection
 from business_object.utilisateur import Utilisateur
+from dao.db_connection import DBConnection
+from utils.log_decorator import log
+from utils.singleton import Singleton
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -31,24 +30,23 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO users(username, hashed_password) VALUES "
-                        "(%(username)s, %(hashed_password)s)                 "
+                        "INSERT INTO users(username, hashed_password, is_admin) VALUES "
+                        "(%(username)s, %(hashed_password)s, %(admin)s)                 "
                         "RETURNING id_user;                                  ",
                         {
                             "username": utilisateur.nom_utilisateur,
                             "hashed_password": utilisateur.mdp,
+                            "is_admin": utilisateur.admin,
                         },
                     )
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
 
-        created = False
         if res:
             utilisateur.id = res["id_user"]
-            created = True
-
-        return created
+            return utilisateur
+        return None
 
     @log
     def trouver_par_id(self, id_utilisateur) -> Utilisateur:
@@ -68,7 +66,7 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT id_user, username, hashed_password "
+                        "SELECT id_user, username, hashed_password, is_admin "
                         "FROM users                               "
                         "WHERE id_user = %(id_utilisateur)s;      ",
                         {"id_utilisateur": id_utilisateur},
@@ -83,7 +81,8 @@ class UtilisateurDao(metaclass=Singleton):
             utilisateur = Utilisateur(
                 id=res["id_user"],
                 nom_utilisateur=res["username"],
-                mdp=res["hashed_password"]
+                mdp=res["hashed_password"],
+                admin=res["is_admin"],
             )
 
         return utilisateur
@@ -106,7 +105,7 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT id_user, username, hashed_password "
+                        "SELECT id_user, username, hashed_password, is_admin "
                         "FROM users                               "
                         "WHERE username = %(nom_utilisateur)s;    ",
                         {"nom_utilisateur": nom_utilisateur},
@@ -121,7 +120,8 @@ class UtilisateurDao(metaclass=Singleton):
             utilisateur = Utilisateur(
                 id=res["id_user"],
                 nom_utilisateur=res["username"],
-                mdp=res["hashed_password"]
+                mdp=res["hashed_password"],
+                admin=res["is_admin"],
             )
 
         return utilisateur
@@ -140,7 +140,7 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT id_user, username, hashed_password "
+                        "SELECT id_user, username, hashed_password, is_admin "
                         "FROM users;                              "
                     )
                     res = cursor.fetchall()
@@ -155,7 +155,8 @@ class UtilisateurDao(metaclass=Singleton):
                 utilisateur = Utilisateur(
                     id=row["id_user"],
                     nom_utilisateur=row["username"],
-                    mdp=row["hashed_password"]
+                    mdp=row["hashed_password"],
+                    admin=row["is_admin"],
                 )
                 liste_utilisateurs.append(utilisateur)
 
@@ -221,13 +222,13 @@ class UtilisateurDao(metaclass=Singleton):
                         "WHERE id_user = %(id_user)s;          ",
                         {"id_user": utilisateur.id},
                     )
-                    
+
                     cursor.execute(
                         "DELETE FROM favorites                 "
                         "WHERE id_user = %(id_user)s;          ",
                         {"id_user": utilisateur.id},
                     )
-                    
+
                     # Puis supprimer l'utilisateur
                     cursor.execute(
                         "DELETE FROM users                     "
@@ -240,45 +241,3 @@ class UtilisateurDao(metaclass=Singleton):
             raise
 
         return res > 0
-
-    @log
-    def se_connecter(self, nom_utilisateur, mdp_hash) -> Utilisateur:
-        """Se connecter grâce à son nom d'utilisateur et son mot de passe hashé
-
-        Parameters
-        ----------
-        nom_utilisateur : str
-            nom d'utilisateur de l'utilisateur que l'on souhaite trouver
-        mdp_hash : str
-            mot de passe hashé de l'utilisateur
-
-        Returns
-        -------
-        utilisateur : Utilisateur
-            renvoie l'utilisateur que l'on cherche
-        """
-        res = None
-        try:
-            with DBConnection().connection as connection:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT id_user, username, hashed_password "
-                        "FROM users                               "
-                        "WHERE username = %(username)s            "
-                        "  AND hashed_password = %(mdp_hash)s;    ",
-                        {"username": nom_utilisateur, "mdp_hash": mdp_hash},
-                    )
-                    res = cursor.fetchone()
-        except Exception as e:
-            logging.info(e)
-
-        utilisateur = None
-
-        if res:
-            utilisateur = Utilisateur(
-                id=res["id_user"],
-                nom_utilisateur=res["username"],
-                mdp=res["hashed_password"]
-            )
-
-        return utilisateur

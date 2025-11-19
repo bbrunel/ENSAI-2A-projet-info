@@ -2,16 +2,13 @@
 
 import logging
 
-from utils.singleton import Singleton
-from utils.log_decorator import log
-
-from dao.db_connection import DBConnection
-
 from business_object.ingredient import Ingredient
+from dao.db_connection import DBConnection
+from utils.log_decorator import log
+from utils.singleton import Singleton
 
 
 class IngredientUtilisateurDao(metaclass=Singleton):
-
     @log
     def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient:
         """Creation d'un ingredient dans le bar personnel.
@@ -37,10 +34,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                             (%(id_utilisateur)s, %(id_ingredient)s)
                           RETURNING id_ingredient ;
                         """,
-                        {
-                            "id_utilisateur": id_utilisateur,
-                            "id_ingredient": id_ingredient
-                        },
+                        {"id_utilisateur": id_utilisateur, "id_ingredient": id_ingredient},
                     )
                     res = cursor.fetchone()
                     res = res["id_ingredient"]
@@ -78,10 +72,41 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                             WHERE id_ingredient=%(id_ingredient)s
                               AND id_user=%(id_utilisateur)s
                         """,
-                        {
-                            "id_ingredient": id_ingredient,
-                            "id_utilisateur": id_utilisateur
-                        },
+                        {"id_ingredient": id_ingredient, "id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+            raise
+
+        return res > 0
+
+    @log
+    def supprimer_tous(self, id_utilisateur) -> bool:
+        """Suppression de tous les ingrédients dans le bar personnel.
+
+        Parameters
+        ----------
+        id_utilisateur : int
+            Identifiant de l'utilisateur qui supprime un ingrédient de son
+            bar personnel.
+
+        Returns
+        -------
+            True si l'ingredient a bien été supprimé.
+        """
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    # Supprimer le compte d'un ingredient
+                    cursor.execute(
+                        """
+                        DELETE
+                            FROM have
+                            WHERE id_user=%(id_utilisateur)s
+                        """,
+                        {"id_utilisateur": id_utilisateur},
                     )
                     res = cursor.rowcount
         except Exception as e:
@@ -118,9 +143,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
                                 ON h.id_ingredient = i.id_ingredient
                             WHERE h.id_user=%(id_utilisateur)s;
                         """,
-                        {
-                            "id_utilisateur": id_utilisateur
-                        }
+                        {"id_utilisateur": id_utilisateur},
                     )
                     res = cursor.fetchall()
 

@@ -30,31 +30,30 @@ class RechercheDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    query = "SELECT * FROM cocktails WHERE 1=1"
+                    query = "SELECT * FROM cocktails c WHERE 1=1"
                     params = []
-
                     if filtre.id is not None:
-                        query += " AND id_recipe = %s"
+                        query += " AND c.id_recipe = %s"
                         params.append(filtre.id)
 
                     if filtre.nom is not None:
-                        query += " AND similarity(LOWER(recipe_name), LOWER(%s)) > 0.5"
+                        query += " AND similarity(LOWER(c.recipe_name), LOWER(%s)) > 0.5"
                         params.append(filtre.nom)
 
                     if filtre.alcoolise is not None:
-                        query += " AND alcoholic = %s"
+                        query += " AND c.alcoholic = %s"
                         params.append(filtre.alcoolise)
 
                     if filtre.iba is not None:
-                        query += " AND iba_category = %s"
+                        query += " AND c.iba_category = %s"
                         params.append(filtre.iba)
 
                     if filtre.categorie is not None:
-                        query += " AND category = %s"
+                        query += " AND c.category = %s"
                         params.append(filtre.categorie)
 
                     if filtre.verre is not None:
-                        query += "AND glass_type = %s"
+                        query += "AND c.glass_type = %s"
                         params.append(filtre.verre)
 
                     cursor.execute(query, params)
