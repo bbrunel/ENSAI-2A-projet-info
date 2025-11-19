@@ -8,6 +8,7 @@ from jwt.exceptions import InvalidTokenError
 from pwdlib import PasswordHash
 from pydantic import BaseModel
 
+from business_object.utilisateur import Utilisateur
 from service.utilisateur_service import UtilisateurService
 
 SECRET_KEY = "e99fdc95d8416935051d4ac4bf7914cc4de503d9d813074ec4174e2e6fe46f25"
@@ -68,3 +69,14 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     if user is None:
         raise credentials_exception
     return user
+
+
+def get_current_admin(current_user: Annotated[Utilisateur, Depends(get_current_user)]):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    if not current_user.admin:
+        raise credentials_exception
+    return current_user

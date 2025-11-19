@@ -12,8 +12,8 @@ router = APIRouter()
 recherche_service = RechercheService()
 
 
-@router.get("/recherche_cocktail/{nom_cocktail}", tags=["Cocktails"])
-async def recherche_cocktail(nom_cocktail: str):
+@router.get("/recherche_cocktail", tags=["Cocktails"])
+async def recherche_cocktail(nom_cocktail: Annotated[str, Query()]):
     """Recherche de cocktail"""
     filtre = FiltreCocktail(nom=nom_cocktail)
     cocktails = recherche_service.recherche_cocktail(filtre)
@@ -28,8 +28,9 @@ def recherche_filtre_cocktail(
     return cocktails
 
 
-@router.get("/liste_faisables/{nb_manquants}", tags=["Cocktails"])
+@router.get("/liste_faisables", tags=["Cocktails"])
 def liste_cocktail_quasifaisables(
-    current_user: Annotated[Utilisateur, Depends(get_current_user)], nb_manquants: int
+    current_user: Annotated[Utilisateur, Depends(get_current_user)],
+    nb_manquants: Annotated[int, Query(ge=0)],
 ):
     return recherche_service.liste_cocktails_faisables(current_user, nb_manquants)

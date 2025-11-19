@@ -81,6 +81,33 @@ class FavorisDAO:
 
         return res > 0
 
+    def supprimer_tous(self, id_utilisateur: int) -> bool:
+        """
+        Méthode servant à supprimer tous les cocktails des favoris d'un utilisateur
+
+        Paramètres
+        ----------
+        id_utilisateur : int
+            id de l'utilisateur souhaitant supprimer un de ses favoris
+        Retour
+        -------
+            True si les favori ont bien été supprimés pour l'utilisateur
+        """
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "DELETE FROM favorites                  "
+                        " WHERE id_user = %(id_user)s           ",
+                        {"id_user": id_utilisateur},
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+
+        return res > 0
+
     def lister_ts_fav(self, id_utilisateur: int) -> list[Cocktail]:
         """
         Méthode servant à lister l'intégralité des favoris d'un utilisateur

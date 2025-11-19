@@ -74,6 +74,9 @@ class IngredientUtilisateurService(metaclass=Singleton):
             id_ingredient
         )
 
+    def supprimer_tous(self, utilisateur: Utilisateur):
+        return IngredientUtilisateurDao().supprimer_tous(utilisateur.id)
+
     def liste_tous_ingredients_utilisateur(
         self,
         utilisateur: Utilisateur

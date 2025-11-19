@@ -58,14 +58,6 @@ class UtilisateurService:
 
     @staticmethod
     @log
-    def se_connecter(nom_utilisateur: str, mot_de_passe: str) -> Utilisateur:
-        """Se connecter à partir de nom_utilisateur et mot_de_passe"""
-        return UtilisateurDao().se_connecter(
-            nom_utilisateur, hash_password(mot_de_passe, nom_utilisateur)
-        )
-
-    @staticmethod
-    @log
     def nom_utilisateur_deja_utilise(nom_utilisateur: str) -> bool:
         """Vérifie si le nom_utilisateur est déjà utilisé
         Retourne True si le nom_utilisateur existe déjà en BDD"""
