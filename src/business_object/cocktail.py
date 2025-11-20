@@ -2,27 +2,28 @@ class Cocktail():
     """
     Liste de cocktails
 
-    Paramètres 
+    Paramètres
     ----------
-    id : int 
+    id : int
         id d'un cocktail
-    nom : str 
+    nom : str
         nom usuel d'un cocktail
-    nom_alt : str 
+    nom_alt : str
         potentiel autre nom donné à un cocktail
     tags : str
         Les tags attribués au cocktail
-    categorie : str 
+    categorie : str
         catégorie du cocktail
-    iba : str 
-        type de cocktail considéré par l'IBA (the International Bartender Association)
+    iba : str
+        type de cocktail considéré par l'IBA
+        (the International Bartender Association)
     alcolise : bool
-        booléen indiquant si le cocktail contient de l'alcool 
-    verre : str 
+        booléen indiquant si le cocktail contient de l'alcool
+    verre : str
         type de verre utilisé pour faire le cocktail
     instructions : str
         instructions pour réaliser le cocktail
-    url_image : str 
+    url_image : str
         potentielle image d'illustration du cocktail
     """
 
@@ -46,7 +47,7 @@ class Cocktail():
         self.categorie = categorie
         self.iba = iba
         self.alcolise = alcolise
-        self.verre = verre 
+        self.verre = verre
         self.instructions = instructions
         self.url_image = url_image
 
