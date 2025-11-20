@@ -51,7 +51,7 @@ class UtilisateurDao(metaclass=Singleton):
 
     @log
     def trouver_par_id(self, id_utilisateur) -> Utilisateur:
-        """Trouver un utilisateur grâce à son id
+        """Trouver un utilisateur grâce à son identifiant.
 
         Parameters
         ----------
