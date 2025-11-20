@@ -46,7 +46,7 @@ class IngredientService(metaclass=Singleton):
         Ingredient
             Ingrédient ajouté.
         """
-        nouvel_ingredient = Ingredient(
+        nouvel_ing = Ingredient(
             id=id,
             nom=nom,
             desc=desc,
@@ -54,8 +54,23 @@ class IngredientService(metaclass=Singleton):
             alcoolise=alcoolise,
             abv=abv
         )
-        if IngredientDao().ajouter(nouvel_ingredient):
-            return nouvel_ingredient
+        id_nouvel_ing = IngredientDao().ajouter(nouvel_ing.nom,
+                            nouvel_ing.desc,
+                            nouvel_ing.type_ing,
+                            nouvel_ing.alcoolise,
+                            nouvel_ing.abv)
+        print("id_nouvel_ing", id_nouvel_ing)
+        if id_nouvel_ing:
+
+            filtre = FiltreIngredient(id = id_nouvel_ing)
+            recherche = RechercheService().recherche_ingredient(filtre)
+            print("filtre:", filtre)
+            print("recherche:", recherche[0])
+            if recherche:
+                return recherche[0]
+            else:
+                raise ValueError("Recherche vide")
+
         else:
             return None
 

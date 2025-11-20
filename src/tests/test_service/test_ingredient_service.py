@@ -17,28 +17,22 @@ def test_ajout_ingredient_ok():
     """
 
     # GIVEN
-    id, nom, desc, type_ing, alcoolise, abv = 88, "nom", "desc", "type_ing", False, 0
-    ingredient = Ingredient(
-        id,
-        nom,
-        desc,
-        type_ing,
-        alcoolise,
-        abv
-    )
-    IngredientDao.ajouter = MagicMock(return_value=ingredient)
+    rose = RechercheService().recherche_ingredient(FiltreIngredient(id=615))[0]
+    IngredientDao.ajouter = MagicMock(return_value=rose.id)
 
     # WHEN
     nouvel_ingredient = IngredientService().ajout_ingredient(
-        nom,
-        desc,
-        type_ing,
-        alcoolise,
-        abv
+        rose.nom,
+        rose.desc,
+        rose.type_ing,
+        rose.alcoolise,
+        rose.abv
     )
+    filtre = FiltreIngredient(id = rose.id)
+    nouvel_ing = RechercheService().recherche_ingredient(filtre)[0]
 
     # THEN
-    assert nouvel_ingredient.nom == nom
+    assert nouvel_ingredient.nom == rose.nom
 
 
 def test_ajout_ingredient_ko():
@@ -130,7 +124,8 @@ def test_ajout_ingredient_ok_integration():
     """
 
     # GIVEN
-    id, nom, desc, type_ing, alcoolise, abv = 400, "nom", "desc", "type_ing", False, 0
+    id_max = IngredientDao().id_ing_max()
+    id, nom, desc, type_ing, alcoolise, abv = id_max+1, "nom", "desc", "type_ing", False, 0
     ingredient = Ingredient(
         id,
         nom,
@@ -139,19 +134,24 @@ def test_ajout_ingredient_ok_integration():
         alcoolise,
         abv
     )
-    #IngredientDao.ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
-    nouvel_ingredient = IngredientService().ajout_ingredient(
-        nom,
+    
+    id_ing_test = IngredientDao().ajouter(
+        "TOTO",
         desc,
         type_ing,
         alcoolise,
         abv
     )
+    filtre = FiltreIngredient(id = 305)
+    print(filtre)
+    recherche_test = RechercheService().recherche_ingredient(filtre)
+    print(recherche_test)
 
     # THEN
-    assert nouvel_ingredient.nom == nom
+    assert recherche_test != []
+    assert recherche_test[0].nom == 'TOTO'
 
 
 def test_ajout_ingredient_ko():

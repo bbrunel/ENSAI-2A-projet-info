@@ -11,13 +11,15 @@ from utils.reset_database import ResetDatabase
 from utils.securite import hash_password
 
 from dao.ingredient_dao import IngredientDao
+from service.recherche_service import RechercheService
+from business_object.filtre_ingredient import FiltreIngredient
 
 from business_object.ingredient import Ingredient
 
 from dao.db_connection import DBConnection
 
 
-def ajouter_ok():
+def test_ajouter_ok():
     """Création de Joueur réussie"""
 
     # GIVEN
@@ -28,20 +30,23 @@ def ajouter_ok():
     abv = 0
 
     # WHEN
-    ajout = IngredientDao().ajouter(
+    id_ajout = IngredientDao().ajouter(
         nom,
         desc,
         type_ing,
         alcoolise,
         abv
     )
+    filtre = FiltreIngredient(id = id_ajout)
+    ing_ajoute = RechercheService().recherche_ingredient(filtre)[0]
 
     # THEN
-    assert isinstance(ajout, Ingredient)
-    assert ajout.nom == "Potion magique"
+    assert isinstance(id_ajout, int)
+    assert ing_ajoute.nom == "Potion magique"
+    assert False
 
 
-def ajouter_ko():
+def test_ajouter_ko():
     """Création de l'ingrédient échouée (age et mail incorrects)"""
 
     # GIVEN
@@ -64,7 +69,7 @@ def ajouter_ko():
     assert ajout is None
 
 
-def supprimer_ok():
+def test_supprimer_ok():
     """Suppression de l'ingrédient réussie."""
 
     # GIVEN
@@ -79,7 +84,7 @@ def supprimer_ok():
     assert suppression
 
 
-def supprimer_ko():
+def test_supprimer_ko():
     """Suppression de l'ingrédient échouée (id inconnu)."""
 
     # GIVEN

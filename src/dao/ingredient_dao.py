@@ -14,7 +14,7 @@ class IngredientDao(metaclass=Singleton):
 
     """
 
-    @log
+    #@log
     def ajouter(
         self,
         nom: str,
@@ -40,8 +40,8 @@ class IngredientDao(metaclass=Singleton):
 
         Returns
         -------
-        Ingredient
-            L'ingrédient créé.
+        id_ingredient: int
+            L'id de l'ingrédient créé.
         """
 
         res = None
@@ -49,9 +49,10 @@ class IngredientDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    cursor.execute(
+                    query = (
                         """
                         INSERT INTO ingredients(
+                            id_ingredient,
                             ingredient_name,
                             ingredient_type,
                             description,
@@ -59,6 +60,7 @@ class IngredientDao(metaclass=Singleton):
                             abv
                         )
                         VALUES (
+                            (SELECT MAX(id_ingredient) + 1 FROM ingredients),
                             %(nom)s,
                             %(desc)s,
                             %(type)s,
@@ -66,19 +68,23 @@ class IngredientDao(metaclass=Singleton):
                             %(abv)s
                         )
                           RETURNING id_ingredient ;
-                        """,
-                        {
-                            "nom": nom,
-                            "desc": desc,
-                            "type": type_ing,
-                            "alcoolise": alcoolise,
-                            "abv": abv
-                        },
-                    )
+                        """)
+                    params = {"nom" : nom,
+                    "desc" : desc,
+                    "type" : type_ing,
+                    "alcoolise" : alcoolise,
+                    "abv" : abv
+                    }
+                    cursor.execute(query, params)
+                    
                     res = cursor.fetchone()
-                    res = res["id_ingredient"]
+                    
         except Exception as e:
             logging.info(e)
+        
+        if res:
+            res = res["id_ingredient"]
+            print("res:", res)
 
         return res
 
@@ -116,3 +122,18 @@ class IngredientDao(metaclass=Singleton):
             raise
 
         return res > 0
+
+    def id_ing_max(self):
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    query = ("""SELECT MAX(id_ingredient) FROM ingredients""")
+                    cursor.execute(query)
+                    
+                    res = cursor.fetchone()
+                    
+        except Exception as e:
+            logging.info(e)
+        return res['max']
