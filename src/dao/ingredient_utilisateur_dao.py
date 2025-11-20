@@ -10,7 +10,7 @@ from utils.singleton import Singleton
 
 class IngredientUtilisateurDao(metaclass=Singleton):
     @log
-    def ajouter(self, id_utilisateur, id_ingredient) -> Ingredient:
+    def ajouter(self, id_utilisateur: int, id_ingredient: int) -> Ingredient:
         """Creation d'un ingredient dans le bar personnel.
 
         Parameters
@@ -44,7 +44,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         return res
 
     @log
-    def supprimer(self, id_utilisateur, id_ingredient) -> bool:
+    def supprimer(self, id_utilisateur: int, id_ingredient: int) -> bool:
         """Suppression d'un ingrédient dans le bar personnel.
 
         Parameters
@@ -82,7 +82,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         return res > 0
 
     @log
-    def supprimer_tous(self, id_utilisateur) -> bool:
+    def supprimer_tous(self, id_utilisateur: int) -> bool:
         """Suppression de tous les ingrédients dans le bar personnel.
 
         Parameters
@@ -116,7 +116,7 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         return res > 0
 
     @log
-    def lister_tous(self, id_utilisateur) -> list[Ingredient]:  # SQL vérifié
+    def lister_tous(self, id_utilisateur: int) -> list[Ingredient]:  # SQL vérifié
         """Lister tous les ingredients du bar personnel de l'utilisateur.
 
         Parameters

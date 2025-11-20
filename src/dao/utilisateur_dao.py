@@ -10,7 +10,7 @@ class UtilisateurDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux Utilisateurs de la base de données"""
 
     @log
-    def creer(self, utilisateur) -> bool:
+    def creer(self, utilisateur: Utilisateur) -> Utilisateur | None:
         """Création d'un utilisateur dans la base de données
 
         Parameters
@@ -36,9 +36,10 @@ class UtilisateurDao(metaclass=Singleton):
                         {
                             "username": utilisateur.nom_utilisateur,
                             "hashed_password": utilisateur.mdp,
-                            "is_admin": utilisateur.admin,
+                            "admin": utilisateur.admin,
                         },
                     )
+                    print("test")
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
@@ -183,14 +184,16 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE users                          "
-                        "SET username = %(username)s,          "
-                        "    hashed_password = %(hashed_password)s "
-                        "WHERE id_user = %(id_user)s;          ",
+                        "UPDATE users                               "
+                        "SET username = %(username)s,               "
+                        "    hashed_password = %(hashed_password)s, "
+                        "    is_admin = %(admin)s                   "
+                        "WHERE id_user = %(id_user)s;               ",
                         {
                             "username": utilisateur.nom_utilisateur,
                             "hashed_password": utilisateur.mdp,
                             "id_user": utilisateur.id,
+                            "admin": utilisateur.admin,
                         },
                     )
                     res = cursor.rowcount

@@ -4,6 +4,7 @@ from dao.cocktail_dao import CocktailDAO
 from service.recherche_service import RechercheService
 from business_object.filtre_cocktail import FiltreCocktail
 
+
 class CocktailService:
     """
     Classe service pour les cocktails
@@ -33,12 +34,12 @@ class CocktailService:
         cocktail = RechercheService().recherche_cocktail(filtre)
         if cocktail is None:
             raise ValueError("Pas de cocktail correspondant à cet id.")
-            
+
         return cocktail
 
     def ingredient_cocktail(self, id_cocktail: int) -> list[Ingredient]:
         """
-        liste des ingrédients composant un cocktail demandé
+        Liste des ingrédients composant un cocktail demandé.
 
         Paramètres
         ----------
@@ -65,7 +66,6 @@ class CocktailService:
         Paramètres
         ----------
 
-
         Retour
         ----------
         Renvoie le cocktail dont on vérifie la présence
@@ -73,11 +73,10 @@ class CocktailService:
         list_cocktails = CocktailDAO().list_ts_cocktails()
         if list_cocktails is None:
             raise ValueError("Pas de cocktail.")
-            
+
         return list_cocktails
 
     def nb_cocktails(self) -> int:
         """
-        
         """
         return CocktailDAO().nb_cocktails()
