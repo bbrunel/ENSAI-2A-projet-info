@@ -35,8 +35,10 @@ class IngredientUtilisateurService(metaclass=Singleton):
 
         Return
         ------
-        Ingredient
-            L'ingrédient ajouté.
+        Int
+            L'id de l'ingrédient ajouté.
+        None
+            Si l'ingrédient n'est pas ajouté.
         """
         id_utilisateur = utilisateur.id
         id_ingredient = ingredient.id
@@ -75,6 +77,17 @@ class IngredientUtilisateurService(metaclass=Singleton):
         )
 
     def supprimer_tous(self, utilisateur: Utilisateur):
+        """Supprime de tous les ingrédients dans le bar personnel.
+
+        Parameters
+        ----------
+        Utilisateur : int
+            Utilisateur qui supprime un ingrédient de son bar personnel.
+
+        Returns
+        -------
+            True si l'ingredient a bien été supprimé.
+        """
         return IngredientUtilisateurDao().supprimer_tous(utilisateur.id)
 
     def liste_tous_ingredients_utilisateur(
