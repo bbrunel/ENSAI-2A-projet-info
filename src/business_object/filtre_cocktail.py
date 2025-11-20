@@ -7,7 +7,7 @@ class FiltreCocktail(BaseModel):
     id: int = None
     nom: str = None
     alcoolise: bool = None
-    tags: list[str] = None
+    # tags: list[str] = None
     iba: Literal["new era drinks", "unforgettables", "contemporary classics"] | None = None
     categorie: (
         Literal[
@@ -64,5 +64,5 @@ class FiltreCocktail(BaseModel):
 
     def voir_filtre(self):
         """Permet de voir les filtres appliqués sur les cocktails"""
-        return f"{self.id}, {self.nom}, {self.alcoolise}, {self.tags}, {self.iba}, \
+        return f"{self.id}, {self.nom}, {self.alcoolise}, {self.iba}, \
 {self.categorie}, {self.verre}"
