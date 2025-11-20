@@ -21,9 +21,21 @@ def supprimer_utilisateur(
     current_admin: Annotated[Utilisateur, Depends(get_current_admin)],
     id_utilisateur: Annotated[int, Query(ge=0)],
 ):
-    utilisateur = UtilisateurService().trouver_par_id(id_utilisateur)
+    utilisateur = UtilisateurService.trouver_par_id(id_utilisateur)
     if utilisateur:
         FavorisService().supprimer_tous(utilisateur.id)
         IngredientUtilisateurService().supprimer_tous(utilisateur)
         return UtilisateurService.supprimer(utilisateur)
     return False
+
+
+@router.put("/ajout_admin", tags=["Administration"])
+def ajout_admin(
+    current_admin: Annotated[Utilisateur, Depends(get_current_admin)],
+    id_utilisateur: Annotated[int, Query(ge=0)],
+):
+    utilisateur = UtilisateurService.trouver_par_id(id_utilisateur)
+    if utilisateur:
+        utilisateur.admin = True
+        return UtilisateurService.modifier(utilisateur)
+    return utilisateur

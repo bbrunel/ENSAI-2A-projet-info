@@ -3,7 +3,6 @@ from tabulate import tabulate
 from business_object.utilisateur import Utilisateur
 from dao.utilisateur_dao import UtilisateurDao
 from utils.log_decorator import log
-from utils.securite import hash_password
 
 
 class UtilisateurService:
@@ -45,9 +44,6 @@ class UtilisateurService:
     @log
     def modifier(utilisateur: Utilisateur) -> Utilisateur:
         """Modification d'un utilisateur"""
-
-        # Re-hacher le mot de passe avec le nom d'utilisateur comme sel
-        utilisateur.mdp = hash_password(utilisateur.mdp, utilisateur.nom_utilisateur)
         return utilisateur if UtilisateurDao().modifier(utilisateur) else None
 
     @staticmethod
