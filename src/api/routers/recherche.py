@@ -4,7 +4,9 @@ from fastapi import APIRouter, Depends, Query
 
 from api.securite import get_current_user
 from business_object.filtre_cocktail import FiltreCocktail
+from business_object.filtre_ingredient import FiltreIngredient
 from business_object.utilisateur import Utilisateur
+from service.cocktail_service import CocktailService
 from service.recherche_service import RechercheService
 
 router = APIRouter()
@@ -34,3 +36,13 @@ def liste_cocktail_quasifaisables(
     nb_manquants: Annotated[int, Query(ge=0)],
 ):
     return recherche_service.liste_cocktails_faisables(current_user, nb_manquants)
+
+
+@router.get("/liste_ingredients_cocktail", tags=["Ingrédients"])
+def liste_ingredients_cocktail(id_cocktail: Annotated[int, Query(ge=0)]):
+    return CocktailService().ingredient_cocktail(id_cocktail)
+
+
+@router.get("/recherche_filtre_ingredient", tags=["Ingrédients"])
+def recherche_ingredient(filtre: Annotated[FiltreIngredient, Query()]):
+    return recherche_service.recherche_ingredient(filtre)

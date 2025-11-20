@@ -3,7 +3,7 @@ import json
 import psycopg2.errors
 
 from dao.db_connection import DBConnection
-from utils.diverse import unaccent
+from utils.diverse import only_alpha_lower, unaccent
 from utils.sql_utils import execute_sql_file
 
 ## Supression des tables
@@ -37,7 +37,7 @@ with open("data/ingredients.json", "r") as f:
                     {
                         "id_ingredient": ing["idIngredient"],
                         "ingredient_name": unaccent(ing["strIngredient"]),
-                        "ingredient_type": ing["strType"],
+                        "ingredient_type": only_alpha_lower(ing["strType"]),
                         "description": ing["strDescription"],
                         "alcoholic": ing["strAlcohol"] == "Yes",
                         "abv": abv,
@@ -60,10 +60,10 @@ with open("data/cocktails.json", "r") as f:
                         {
                             "id_recipe": cocktail["idDrink"],
                             "recipe_name": cocktail["strDrink"],
-                            "category": cocktail["strCategory"],
+                            "category": only_alpha_lower(cocktail["strCategory"]),
                             "alcoholic": cocktail["strAlcoholic"] == "Yes",
-                            "glass_type": cocktail["strGlass"],
-                            "iba_category": cocktail["strIBA"],
+                            "glass_type": only_alpha_lower(cocktail["strGlass"]),
+                            "iba_category": only_alpha_lower(cocktail["strIBA"]),
                             "instruction": cocktail["strInstructions"],
                             "pic_url": cocktail["strDrinkThumb"],
                         },
