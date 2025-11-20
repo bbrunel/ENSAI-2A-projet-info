@@ -26,19 +26,18 @@ class Cocktail():
         potentielle image d'illustration du cocktail
     """
 
-
     def __init__(
         self,
-        id : int,
-        nom : str,
-        nom_alt : str = None,
-        tags : str = None,
-        categorie : str = None,
-        iba : str = None,
-        alcolise : bool = True,
-        verre : str = None,
-        instructions : str = None,
-        url_image : str = None,
+        id: int,
+        nom: str,
+        nom_alt: str = None,
+        tags: str = None,
+        categorie: str = None,
+        iba: str = None,
+        alcolise: bool = True,
+        verre: str = None,
+        instructions: str = None,
+        url_image: str = None,
     ):
         self.id = id
         self.nom = nom
