@@ -12,7 +12,7 @@ gantt
     Suivi 3                      :milestone, 2025-09-12,
     Suivi 4                      :milestone, 2025-10-03,
     Toussaint                    :crit,    2025-10-25, 2025-11-02
-    3j immersion                 :active,    2025-11-04, 3d
+    3j immersion                 :done,    2025-11-04, 3d
     Suivi 7                      :milestone, 2025-11-17
 
     section Dossier d'analyse
@@ -24,13 +24,13 @@ gantt
     
     section Rapport final et code
     Git                          :done,    2025-09-01, 7d
-    Code                         :active,    2025-09-29, 2025-11-22
-    Coder une v0                 :active,    2025-09-29, 15d
-    Gestion base de données      :active,    2025-09-29, 7d
-    Code des classes             :active,    2025-10-07, 2025-11-22
-    Tests unitaires              :active,    2025-10-13, 2025-11-22
-    Endpoints                    :active     2025-11-04, 2025-11-22
-    Rédaction                    :active,    2025-11-04, 2025-11-22
+    Code                         :done,    2025-09-29, 2025-11-22
+    Coder une v0                 :done,    2025-09-29, 15d
+    Gestion base de données      :done,    2025-09-29, 7d
+    Code des classes             :done,    2025-10-07, 2025-11-22
+    Tests unitaires              :done,    2025-10-13, 2025-11-22
+    Endpoints                    :done,    2025-11-04, 2025-11-22
+    Rédaction                    :done,    2025-11-04, 2025-11-22
     Rendu                        :milestone, 2025-11-22,
 
     section Soutenance
