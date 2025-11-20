@@ -66,7 +66,6 @@ class CocktailService:
         Paramètres
         ----------
 
-
         Retour
         ----------
         Renvoie le cocktail dont on vérifie la présence
