@@ -53,6 +53,11 @@ with open("data/cocktails.json", "r") as f:
         for cocktail in cocktails:
             with connection.cursor() as cursor:
                 try:
+                    alcoholic = None
+                    if cocktail["strAlcoholic"] == "Alcoholic":
+                        alcoholic = True
+                    elif cocktail["strAlcoholic"] == "Non alcoholic":
+                        alcoholic = False
                     cursor.execute(
                         "INSERT INTO cocktails(id_recipe,recipe_name,category,alcoholic,glass_type,iba_category,instruction,cocktail_pic_url) VALUES"
                         "(%(id_recipe)s, %(recipe_name)s, %(category)s, %(alcoholic)s, %(glass_type)s, %(iba_category)s, %(instruction)s, %(pic_url)s)"
@@ -61,7 +66,7 @@ with open("data/cocktails.json", "r") as f:
                             "id_recipe": cocktail["idDrink"],
                             "recipe_name": cocktail["strDrink"],
                             "category": only_alpha_lower(cocktail["strCategory"]),
-                            "alcoholic": cocktail["strAlcoholic"] == "Yes",
+                            "alcoholic": alcoholic,
                             "glass_type": only_alpha_lower(cocktail["strGlass"]),
                             "iba_category": only_alpha_lower(cocktail["strIBA"]),
                             "instruction": cocktail["strInstructions"],
