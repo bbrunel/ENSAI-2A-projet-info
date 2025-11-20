@@ -4,14 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from api.securite import (
-    ACCESS_TOKEN_EXPIRE_MINUTES,
-    Token,
-    authenticate_user,
-    create_access_token,
-    get_current_user,
-)
-from business_object.utilisateur import Utilisateur
+from api.securite import ACCESS_TOKEN_EXPIRE_MINUTES, Token, authenticate_user, create_access_token
 
 router = APIRouter()
 
@@ -31,8 +24,3 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     )
 
     return Token(access_token=access_token, token_type="bearer")
-
-
-@router.get("/user/me")
-def user_me(current_user: Annotated[Utilisateur, Depends(get_current_user)]):
-    return current_user

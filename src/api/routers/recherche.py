@@ -14,7 +14,7 @@ router = APIRouter()
 recherche_service = RechercheService()
 
 
-@router.get("/recherche_cocktail", tags=["Cocktails"])
+@router.get("/cocktails/recherche", tags=["Cocktails"], summary="Rechercher des cocktails")
 async def recherche_cocktail(nom_cocktail: Annotated[str, Query()]):
     """Recherche de cocktail"""
     filtre = FiltreCocktail(nom=nom_cocktail)
@@ -22,7 +22,11 @@ async def recherche_cocktail(nom_cocktail: Annotated[str, Query()]):
     return cocktails
 
 
-@router.get("/recherche_filtre_cocktail", tags=["Cocktails"])
+@router.get(
+    "/cocktails/recherche_filtre",
+    tags=["Cocktails"],
+    summary="Rechercher des cocktails (avec filtre)",
+)
 def recherche_filtre_cocktail(
     filtre: Annotated[FiltreCocktail, Query()],
 ):
@@ -30,19 +34,38 @@ def recherche_filtre_cocktail(
     return cocktails
 
 
-@router.get("/liste_faisables", tags=["Cocktails"])
+@router.get(
+    "/cocktails/faisables",
+    tags=["Cocktails"],
+    summary="Lister les cocktails (quasi-)faisables",
+    description=(
+        "Le nombre d'ingrédients supplémentaires fait référence au nombre d'ingrédients"
+        " intervenants dans la conception du cocktail qui ne sont pas dans l'inventaire."
+        " S'il vaut 0 alors le cocktail est faisable avec l'inventaire uniquement"
+    ),
+)
 def liste_cocktail_quasifaisables(
     current_user: Annotated[Utilisateur, Depends(get_current_user)],
-    nb_manquants: Annotated[int, Query(ge=0)],
+    nb_manquants: Annotated[
+        int, Query(ge=0, description="Nombre d'ingrédients supplémentaires")
+    ] = 0,
 ):
     return recherche_service.liste_cocktails_faisables(current_user, nb_manquants)
 
 
-@router.get("/liste_ingredients_cocktail", tags=["Ingrédients"])
+@router.get(
+    "/cocktails/liste_ingredients",
+    tags=["Cocktails"],
+    summary="Lister les ingrédients d'un cocktail",
+)
 def liste_ingredients_cocktail(id_cocktail: Annotated[int, Query(ge=0)]):
     return CocktailService().ingredient_cocktail(id_cocktail)
 
 
-@router.get("/recherche_filtre_ingredient", tags=["Ingrédients"])
+@router.get(
+    "/ingredients/recherche_filtre",
+    tags=["Ingrédients"],
+    summary="Rechercher des ingrédients (avec filtre)",
+)
 def recherche_ingredient(filtre: Annotated[FiltreIngredient, Query()]):
     return recherche_service.recherche_ingredient(filtre)

@@ -11,12 +11,12 @@ from service.utilisateur_service import UtilisateurService
 router = APIRouter()
 
 
-@router.get("/liste_utilisateurs", tags=["Administration"])
+@router.get("/admin/liste_utilisateurs", tags=["Administration"], summary="Lister les utilisateurs")
 def liste_utilisateurs(current_admin: Annotated[Utilisateur, Depends(get_current_admin)]):
     return UtilisateurService.lister_tous(True)
 
 
-@router.delete("/supprimer_utilisateur", tags=["Administration"])
+@router.delete("/admin/banir", tags=["Administration"], summary="Supprimer un utilisateur")
 def supprimer_utilisateur(
     current_admin: Annotated[Utilisateur, Depends(get_current_admin)],
     id_utilisateur: Annotated[int, Query(ge=0)],
@@ -29,7 +29,11 @@ def supprimer_utilisateur(
     return False
 
 
-@router.put("/ajout_admin", tags=["Administration"])
+@router.put(
+    "/admin/ajouter",
+    tags=["Administration"],
+    summary="Accorder les droits d'administrateur à un utilisateur",
+)
 def ajout_admin(
     current_admin: Annotated[Utilisateur, Depends(get_current_admin)],
     id_utilisateur: Annotated[int, Query(ge=0)],
@@ -37,5 +41,21 @@ def ajout_admin(
     utilisateur = UtilisateurService.trouver_par_id(id_utilisateur)
     if utilisateur:
         utilisateur.admin = True
+        return UtilisateurService.modifier(utilisateur)
+    return utilisateur
+
+
+@router.put(
+    "/admin/supprimer",
+    tags=["Administration"],
+    summary="Enlever les droits d'administrateur à un utilisateur",
+)
+def supprimer_admin(
+    current_admin: Annotated[Utilisateur, Depends(get_current_admin)],
+    id_utilisateur: Annotated[int, Query(ge=0)],
+):
+    utilisateur = UtilisateurService.trouver_par_id(id_utilisateur)
+    if utilisateur:
+        utilisateur.admin = False
         return UtilisateurService.modifier(utilisateur)
     return utilisateur
