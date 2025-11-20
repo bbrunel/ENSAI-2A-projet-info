@@ -18,7 +18,7 @@ class Test_ingredient_service_unitaire:
 
         # GIVEN
         rose = RechercheService().recherche_ingredient(FiltreIngredient(id=615))[0]
-        with patch('__main__.IngredientDao.ajouter', return_value=rose.id):
+        with patch('dao.ingredient_dao.IngredientDao.ajouter', return_value=rose.id):
 
             # WHEN
             nouvel_ingredient = IngredientService().ajout_ingredient(
@@ -41,7 +41,7 @@ class Test_ingredient_service_unitaire:
 
         # GIVEN
         nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type_ing", False, 0
-        with patch('__main__.IngredientDao.ajouter', return_value=None):
+        with patch('dao.ingredient_dao.IngredientDao.ajouter', return_value=None):
 
             # WHEN
             nouvel_ingredient = IngredientService().ajout_ingredient(
@@ -62,7 +62,7 @@ class Test_ingredient_service_unitaire:
 
         # GIVEN
         ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
-        with patch('__main__.IngredientDao.supprimer', return_value=True):
+        with patch('dao.ingredient_dao.IngredientDao.supprimer', return_value=True):
 
             # WHEN
             suppression = IngredientService().supprimer_ingredient(
@@ -79,7 +79,7 @@ class Test_ingredient_service_unitaire:
 
         # GIVEN
         ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
-        with patch('__main__.IngredientDao.supprimer', return_value=False):
+        with patch('dao.ingredient_dao.IngredientDao.supprimer', return_value=False):
 
             # WHEN
             suppression = IngredientService().supprimer_ingredient(
@@ -96,7 +96,7 @@ class Test_ingredient_service_unitaire:
         # GIVEN
         id = 513
         ingredient = Ingredient(513, "Eau", "", "boisson", False, 0)
-        with patch('__main__.RechercheService.recherche_ingredient', return_value=[ingredient]):
+        with patch('service.recherche_service.RechercheService.recherche_ingredient', return_value=[ingredient]):
 
             # WHEN
             ingredient_verifie = IngredientService().verifier_ingredient(id)
@@ -110,7 +110,6 @@ class Test_ingredient_service_unitaire:
         
         # GIVEN
         id = 888888888888888
-        #RechercheService.recherche_ingredient = MagicMock(return_value=[])
 
         # THEN
         with pytest.raises(ValueError):
@@ -206,7 +205,7 @@ class Test_ingredient_service_integration:
                 IngredientService().verifier_ingredient(id)
 
 
-    if __name__ == "__main__":
-        import pytest
+if __name__ == "__main__":
+    import pytest
 
-        pytest.main([__file__])
+    pytest.main([__file__])
