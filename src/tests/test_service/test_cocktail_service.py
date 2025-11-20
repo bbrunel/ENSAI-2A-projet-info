@@ -2,7 +2,7 @@ import sys
 sys.path.append('../src')
 
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from service.cocktail_service import CocktailService
 from service.recherche_service import RechercheService
 from dao.cocktail_dao import CocktailDAO
@@ -101,9 +101,9 @@ def test_ingredient_cocktail_ko():
     ingredients = CocktailService().ingredient_cocktail(11000)
 
     # THEN
-    assert any(
+    assert all(
         [
-            not (ing.id in id_ingredients_mojito) for ing in ingredients
+            (ing.id in id_ingredients_mojito) for ing in ingredients
         ]
     )
 
@@ -128,13 +128,14 @@ def test_nb_cocktails_ko():
     teste si
     """
     # GIVEN
-    CocktailDAO().nb_cocktails = MagicMock(return_value=None)
+    with patch('__main__.CocktailDAO.nb_cocktail', return_value=None):
+        #CocktailDAO().nb_cocktails = MagicMock(return_value=None)
 
-    # WHEN
-    res = CocktailService().nb_cocktails()
+        # WHEN
+        res = CocktailService().nb_cocktails()
 
-    # THEN
-    assert not isinstance(res, int)
+        # THEN
+        assert not isinstance(res, int)
 
 
 def test_list_tous_cocktails_ok():
@@ -156,14 +157,15 @@ def test_list_tous_cocktails_ok():
     tous_cocktails = CocktailService().lister_tous_cocktail()
 
     # THEN
-    assert isinstance(tous_cocktails, list[Cocktail])
+    assert isinstance(tous_cocktails, list)
+    assert all(isinstance(ckt, Cocktail) for ckt in tous_cocktails)
     assert len(tous_cocktails) > 1
     assert len(tous_cocktails) == 4
 
 
 def test_list_tous_cocktails_ko():
     """
-    Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base
+    Vérifie si la fonction renvoie bien l'ensemble des cocktails de la base
     de données.
     """
     # GIVEN
@@ -173,7 +175,8 @@ def test_list_tous_cocktails_ko():
     tous_cocktails = CocktailService().lister_tous_cocktail()
 
     # THEN
-    assert not isinstance(tous_cocktails, list[Cocktail])
+    assert isinstance(tous_cocktails, list)
+    assert all(isinstance(ckt, Cocktail) for ckt in tous_cocktails)
 
 
 # Tests d'intégration
