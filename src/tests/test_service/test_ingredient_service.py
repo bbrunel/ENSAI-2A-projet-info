@@ -1,13 +1,16 @@
 import sys
 sys.path.append('../src')
-
+import pytest
 from unittest.mock import MagicMock
 
 from business_object.ingredient import Ingredient
+from business_object.filtre_ingredient import FiltreIngredient
 from dao.ingredient_dao import IngredientDao
 from service.ingredient_service import IngredientService
 from service.recherche_service import RechercheService
 
+
+##TESTS UNITAIRES
 
 def test_ajout_ingredient_ok():
     """Ajout de l'ingredient réussi.
@@ -23,7 +26,7 @@ def test_ajout_ingredient_ok():
         alcoolise,
         abv
     )
-    IngredientDao().ajouter = MagicMock(return_value=ingredient)
+    IngredientDao.ajouter = MagicMock(return_value=ingredient)
 
     # WHEN
     nouvel_ingredient = IngredientService().ajout_ingredient(
@@ -44,7 +47,7 @@ def test_ajout_ingredient_ko():
 
     # GIVEN
     nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type_ing", False, 0
-    IngredientDao().ajouter = MagicMock(return_value=None)
+    IngredientDao.ajouter = MagicMock(return_value=None)
 
     # WHEN
     nouvel_ingredient = IngredientService().ajout_ingredient(
@@ -65,7 +68,7 @@ def test_supprimer_ingredient_ok():
 
     # GIVEN
     ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
-    IngredientDao().supprimer = MagicMock(return_value=True)
+    IngredientDao.supprimer = MagicMock(return_value=True)
 
     # WHEN
     suppression = IngredientService().supprimer_ingredient(
@@ -82,7 +85,7 @@ def test_supprimer_ingredient_ko():
 
     # GIVEN
     ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
-    IngredientDao().supprimer = MagicMock(return_value=False)
+    IngredientDao.supprimer = MagicMock(return_value=False)
 
     # WHEN
     suppression = IngredientService().supprimer_ingredient(
@@ -98,8 +101,8 @@ def test_verifier_ingredient_true():
 
     # GIVEN
     id = 513
-    ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
-    RechercheService().recherche_ingredient = MagicMock(return_value=[ingredient])
+    ingredient = Ingredient(513, "Eau", "", "boisson", False, 0)
+    RechercheService.recherche_ingredient = MagicMock(return_value=[ingredient])
 
     # WHEN
     ingredient_verifie = IngredientService().verifier_ingredient(id)
@@ -113,14 +116,124 @@ def test_verifier_ingredient_false():
 
     # GIVEN
     id = 888888888888888
-
-    # WHEN
-    RechercheService().recherche_ingredient = MagicMock(return_value=None)
-    res = IngredientService().verifier_ingredient(id)
+    RechercheService.recherche_ingredient = MagicMock(return_value=[])
 
     # THEN
-    assert pytest.raises(ValueError)
-    # CocktailService().verifier_cocktail(filtre)
+    with pytest.raises(ValueError):
+            IngredientService().verifier_ingredient(id)
+
+
+##TESTS D'INTEGRATION
+
+def test_ajout_ingredient_ok_integration():
+    """Ajout de l'ingredient réussi dans la base de données.
+    """
+
+    # GIVEN
+    id, nom, desc, type_ing, alcoolise, abv = 400, "nom", "desc", "type_ing", False, 0
+    ingredient = Ingredient(
+        id,
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
+        abv
+    )
+    #IngredientDao.ajouter = MagicMock(return_value=ingredient)
+
+    # WHEN
+    nouvel_ingredient = IngredientService().ajout_ingredient(
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
+        abv
+    )
+
+    # THEN
+    assert nouvel_ingredient.nom == nom
+
+
+def test_ajout_ingredient_ko():
+    """Ajout de l'ingrédient échoué.
+    """
+
+    # GIVEN
+    nom, desc, type_ing, alcoolise, abv = "nom", "desc", "type_ing", False, 0
+    IngredientDao.ajouter = MagicMock(return_value=None)
+
+    # WHEN
+    nouvel_ingredient = IngredientService().ajout_ingredient(
+        nom,
+        desc,
+        type_ing,
+        alcoolise,
+        abv
+    )
+
+    # THEN
+    assert nouvel_ingredient is None
+
+
+def test_supprimer_ingredient_ok():
+    """Suppression de l'ingrédient réussie.
+    """
+
+    # GIVEN
+    ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
+    IngredientDao.supprimer = MagicMock(return_value=True)
+
+    # WHEN
+    suppression = IngredientService().supprimer_ingredient(
+        ingredient
+    )
+
+    # THEN
+    assert suppression
+
+
+def test_supprimer_ingredient_ko():
+    """Suppression de l'ingrédient échouée.
+    """
+
+    # GIVEN
+    ingredient = Ingredient(513, "eau", "", "boisson", False, 0)
+    IngredientDao.supprimer = MagicMock(return_value=False)
+
+    # WHEN
+    suppression = IngredientService().supprimer_ingredient(
+        ingredient
+    )
+
+    # THEN
+    assert not suppression
+
+
+def test_verifier_ingredient_true():
+    """Vérification de l'existence de l'ingrédient réussie."""
+
+    # GIVEN
+    id = 513
+    ingredient = Ingredient(513, "Eau", "", "boisson", False, 0)
+    RechercheService.recherche_ingredient = MagicMock(return_value=[ingredient])
+
+    # WHEN
+    ingredient_verifie = IngredientService().verifier_ingredient(id)
+
+    # THEN
+    assert ingredient_verifie == ingredient
+
+
+def test_verifier_ingredient_false():
+    """Vérification de l'ingrédient échouée."""
+
+    # GIVEN
+    id = 888888888888888
+    RechercheService.recherche_ingredient = MagicMock(return_value=[])
+
+    # THEN
+    with pytest.raises(ValueError):
+            IngredientService().verifier_ingredient(id)
 
 
 if __name__ == "__main__":

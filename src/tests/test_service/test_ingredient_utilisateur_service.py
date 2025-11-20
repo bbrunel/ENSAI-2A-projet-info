@@ -28,7 +28,7 @@ def test_ajout_ingredient_utilisateur_ok():
 
     # WHEN
     ajout = IngredientUtilisateurService().ajout_ingredient_utilisateur(
-        utilisateur, 
+        utilisateur,
         ingredient
     )
 
@@ -46,7 +46,7 @@ def test_ajout_ingredient_utilisateur_ko():
 
     # WHEN
     ajout = IngredientUtilisateurService().ajout_ingredient_utilisateur(
-        utilisateur, 
+        utilisateur,
         ingredient
     )
 
