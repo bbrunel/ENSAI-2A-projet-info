@@ -11,16 +11,37 @@ class UtilisateurService:
     @staticmethod
     @log
     def creer(nom_utilisateur: str, hash_mdp: str):
-        """Création d'un utilisateur à partir de ses attributs"""
+        """Création d'un utilisateur à partir de ses attributs
+
+        Parameters
+        ----------
+        nom_utilisateur : str
+        hash_mdp : str
+
+        Returns
+        -------
+        bool
+            True si la création est un succès.
+        """
         nouvel_utilisateur = Utilisateur(None, nom_utilisateur, hash_mdp)
         return UtilisateurDao().creer(nouvel_utilisateur)
 
     @staticmethod
     @log
     def lister_tous(inclure_mdp: bool = False) -> list[Utilisateur]:
-        """Lister tous les utilisateurs
+        """Liste tous les utilisateurs.
+
         Si inclure_mdp=True, les mots de passe seront inclus
         Par défaut, tous les mdp des utilisateurs sont à None
+
+        Parameters
+        ----------
+        inclure_mdp : bool
+
+        Returns
+        -------
+        list[Utilisateur]
+            Liste des utilisateurs.
         """
         utilisateurs = UtilisateurDao().lister_tous()
         if not inclure_mdp:
@@ -31,40 +52,100 @@ class UtilisateurService:
     @staticmethod
     @log
     def trouver_par_id(id_utilisateur: int) -> Utilisateur:
-        """Trouver un utilisateur à partir de son id"""
+        """Trouver un utilisateur à partir de son id
+
+        Parameters
+        ----------
+        id_utilisateur : int
+            Identifiant de l'utilisateur à retrouver.
+
+        Returns
+        -------
+        Utilisateur
+            Utilisateur retrouvé à partir de l'identifiant.
+        """
         return UtilisateurDao().trouver_par_id(id_utilisateur)
 
     @staticmethod
     @log
     def trouver_par_nom(nom_utilisateur: str) -> Utilisateur:
-        """Trouver un utilisateur à partir de son nom"""
+        """Trouve un utilisateur à partir de son nom.
+
+        Parameters
+        ----------
+        nom_utilisateur : str
+            Nom de l'utilisateur à retrouver.
+
+        Returns
+        -------
+        Utilisateur
+            Utilisateur trouvé à partir du nom.
+        """
         return UtilisateurDao().trouver_par_nom(nom_utilisateur)
 
     @staticmethod
     @log
     def modifier(utilisateur: Utilisateur) -> Utilisateur:
-        """Modification d'un utilisateur"""
+        """Modification d'un utilisateur
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        
+        """
         return utilisateur if UtilisateurDao().modifier(utilisateur) else None
 
     @staticmethod
     @log
     def supprimer(utilisateur: Utilisateur) -> bool:
-        """Supprimer le compte d'un utilisateur"""
+        """Supprime le compte d'un utilisateur.
+
+        Parameters
+        ----------
+        utilisateur : Utilisateur
+            Utilisateur dont on veut supprimer le compte.
+
+        Returns
+        -------
+        bool
+            True si le compte a bien été supprimé.        
+        """
         return UtilisateurDao().supprimer(utilisateur)
 
     @staticmethod
     @log
     def nom_utilisateur_deja_utilise(nom_utilisateur: str) -> bool:
-        """Vérifie si le nom_utilisateur est déjà utilisé
-        Retourne True si le nom_utilisateur existe déjà en BDD"""
+        """Vérifie si le nom_utilisateur est déjà utilisé.
+
+        Parameters
+        ----------
+        nom_utilisateur : str
+            Nom de l'utilisateur à vérifier.
+
+        Returns
+        -------
+        bool
+            True si le nom de l'utilisateur existe déjà dans
+            la base de données.
+        """
         utilisateurs = UtilisateurDao().lister_tous()
         return nom_utilisateur in [u.nom_utilisateur for u in utilisateurs]
 
     @staticmethod
     @log
     def afficher_tous() -> str:
-        """Afficher tous les utilisateurs
-        Sortie : Une chaine de caractères mise sous forme de tableau
+        """Afficher tous les utilisateurs.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        str
+            Chaîne de caractères mise sous forme de tableau.
         """
         entetes = ["ID", "Nom d'utilisateur"]
 

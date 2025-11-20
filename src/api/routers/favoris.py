@@ -10,7 +10,7 @@ router = APIRouter()
 favoris_service = FavorisService()
 
 
-@router.post("/ajout_favori", tags=["Favoris"])
+@router.put("/favoris/ajouter", tags=["Favoris"], summary="Ajouter un cocktail aux favoris")
 def ajout_favori(
     current_user: Annotated[Utilisateur, Depends(get_current_user)],
     id_cocktail: Annotated[int, Query()],
@@ -19,13 +19,13 @@ def ajout_favori(
     return cocktail
 
 
-@router.get("/liste_favoris", tags=["Favoris"])
+@router.get("/favoris/liste", tags=["Favoris"], summary="Lister les favoris")
 def liste_favoris(current_user: Annotated[Utilisateur, Depends(get_current_user)]):
     favs = favoris_service.list_all_fav_cocktails(current_user.id)
     return favs
 
 
-@router.delete("/supprimer_favori", tags=["Favoris"])
+@router.delete("/favoris/supprimer", tags=["Favoris"], summary="Supprimer un cocktail des favoris")
 def supprimer_favori(
     current_user: Annotated[Utilisateur, Depends(get_current_user)],
     id_cocktail: Annotated[int, Query()],

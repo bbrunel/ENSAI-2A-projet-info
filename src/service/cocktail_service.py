@@ -78,5 +78,10 @@ class CocktailService:
 
     def nb_cocktails(self) -> int:
         """
+        Renvoie le nombre de cocktails stockés dans la base de données.
+
+        Return
+        ----------
+            int
         """
         return CocktailDAO().nb_cocktails()

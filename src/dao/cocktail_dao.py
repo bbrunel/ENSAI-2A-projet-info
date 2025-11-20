@@ -63,6 +63,8 @@ class CocktailDAO:
     
 
     def nb_cocktails(self) -> int:
+        res = None
+
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -74,8 +76,11 @@ class CocktailDAO:
 
         except Exception as e:
             logging.info(e)
-            raise
-        return res['count']
+
+        if res:
+            res = res['count']
+
+        return res
 
     def list_ts_cocktails(self) -> list[Cocktail]:
         """
