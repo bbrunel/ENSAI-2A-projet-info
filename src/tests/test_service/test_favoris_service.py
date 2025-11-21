@@ -8,6 +8,7 @@ from service.cocktail_service import CocktailService, CocktailDAO, Cocktail, Ing
 from service.recherche_service import RechercheService, FiltreCocktail, FiltreIngredient
 from service.favoris_service import FavorisService, FavorisDAO, Favori
 
+#Tests unitaires
 
 class Test_favoris_service_unitaires:
     """
@@ -181,6 +182,7 @@ class Test_favoris_service_unitaires:
         assert res[0].nom == "Mojito"
 
 
+#Tests d'intégration
 class Test_favoris_service_integration:
     """
     Tests d'intégration pour la classe FavorisService
