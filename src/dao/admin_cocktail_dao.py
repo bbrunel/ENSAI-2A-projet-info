@@ -96,12 +96,19 @@ class AdminCocktailDAO:
         -------
         True si le cocktail a bien été supprimé de la base de données 
         """
-
+        
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM cocktail                   "
+                        "DELETE"
+                        "    FROM favorites"
+                        "    WHERE id_recipe=%(id_recipe)s;"
+                        "DELETE"
+                        "    FROM composition"
+                        "    WHERE id_recipe=%(id_recipe)s;"
+                        "DELETE "
+                        "    FROM cocktails                   "
                         " WHERE id_recipe = %(id_recipe)s;      ",
                         {
                             "id_recipe": id_cocktail},

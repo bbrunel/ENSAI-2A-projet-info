@@ -1,9 +1,9 @@
-from src.business_object.cocktail import Cocktail
+from business_object.cocktail import Cocktail
 
-from src.dao.admin_cocktail_dao import AdminCocktailDAO
+from dao.admin_cocktail_dao import AdminCocktailDAO
 
-from src.service.cocktail_service import CocktailService
-from src.service.recherche_service import RechercheService, FiltreCocktail
+from service.cocktail_service import CocktailService
+from service.recherche_service import RechercheService, FiltreCocktail
 
 
 class AdminCocktailService:
@@ -56,9 +56,9 @@ class AdminCocktailService:
         """
         if not isinstance(nom, str):
             raise TypeError("Le nom doit être un string.")
-        if not isinstance(tags, list):
+        if not isinstance(tags, list) and tags is not None:
             raise TypeError("Les tags doivent être une liste de strings.")
-        if not all(isinstance(t, str) for t in tags):
+        if tags is not None and not all(isinstance(t, str) for t in tags):
             raise TypeError("Les tags doivent être des strings.")
         if not isinstance(categorie, str):
             raise TypeError("La catégorie doit être un string.")
@@ -110,5 +110,5 @@ class AdminCocktailService:
             raise ValueError("Aucun cocktail ne possède cette id")
         suppression = AdminCocktailDAO().suppr_ckt(id_cocktail)
         if not suppression:
-            raise ValueError("Aucun cocktail ne possèède cette id")
+            raise ValueError("Aucun cocktail possédant cette id n'a été supprimé")
         return  suppression
