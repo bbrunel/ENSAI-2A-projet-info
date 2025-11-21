@@ -125,9 +125,7 @@ class RechercheService:
             ing_choisis.append(meilleur)
 
         return {
-            "Nombre de cocktails supplémentaires": (
-                nb_cocktails,
-                RechercheDao().nb_cocktail_faisables(ing_possedes),
-            ),
+            "Nombre de cocktails supplémentaires": nb_cocktails
+            - RechercheDao().nb_cocktail_faisables(ing_possedes),
             "Liste de course": [IngredientService().verifier_ingredient(id) for id in ing_choisis],
         }
