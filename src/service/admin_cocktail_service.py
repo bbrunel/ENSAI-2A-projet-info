@@ -1,7 +1,9 @@
 from src.business_object.cocktail import Cocktail
+
 from src.dao.admin_cocktail_dao import AdminCocktailDAO
+
 from src.service.cocktail_service import CocktailService
-from src.service.recherche_service import RechercheService
+from src.service.recherche_service import RechercheService, FiltreCocktail
 
 
 class AdminCocktailService:
@@ -30,56 +32,62 @@ class AdminCocktailService:
 
         Paramètres
         ----------
-        nom : str 
-            nom usuel d'un cocktail
-        tags : str
-            Les tags attribués au cocktail
-        categorie : str 
-            catégorie du cocktail
-        iba : str 
-            type de cocktail considéré par l'IBA(the International Bartender Association)
-        alcolise : bool
-            booléen indiquant si le cocktail contient de l'alcool 
-        verre : str 
-            type de verre utilisé pour faire le cocktail
-        instructions : str
-            instructions pour réaliser le cocktail
-        url_image : str 
-            potentielle image d'illustration du cocktail
+            nom : str 
+                nom usuel d'un cocktail
+            tags : str
+                Les tags attribués au cocktail
+            categorie : str 
+                catégorie du cocktail
+            iba : str 
+                type de cocktail considéré par l'IBA(the International Bartender Association)
+            alcolise : bool
+                booléen indiquant si le cocktail contient de l'alcool 
+            verre : str 
+                type de verre utilisé pour faire le cocktail
+            instructions : str
+                instructions pour réaliser le cocktail
+            url_image : str 
+                potentielle image d'illustration du cocktail
 
         Retour
         ----------
-        ajout_reussi : int
-            l'id du cocktail ajouté
+            ajout_reussi : int
+                l'id du cocktail ajouté
         """
-        if nom is not str:
+        if not isinstance(nom, str):
             raise TypeError("Le nom doit être un string.")
-        if tags is not list[str]:
+        if not isinstance(tags, list):
+            raise TypeError("Les tags doivent être une liste de strings.")
+        if not all(isinstance(t, str) for t in tags):
             raise TypeError("Les tags doivent être des strings.")
-        if categorie is not str:
+        if not isinstance(categorie, str):
             raise TypeError("La catégorie doit être un string.")
-        if iba is not str:
+        if not isinstance(iba, str):
             raise TypeError("Iba doit être un string.")
-        if alcolise is not bool:
+        if not isinstance(alcolise, bool):
             raise TypeError("Alcolisé doit être un booléen.")
-        if verre is not str:
+        if not isinstance(verre, str):
             raise TypeError("Le verre doit être un string.")
-        if instructions is not str:
+        if not isinstance(instructions, str):
             raise TypeError("Les instructions doivent être sous forme de string.")
         if url_image is not None:
-            if url_image is not str:
+            if not isinstance(url_image, str):
                 raise TypeError("Le lien URL doit être un string.")
+        
         verif_pas_deja_existant = RechercheService().recherche_cocktail(
-            nom=nom, alcoolise=alcolise, categorie=categorie, 
-            iba=iba, verre=verre, tags=tags
+            FiltreCocktail(nom=nom, alcoolise=alcolise, categorie=categorie, 
+            iba=iba, verre=verre, tags=tags)
         )
-        if verif_pas_deja_existant is not None:
+        if verif_pas_deja_existant != []:
             raise ValueError("Ce cocktail existe déjà.")
+
         ajout_reussi = AdminCocktailDAO().ajouter_ckt(
             nom, tags, categorie, iba, alcolise, verre, instructions, url_image
         )
-        if ajout_reussi is not int:
+        print(ajout_reussi)
+        if not isinstance(ajout_reussi, int):
             raise ValueError("Il y a eu un problème dans la création de ce nouvau cocktail.")
+
         return ajout_reussi
 
     def supprimer_cocktail(self, id_cocktail) -> Cocktail:
@@ -95,12 +103,12 @@ class AdminCocktailService:
         ----------
         Renvoie le cocktail supprimé
         """
-        if id_cocktail is not int:
+        if not isinstance(id_cocktail, int):
             raise TypeError("id indiquée non conforme au format")
         item = CocktailService().verifier_cocktail(id_cocktail)
         if item is None:
             raise ValueError("Aucun cocktail ne possède cette id")
         suppression = AdminCocktailDAO().suppr_ckt(id_cocktail)
-        if suppression is False:
+        if not suppression:
             raise ValueError("Aucun cocktail ne possèède cette id")
         return  suppression

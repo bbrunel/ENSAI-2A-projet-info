@@ -51,16 +51,15 @@ class AdminCocktailDAO:
             l'id du cocktail créé
         """
 
-        res = None
-
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO cocktails(recipe_name, category, alcoholic,    "
+                        "INSERT INTO cocktails(id_recipe, recipe_name, category, alcoholic,    "
                         "glass_type, instruction,                                   "
                         "iba_category,cocktail_pic_url) VALUES                      "
-                        "(%(recipe_name)s, %(category)s, %(alcoholic)s,             "
+                        "((SELECT MAX(id_recipe) + 1 FROM cocktails),"
+                        "%(recipe_name)s, %(category)s, %(alcoholic)s,             "
                         " %(glass_type)s,%(instruction)s,                           "
                         " %(iba_category)s, %(cocktail_pic_url)s)                   "
                         "RETURNING id_recipe;                                       ",
@@ -77,9 +76,12 @@ class AdminCocktailDAO:
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
+            raise
 
         if res:
-            return res["id_recipe"]
+            res = res["id_recipe"]
+            
+        return res
 
     def suppr_ckt(self, id_cocktail) -> bool:
         """
