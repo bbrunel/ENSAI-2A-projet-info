@@ -183,6 +183,7 @@ class Test_favoris_service_unitaires:
 
 
 #Tests d'intégration
+
 class Test_favoris_service_integration:
     """
     Tests d'intégration pour la classe FavorisService
