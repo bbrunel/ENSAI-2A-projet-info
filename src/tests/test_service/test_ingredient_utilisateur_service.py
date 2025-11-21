@@ -1,6 +1,4 @@
-# Les tests passent !
-
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
 

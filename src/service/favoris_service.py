@@ -31,6 +31,8 @@ class FavorisService:
         Renvoie le cocktail mis en favoris
         """
         cocktail = CocktailService().verifier_cocktail(id_cocktail)
+        if not isinstance(id_utilisateur, int):
+            raise TypeError("ID de l'utilisateur non conforme.")
         ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail, note_perso)
         if not ajout:
             raise ValueError("Ce cocktail est déjà en favori pour vous.")
@@ -51,9 +53,13 @@ class FavorisService:
         ----------
         True si le cocktail a été supprimé
         """
+        if not isinstance(id_utilisateur, int):
+            raise TypeError("ID de l'utilisateur non conforme.")
+        if not isinstance(id_cocktail, int):
+            raise TypeError("ID du cocktail non conforme.")
         suppression = FavorisDAO().suppr_fav(id_utilisateur, id_cocktail)
         if suppression is False:
-            raise ValueError("Pas de cocktail correspondant parmi les favoris")
+            raise ValueError("Pas de cocktail correspondant parmi les favoris.")
         return suppression
 
     def supprimer_tous(self, id_utilisateur: int) -> bool:
@@ -69,6 +75,8 @@ class FavorisService:
         ------
         True si les cocktails ont été supprimés
         """
+        if not isinstance(id_utilisateur, int):
+            raise TypeError("ID non conforme.")
         suppression = FavorisDAO().supprimer_tous(id_utilisateur)
         return suppression
 
@@ -85,6 +93,8 @@ class FavorisService:
         ----------
         Renvoie la liste des cocktails msi en favoris par l'utilisateur
         """
+        if not isinstance(id_utilisateur, int):
+            raise TypeError("ID pas conforme.")
         favoris = FavorisDAO().lister_ts_fav(id_utilisateur)
         if favoris is None:
             raise ValueError("Pas de cocktail parmi les favoris")
