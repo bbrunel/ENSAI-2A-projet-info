@@ -5,6 +5,7 @@ from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.ingredient import Ingredient
 from dao.db_connection import DBConnection
+from utils.log_decorator import log
 from utils.singleton import Singleton
 
 
@@ -14,6 +15,7 @@ class RechercheDao(metaclass=Singleton):
     base de données
     """
 
+    @log
     def recherche_cocktail(self, filtre: FiltreCocktail = None) -> list[Cocktail]:
         """Récupère dans la base de données la liste des cocktails satisfaisant un filtre
 
@@ -77,6 +79,7 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
+    @log
     def cocktails_faisables(
         self, id_ingredients: list[int], nb_manquants: int = 0
     ) -> list[Cocktail]:
@@ -151,6 +154,45 @@ class RechercheDao(metaclass=Singleton):
                 liste_cocktails.append(cocktail)
         return liste_cocktails
 
+    @log
+    def nb_cocktail_faisables(self, id_ingredients: list[int]) -> int:
+        """Méthode calculant le nombre de cocktails faisables avec une liste d'ingredients donnés
+
+        Params
+        ------
+            id_ingredients: list[int]
+                liste des ingredients (leurs id)
+
+        Returns
+        -------
+            int
+                le nombre de cocktails faisables
+        """
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    query = (
+                        "SELECT count(*) as n FROM cocktails c1"
+                        " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
+                        " WHERE c2.id_ingredient IN %(liste_ing)s"
+                        " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
+                        " (SELECT c1.id_recipe FROM cocktails c1"
+                        " JOIN composition c2 ON c1.id_recipe = c2.id_recipe "
+                        " WHERE NOT c2.id_ingredient IN %(liste_ing)s "
+                        " GROUP BY c1.id_recipe);"
+                    )
+                    params = {"liste_ing": tuple(id_ingredients)}
+                    cursor.execute(query, params)
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.info(e)
+
+        if res:
+            return res["n"]
+        return None
+
+    @log
     def recherche_ingredient(self, filtre: FiltreIngredient = None) -> list[Ingredient]:
         """Cette fonction cherche dans la base de données les ingrédients correspondants au filtre
 
@@ -204,22 +246,49 @@ class RechercheDao(metaclass=Singleton):
                 liste_ingredients.append(ingredient)
         return liste_ingredients
 
-    def recherche_ingredients_optimaux(
-        self, id_utilisateur: int, nb_ingredient: int
-    ) -> list[Ingredient]:
-        """Cette méthode recherche les ingrédients 'optimaux' à acheter pour maximiser
-        le nombre de cocktails faisables supplémentaires
+    @log
+    def ingredients_cocktails_quasifaisables(
+        self, id_ingredients: list[int], nb_ingredient: int
+    ) -> list[int]:
+        """Cette méthode recherche les ingrédients entrant dans la composition de
+        cocktails quasi-faisables.
 
         Parameters
         ----------
             id_utilisateur: int
-                id de l'utilisateur dont on veut optimiser l'inventaire
+                liste d'id des ingredients déjà possédés
             nb_ingredient: int
-                le nombre d'ingredient à acheter
+                le nombre d'ingredient supplementaires à acheter
 
         Returns
         -------
-            list[Ingredient]
-                la liste de course optimale
+            list[int]
+                liste des id d'ingredients
         """
-        pass
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    query = (
+                        "SELECT id_ingredient FROM composition WHERE id_recipe IN"
+                        "(SELECT c2.id_recipe FROM cocktails c1"
+                        " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
+                        " WHERE NOT c2.id_ingredient IN %(liste_id_ing)s"
+                        " GROUP BY  c2.id_recipe HAVING count(*) <= %(nb_max)s)"
+                        " AND NOT id_ingredient IN %(liste_id_ing)s GROUP BY id_ingredient;"
+                    )
+                    params = {
+                        "liste_id_ing": tuple(id_ingredients),
+                        "nb_max": nb_ingredient,
+                    }
+                    cursor.execute(query, params)
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+
+        if res:
+            liste_ing = []
+            for row in res:
+                liste_ing.append(row["id_ingredient"])
+            return liste_ing
+        return None
