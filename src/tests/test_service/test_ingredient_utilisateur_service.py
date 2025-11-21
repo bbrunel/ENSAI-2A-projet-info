@@ -1,5 +1,4 @@
 import sys
-
 sys.path.append("../src")
 
 import pytest
@@ -10,20 +9,26 @@ from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
 from business_object.utilisateur import Utilisateur
 from business_object.ingredient import Ingredient
 
-# Tests  #Tests unitaires
 
+# Tests 
 
+#Tests unitaires
 class Test_ing_utilisateur_service_unitaires:
     """
-    Teste les méthodes de IngredientUtilisateurService
+    Tests unitaires pour la classe IngredientUtilisateurService
+
+
+    Methodes testées
+    ----------
+        ajout_ingredient_utilisateur
+        supprimer_ingredient_utilisateur
+        liste_tous_ingredients_utilisateur
     """
-
-
 
     def test_ajout_ingredient_utilisateur_ok(self):
         """
-        Teste que l'ajout d'un ingrédient par un utilisateur retourne bien l'ingrédient ajouté.
-        Utilise patch pour mocker la méthode 'ajouter' du DAO.
+        
+        
         """
         # GIVEN
         id_utilisateur = 2
@@ -171,7 +176,49 @@ class Test_ing_utilisateur_service_unitaires:
         assert resultat is None
         mock_lister_tous.assert_called_once_with(id_utilisateur)
 
+#user = Utilisateur(1,'Gerald', 
+#'$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
+#user2 = Utilisateur(2,'Hector', 
+#    '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
 
+#ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
+#ingredient = Ingredient(312, "Lime", "desc", "Fruit", False, 0)
+#Tests unitaires
+class Test_ing_utilisateur_service_integration:
+    """
+    Tests d'intégration pour la classe IngredientUtilisateurService
+
+    Methodes testées
+    ----------
+        ajout_ingredient_utilisateur
+        supprimer_ingredient_utilisateur
+        liste_tous_ingredients_utilisateur
+    """
+
+    def test_integ_aj_ing_ok(self):
+        """
+        Teste si la méthode renvoie bien l'id du cocktail si l'ajout aux ingrédients
+        """
+        #GIVEN
+        utilisateur = Utilisateur(2,'Hector', 
+        '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
+        ingr = Ingredient(312, "Lime", "desc", "Fruit", False, 0)
+
+        #WHEN
+        id_resultat = IngredientUtilisateurService().ajout_ingredient_utilisateur(utilisateur, ingr)
+        ingr_util = IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur)
+
+        assert id_resultat == ingr.id
+        assert 312 in [ingred.id for ingred in ingr_util]
+
+
+
+    def test_ing_suppr_ingredient_utilisateur_ok():
+
+
+
+
+        
 if __name__ == "__main__":
     import pytest
 
