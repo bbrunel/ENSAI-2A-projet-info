@@ -91,3 +91,18 @@ class IngredientService(metaclass=Singleton):
             raise TypeError("L'id indiquée n'est pas conforme au format.")
         ingredient = IngredientDao().verifier_ingredient(id_ingredient)
         return ingredient
+
+    def nb_cocktails(self, id_ingredient: int) -> int:
+        """Cette méthode renvoit le nombre de cocktails nécessitant un ingrédient.
+
+        Params
+        ------
+            id_ingredient: int
+                L'id d'un ingrédient
+
+        Returns
+        -------
+            int
+                Le nombre de cocktail nécessitant cet ingrédient.
+        """
+        return IngredientDao().nb_cocktails(id_ingredient)

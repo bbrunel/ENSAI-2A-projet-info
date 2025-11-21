@@ -117,7 +117,7 @@ class RechercheDao(metaclass=Singleton):
                     # on garde uniquement les cocktails dont le nombre d'occurence (donc le nombre
                     # d'ingredient supplementaire à utiliser) est inférieur à nb_manquants.
                     query = (
-                        "SELECT c1.*, count(*) as n FROM cocktails c1"
+                        "SELECT c1.* FROM cocktails c1"
                         " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
                         " WHERE c2.id_ingredient IN %(liste_ing)s"
                         " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
@@ -183,7 +183,7 @@ class RechercheDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     query = (
-                        "SELECT count(*) as n FROM cocktails c1"
+                        "SELECT c1.id_recipe FROM cocktails c1"
                         " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
                         " WHERE c2.id_ingredient IN %(liste_ing)s"
                         " GROUP BY c1.id_recipe HAVING c1.id_recipe NOT IN"
@@ -194,12 +194,11 @@ class RechercheDao(metaclass=Singleton):
                     )
                     params = {"liste_ing": tuple(id_ingredients)}
                     cursor.execute(query, params)
-                    res = cursor.fetchone()
+                    res = cursor.fetchall()
         except Exception as e:
             logging.info(e)
-
         if res:
-            return res["n"]
+            return len(res)
         return None
 
     @log

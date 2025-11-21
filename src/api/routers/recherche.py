@@ -76,6 +76,6 @@ def recherche_ingredient(filtre: Annotated[FiltreIngredient, Query()]):
 )
 def liste_course_optimale(
     current_user: Annotated[Utilisateur, Depends(get_current_user)],
-    nb_ing_achetes: Annotated[int, Query(title="Nombre d'ingrédient à acheter", le=5, ge=1)],
+    nb_ing_achetes: Annotated[int, Query(description="Nombre d'ingrédient à acheter", le=20, ge=1)],
 ):
     return recherche_service.recherche_ingredients_optimaux(current_user, nb_ing_achetes)

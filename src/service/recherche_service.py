@@ -1,9 +1,7 @@
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.utilisateur import Utilisateur
-
 from dao.recherche_dao import RechercheDao
-
 from service.ingredient_service import IngredientService
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
 
@@ -11,7 +9,7 @@ from service.ingredient_utilisateur_service import IngredientUtilisateurService
 class RechercheService:
     """
     Permet de rechercher des cocktails et des ingrédients en appliquant un filte de recherche.
-    
+
     Methodes
     ----------
         recherche_cocktail
@@ -20,6 +18,7 @@ class RechercheService:
         recherche_ingredients_optimaux
             meilleur_ingredient
     """
+
     def recherche_cocktail(self, filtre: FiltreCocktail = None):
         """Renvoie les cocktails correspondant aux filtres.
         Lève une erreur si aucun cocktail de la base de donnée ne correspond au filtre.
@@ -104,7 +103,7 @@ class RechercheService:
         (environ 10000 pour nb_ing_supp = 2)
         """
 
-        def meilleur_ingredient(a_choisir: list[int], deja_choisis: list[int] = []):
+        def meilleur_ingredient(a_choisir: list[int], deja_choisis: list[int]):
             meilleur = -1  # Le meilleur ingredient jusqu'à présent
             max_contribution = 0  # Le nombre de coktails ajoutés par le meilleur ingrédient
             for ing in a_choisir:
@@ -114,8 +113,8 @@ class RechercheService:
                     max_contribution = contribution
             return meilleur, max_contribution
 
-        if nb_ing_supp < 1 or nb_ing_supp > 5:
-            raise ValueError("Le nombre d'ingredient supplémentaire doit être entre 1 et 5.")
+        if nb_ing_supp < 1 or nb_ing_supp > 20:
+            raise ValueError("Le nombre d'ingredient supplémentaire doit être entre 1 et 20.")
         ing_possedes = [
             ing.id
             for ing in IngredientUtilisateurService().liste_tous_ingredients_utilisateur(
@@ -125,11 +124,24 @@ class RechercheService:
         ing_possibles = RechercheDao().ingredients_cocktails_quasifaisables(
             ing_possedes, nb_ing_supp
         )
+        # On trie les cocktails dans l'ordre décroissant du nombre de cocktails
+        # pour lesquels ils servent :
+        ing_possibles_triee = [
+            x[0]
+            for x in sorted(
+                [(ing, IngredientService().nb_cocktails(ing)) for ing in ing_possibles],
+                key=lambda x: x[1],
+                reverse=True,
+            )
+        ]
+        # Algorithme glouton :
         ing_choisis = []
         nb_cocktails = 0
         while len(ing_choisis) < nb_ing_supp:
-            meilleur, nb_cocktails = meilleur_ingredient(ing_possibles, ing_possedes + ing_choisis)
-            ing_possibles.remove(meilleur)
+            meilleur, nb_cocktails = meilleur_ingredient(
+                ing_possibles_triee, ing_possedes + ing_choisis
+            )
+            ing_possibles_triee.remove(meilleur)
             ing_choisis.append(meilleur)
 
         return {
