@@ -13,6 +13,13 @@ from service.favoris_service import FavorisService, FavorisDAO, Favori
 class Test_favoris_service_unitaires:
     """
     Teste les méthodes de la classe FavorisService
+
+    Methodes testées
+    ----------
+        aj_fav_cocktail
+        suppr_fav_cocktail
+        supprimer_tous
+        list_all_fav_cocktails
     """
     ##aj_fav_cocktail
 
@@ -187,6 +194,13 @@ class Test_favoris_service_unitaires:
 class Test_favoris_service_integration:
     """
     Tests d'intégration pour la classe FavorisService
+
+    Methodes testées
+    ----------
+        list_all_fav_cocktails
+        aj_fav_cocktail
+        suppr_fav_cocktail
+        supprimer_tous
     """
     ##list_all_fav_cocktails
 

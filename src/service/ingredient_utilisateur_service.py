@@ -1,5 +1,4 @@
 from business_object.utilisateur import Utilisateur
-
 from business_object.ingredient import Ingredient
 
 from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
@@ -13,10 +12,10 @@ class IngredientUtilisateurService(metaclass=Singleton):
 
     Methods
     -------
-
-    ajout_ingredient_utilisateur
-    supprimer_ingredient_utilisateur
-    liste_tous_ingredient_utilisateur
+        ajout_ingredient_utilisateur
+        supprimer_ingredient_utilisateur
+        supprimer_tous
+        liste_tous_ingredient_utilisateur
     """
 
     def ajout_ingredient_utilisateur(

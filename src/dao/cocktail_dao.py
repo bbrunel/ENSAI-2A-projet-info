@@ -3,14 +3,24 @@ import logging
 from business_object.cocktail import Cocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.ingredient import Ingredient
+
 from dao.db_connection import DBConnection
+
 from service.recherche_service import RechercheService
+
 from utils.log_decorator import log
 
 
 class CocktailDAO:
     """
     Classe DAO regroupant les méthodes utiles à la gestion des cocktails
+
+    Methodes
+    ----------
+        ingredients_ckt
+        nb_cocktails
+        verifier_cocktail
+        list_ts_cocktails
     """
 
     @log

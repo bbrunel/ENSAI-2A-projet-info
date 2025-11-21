@@ -6,8 +6,12 @@ from dao.db_connection import DBConnection
 class AdminCocktailDAO:
     """
     Classe DAO regroupant les méthodes uniquement disponible pour les admins
-    """
 
+    Methodes
+    ----------
+        ajouter
+        suppr_ckt
+    """
     def ajouter_ckt(
         self,
         nom: str,
@@ -76,11 +80,6 @@ class AdminCocktailDAO:
 
         if res:
             return res["id_recipe"]
-
-
-
-
-
 
     def suppr_ckt(self, id_cocktail) -> bool:
         """
