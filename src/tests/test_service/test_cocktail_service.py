@@ -14,6 +14,9 @@ from business_object.filtre_cocktail import FiltreCocktail
 # Tests unitaires
 
 class Test_cocktail_service_unitaire:
+    """
+    Teste la classe CocktailService à travers des tests unitaires.
+    """
     def test_verifier_cocktail_ingredient(self):
         """
         Teste si la méthode vérifie correctement l'existence d'un cocktail.
@@ -165,6 +168,9 @@ class Test_cocktail_service_unitaire:
 # Tests d'intégration
 
 class Test_cocktail_service_integration:
+    """
+    Teste la classe CocktailService à travers des tests d'intégration.
+    """
     def test_verifier_cocktail_existence(self):
         """
         Teste si la méthode vérifie correctement l'existance d'un cocktail.
