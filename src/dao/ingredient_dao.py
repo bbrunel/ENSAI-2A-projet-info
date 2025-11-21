@@ -109,8 +109,12 @@ class IngredientDao(metaclass=Singleton):
                     cursor.execute(
                         """
                         DELETE
+                            FROM composition
+                            WHERE id_ingredient=%(id_ingredient)s;
+                        DELETE
                             FROM ingredients
-                            WHERE id_ingredient=%(id_ingredient)s
+                            WHERE id_ingredient=%(id_ingredient)s;
+                        
                         """,
                         {
                             "id_ingredient": id_ingredient
