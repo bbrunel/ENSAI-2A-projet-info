@@ -96,7 +96,7 @@ class RechercheService:
         (environ 10000 pour nb_ing_supp = 2)
         """
 
-        def meilleur_ingredient(a_choisir: list[int], deja_choisis: list[int] = []):
+        def meilleur_ingredient(a_choisir: list[int], deja_choisis: list[int]):
             meilleur = -1  # Le meilleur ingredient jusqu'à présent
             max_contribution = 0  # Le nombre de coktails ajoutés par le meilleur ingrédient
             for ing in a_choisir:
@@ -125,7 +125,9 @@ class RechercheService:
             ing_choisis.append(meilleur)
 
         return {
-            "Nombre de cocktails supplémentaires": nb_cocktails
-            - RechercheDao().nb_cocktail_faisables(ing_possedes),
+            "Nombre de cocktails supplémentaires": (
+                nb_cocktails,
+                RechercheDao().nb_cocktail_faisables(ing_possedes),
+            ),
             "Liste de course": [IngredientService().verifier_ingredient(id) for id in ing_choisis],
         }
