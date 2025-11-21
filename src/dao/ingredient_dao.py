@@ -1,9 +1,7 @@
 import logging
 
 from business_object.ingredient import Ingredient
-
 from dao.db_connection import DBConnection
-
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
@@ -164,3 +162,23 @@ class IngredientDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
         return res["max"]
+
+    @log
+    def nb_cocktails(self, id_ingredient: int) -> int:
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT count(DISTINCT id_recipe) AS n FROM"
+                        " composition WHERE id_ingredient = %(id)s;",
+                        {"id": id_ingredient},
+                    )
+                    res = cursor.fetchone()
+        except Exception as e:
+            print(e)
+            logging.info(e)
+
+        if res:
+            return res["n"]
+        return None
