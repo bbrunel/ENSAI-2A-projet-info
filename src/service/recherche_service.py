@@ -2,6 +2,7 @@ from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.utilisateur import Utilisateur
 from dao.recherche_dao import RechercheDao
+from service.ingredient_service import IngredientService
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
 
 
@@ -85,3 +86,46 @@ class RechercheService:
         id_ing_inventaire = [ingredient.id for ingredient in inventaire]
 
         return RechercheDao().cocktails_faisables(id_ing_inventaire, nb_ing_manquants)
+
+    def recherche_ingredients_optimaux(self, utilisateur: Utilisateur, nb_ing_supp: int = 1):
+        """Méthode permettants de trouver une liste d'ingrédients à ajouter à l'inventaire d'un
+        utilisateur apportant un grand nombre de cocktails faisables supplémentaires.
+        PS:
+        Il ne s'agit pas réellement de la liste optimale, on utilise en effet un algorithme glouton,
+        le nombre de combinaisons d'ingrédients à tester étant vite beaucoup trop grands
+        (environ 10000 pour nb_ing_supp = 2)
+        """
+
+        def meilleur_ingredient(a_choisir: list[int], deja_choisis: list[int] = []):
+            meilleur = -1  # Le meilleur ingredient jusqu'à présent
+            max_contribution = 0  # Le nombre de coktails ajoutés par le meilleur ingrédient
+            for ing in a_choisir:
+                contribution = RechercheDao().nb_cocktail_faisables(deja_choisis + [ing])
+                if contribution > max_contribution:
+                    meilleur = ing
+                    max_contribution = contribution
+            return meilleur, max_contribution
+
+        if nb_ing_supp < 1 or nb_ing_supp > 5:
+            raise ValueError("Le nombre d'ingredient supplémentaire doit être entre 1 et 5.")
+        ing_possedes = [
+            ing.id
+            for ing in IngredientUtilisateurService().liste_tous_ingredients_utilisateur(
+                utilisateur
+            )
+        ]
+        ing_possibles = RechercheDao().ingredients_cocktails_quasifaisables(
+            ing_possedes, nb_ing_supp
+        )
+        ing_choisis = []
+        nb_cocktails = 0
+        while len(ing_choisis) < nb_ing_supp:
+            meilleur, nb_cocktails = meilleur_ingredient(ing_possibles, ing_possedes + ing_choisis)
+            ing_possibles.remove(meilleur)
+            ing_choisis.append(meilleur)
+
+        return {
+            "Nombre de cocktails supplémentaires": nb_cocktails
+            - RechercheDao().nb_cocktail_faisables(ing_possedes),
+            "Liste de course": [IngredientService().verifier_ingredient(id) for id in ing_choisis],
+        }

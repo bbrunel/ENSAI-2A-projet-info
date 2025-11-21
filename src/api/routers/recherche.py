@@ -69,3 +69,13 @@ def liste_ingredients_cocktail(id_cocktail: Annotated[int, Query(ge=0)]):
 )
 def recherche_ingredient(filtre: Annotated[FiltreIngredient, Query()]):
     return recherche_service.recherche_ingredient(filtre)
+
+
+@router.get(
+    "/ingredients/liste_course_optimale", tags=["Ingrédients"], summary="Liste de course optimale"
+)
+def liste_course_optimale(
+    current_user: Annotated[Utilisateur, Depends(get_current_user)],
+    nb_ing_achetes: Annotated[int, Query(title="Nombre d'ingrédient à acheter", le=5, ge=1)],
+):
+    return recherche_service.recherche_ingredients_optimaux(current_user, nb_ing_achetes)

@@ -1,8 +1,5 @@
 from business_object.ingredient import Ingredient
-from business_object.filtre_ingredient import FiltreIngredient
 from dao.ingredient_dao import IngredientDao
-from service.recherche_service import RechercheService
-
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
@@ -19,12 +16,7 @@ class IngredientService(metaclass=Singleton):
 
     @log
     def ajout_ingredient(
-        self,
-        nom: str,
-        desc: str,
-        type_ing: str,
-        alcoolise: bool,
-        abv: int
+        self, nom: str, desc: str, type_ing: str, alcoolise: bool, abv: int
     ) -> Ingredient:
         """Ajoute un ingrédient.
 
@@ -47,29 +39,18 @@ class IngredientService(metaclass=Singleton):
             Ingrédient ajouté.
         """
         nouvel_ing = Ingredient(
-            id=id,
-            nom=nom,
-            desc=desc,
-            type_ing=type_ing,
-            alcoolise=alcoolise,
-            abv=abv
+            id=id, nom=nom, desc=desc, type_ing=type_ing, alcoolise=alcoolise, abv=abv
         )
-        id_nouvel_ing = IngredientDao().ajouter(nouvel_ing.nom,
-                            nouvel_ing.desc,
-                            nouvel_ing.type_ing,
-                            nouvel_ing.alcoolise,
-                            nouvel_ing.abv)
+        id_nouvel_ing = IngredientDao().ajouter(
+            nouvel_ing.nom,
+            nouvel_ing.desc,
+            nouvel_ing.type_ing,
+            nouvel_ing.alcoolise,
+            nouvel_ing.abv,
+        )
         print("id_nouvel_ing", id_nouvel_ing)
         if id_nouvel_ing:
-
-            filtre = FiltreIngredient(id = id_nouvel_ing)
-            recherche = RechercheService().recherche_ingredient(filtre)
-            print("filtre:", filtre)
-            print("recherche:", recherche[0])
-            if recherche:
-                return recherche[0]
-            else:
-                raise ValueError("Recherche vide")
+            return IngredientDao.verifier_ingredient(id_nouvel_ing)
 
         else:
             return None
@@ -108,14 +89,5 @@ class IngredientService(metaclass=Singleton):
 
         if not isinstance(id_ingredient, int):
             raise TypeError("L'id indiquée n'est pas conforme au format.")
-
-        filtre = FiltreIngredient(id=id_ingredient)
-        ingredient_liste = RechercheService().recherche_ingredient(filtre)
-
-        if ingredient_liste == []:
-            ingredient = None
-            raise ValueError("Pas d'ingrédient correspondant à cet id.")
-
-        ingredient = ingredient_liste[0]
-
+        ingredient = IngredientDao().verifier_ingredient(id_ingredient)
         return ingredient
