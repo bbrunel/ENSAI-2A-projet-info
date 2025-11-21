@@ -1,4 +1,5 @@
 from business_object.cocktail import Cocktail
+from business_object.favori import Favori
 
 ##############################################################
 from dao.favoris_dao import FavorisDAO
@@ -12,7 +13,9 @@ class FavorisService:
 
     """
 
-    def aj_fav_cocktail(self, id_utilisateur: int, id_cocktail: int) -> Cocktail:
+    def aj_fav_cocktail(
+        self, id_utilisateur: int, id_cocktail: int, note_perso: str = None
+    ) -> Cocktail:
         """
         Ajoute un cocktail aux favoris de l'utilisateur
 
@@ -28,7 +31,7 @@ class FavorisService:
         Renvoie le cocktail mis en favoris
         """
         cocktail = CocktailService().verifier_cocktail(id_cocktail)
-        ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail)
+        ajout = FavorisDAO().aj_fav(id_utilisateur, id_cocktail, note_perso)
         if not ajout:
             raise ValueError("Ce cocktail est déjà en favori pour vous.")
         return cocktail
@@ -69,7 +72,7 @@ class FavorisService:
         suppression = FavorisDAO().supprimer_tous(id_utilisateur)
         return suppression
 
-    def list_all_fav_cocktails(self, id_utilisateur: int) -> list[Cocktail]:
+    def list_all_fav_cocktails(self, id_utilisateur: int) -> list[Favori]:
         """
         Liste l'ensemble des cocktails mis en favoris par l'utilisateur
 

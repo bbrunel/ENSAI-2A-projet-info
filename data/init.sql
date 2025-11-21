@@ -49,6 +49,7 @@ CREATE TABLE have (
 CREATE TABLE favorites (
    id_user int NOT NULL,
    id_recipe int NOT NULL,
+   note text,
    PRIMARY KEY (id_user, id_recipe),
    FOREIGN KEY(id_user) REFERENCES users(id_user),
    FOREIGN KEY(id_recipe) REFERENCES cocktails(id_recipe)

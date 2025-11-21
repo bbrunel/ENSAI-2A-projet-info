@@ -1,10 +1,11 @@
 import logging
 
-from dao.db_connection import DBConnection
 from business_object.cocktail import Cocktail
-from business_object.ingredient import Ingredient
 from business_object.filtre_ingredient import FiltreIngredient
+from business_object.ingredient import Ingredient
+from dao.db_connection import DBConnection
 from service.recherche_service import RechercheService
+from utils.log_decorator import log
 
 
 class CocktailDAO:
@@ -12,6 +13,7 @@ class CocktailDAO:
     Classe DAO regroupant les méthodes utiles à la gestion des cocktails
     """
 
+    @log
     def ingredients_ckt(self, id_cocktail) -> list[Ingredient]:
         """
         Méthode servant à regarder les ingrédients dans un cocktail
@@ -45,7 +47,7 @@ class CocktailDAO:
 
         if res:
             for ligne in res:
-                filtre = FiltreIngredient(id=ligne['id_ingredient'])
+                filtre = FiltreIngredient(id=ligne["id_ingredient"])
                 print(filtre)
                 ingredient_sorti = RechercheService().recherche_ingredient(filtre)[0]
                 ingr = Ingredient(
@@ -60,8 +62,8 @@ class CocktailDAO:
                 list_ingr.append(ingr)
 
         return list_ingr
-    
 
+    @log
     def nb_cocktails(self) -> int:
         res = None
 
@@ -78,10 +80,38 @@ class CocktailDAO:
             logging.info(e)
 
         if res:
-            res = res['count']
+            res = res["count"]
 
         return res
 
+    @log
+    def verifier_cocktail(self, id_cocktail: int) -> Cocktail:
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT * FROM cocktails WHERE id_recipe = %(id)s;", {"id": id_cocktail}
+                    )
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.info(e)
+
+        cocktail = None
+        if res:
+            cocktail = Cocktail(
+                id=res["id_recipe"],
+                nom=res["recipe_name"],
+                categorie=res["category"],
+                iba=res["iba_category"],
+                alcoolise=res["alcoholic"],
+                verre=res["glass_type"],
+                instructions=res["instruction"],
+                url_image=res["cocktail_pic_url"],
+            )
+        return cocktail
+
+    @log
     def list_ts_cocktails(self) -> list[Cocktail]:
         """
         Méthode servant à obtenir la liste complète des cocktails
@@ -96,7 +126,7 @@ class CocktailDAO:
         list_tt_ckt : list[Cocktail]
             La liste de tous les cocktails
         """
-        #return RechercheService().recherche_cocktail()
+        # return RechercheService().recherche_cocktail()
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -113,16 +143,14 @@ class CocktailDAO:
         if res:
             for row in res:
                 cocktail = Cocktail(
-                    row["id_recipe"],
-                    row["recipe_name"],
-                    None,
-                    None,
-                    row["category"],
-                    row["iba_category"],
-                    row["alcoholic"],
-                    row["glass_type"],
-                    row["instruction"],
-                    row["cocktail_pic_url"],
+                    id=row["id_recipe"],
+                    nom=row["recipe_name"],
+                    categorie=row["category"],
+                    iba=row["iba_category"],
+                    alcoolise=row["alcoholic"],
+                    verre=row["glass_type"],
+                    instructions=row["instruction"],
+                    url_image=row["cocktail_pic_url"],
                 )
                 liste_cocktails.append(cocktail)
         return liste_cocktails

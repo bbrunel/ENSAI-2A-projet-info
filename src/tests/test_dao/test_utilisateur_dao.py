@@ -3,9 +3,9 @@ from unittest.mock import patch
 
 import pytest
 
+from api.securite import get_password_hash
 from business_object.utilisateur import Utilisateur
 from dao.utilisateur_dao import UtilisateurDao
-from utils.securite import hash_password
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -93,7 +93,7 @@ def test_creer_ok():
     """Création d'Utilisateur réussie"""
 
     # GIVEN
-    utilisateur = Utilisateur(nom_utilisateur="Noobie", mdp=hash_password("motdepasse", "Noobie"))
+    utilisateur = Utilisateur(nom_utilisateur="Noobie", mdp=get_password_hash("motdepasse"))
 
     # WHEN
     creation_ok = UtilisateurDao().creer(utilisateur)

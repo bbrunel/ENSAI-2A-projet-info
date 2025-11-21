@@ -37,7 +37,7 @@ class RechercheDao(metaclass=Singleton):
                         params.append(filtre.id)
 
                     if filtre.nom is not None:
-                        query += " AND similarity(LOWER(c.recipe_name), LOWER(%s)) > 0.5"
+                        query += " AND similarity(LOWER(c.recipe_name), LOWER(%s)) > 0.4"
                         params.append(filtre.nom)
 
                     if filtre.alcoolise is not None:
@@ -65,16 +65,14 @@ class RechercheDao(metaclass=Singleton):
         if res:
             for row in res:
                 cocktail = Cocktail(
-                    row["id_recipe"],
-                    row["recipe_name"],
-                    None,
-                    None,
-                    row["category"],
-                    row["iba_category"],
-                    row["alcoholic"],
-                    row["glass_type"],
-                    row["instruction"],
-                    row["cocktail_pic_url"],
+                    id=row["id_recipe"],
+                    nom=row["recipe_name"],
+                    categorie=row["category"],
+                    iba=row["iba_category"],
+                    alcoolise=row["alcoholic"],
+                    verre=row["glass_type"],
+                    instructions=row["instruction"],
+                    url_image=row["cocktail_pic_url"],
                 )
                 liste_cocktails.append(cocktail)
         return liste_cocktails
@@ -141,16 +139,14 @@ class RechercheDao(metaclass=Singleton):
         if res:
             for row in res:
                 cocktail = Cocktail(
-                    row["id_recipe"],
-                    row["recipe_name"],
-                    None,
-                    None,
-                    row["category"],
-                    row["iba_category"],
-                    row["alcoholic"],
-                    row["glass_type"],
-                    row["instruction"],
-                    row["cocktail_pic_url"],
+                    id=row["id_recipe"],
+                    nom=row["recipe_name"],
+                    categorie=row["category"],
+                    iba=row["iba_category"],
+                    alcoolise=row["alcoholic"],
+                    verre=row["glass_type"],
+                    instructions=row["instruction"],
+                    url_image=row["cocktail_pic_url"],
                 )
                 liste_cocktails.append(cocktail)
         return liste_cocktails
@@ -179,7 +175,7 @@ class RechercheDao(metaclass=Singleton):
                         params["id"] = filtre.id
 
                     if filtre.nom is not None:
-                        query += " AND similarity(LOWER(ingredient_name), LOWER(%(name)s)) > 0.5"
+                        query += " AND similarity(LOWER(ingredient_name), LOWER(%(name)s)) > 0.4"
                         params["name"] = filtre.nom
 
                     if filtre.alcoolise is not None:
@@ -198,12 +194,32 @@ class RechercheDao(metaclass=Singleton):
         if res:
             for row in res:
                 ingredient = Ingredient(
-                    row["id_ingredient"],
-                    row["ingredient_name"],
-                    row["description"],
-                    row["ingredient_type"],
-                    row["alcoholic"],
-                    row["abv"],
+                    id=row["id_ingredient"],
+                    nom=row["ingredient_name"],
+                    desc=row["description"],
+                    type_ing=row["ingredient_type"],
+                    alcoolise=row["alcoholic"],
+                    abv=row["abv"],
                 )
                 liste_ingredients.append(ingredient)
         return liste_ingredients
+
+    def recherche_ingredients_optimaux(
+        self, id_utilisateur: int, nb_ingredient: int
+    ) -> list[Ingredient]:
+        """Cette méthode recherche les ingrédients 'optimaux' à acheter pour maximiser
+        le nombre de cocktails faisables supplémentaires
+
+        Parameters
+        ----------
+            id_utilisateur: int
+                id de l'utilisateur dont on veut optimiser l'inventaire
+            nb_ingredient: int
+                le nombre d'ingredient à acheter
+
+        Returns
+        -------
+            list[Ingredient]
+                la liste de course optimale
+        """
+        pass

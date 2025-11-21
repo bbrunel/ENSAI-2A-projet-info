@@ -1,6 +1,6 @@
 import logging
 
-from business_object.cocktail import Cocktail
+from business_object.favori import Favori
 from dao.db_connection import DBConnection
 
 
@@ -9,7 +9,7 @@ class FavorisDAO:
     Classe DAO regroupant les méthodes utiles à la gestion des favoris
     """
 
-    def aj_fav(self, id_utilisateur: int, id_cocktail: int) -> bool:
+    def aj_fav(self, id_utilisateur: int, id_cocktail: int, note_perso: str = None) -> bool:
         """
         Creation d'un favori dans la base de données
 
@@ -33,11 +33,12 @@ class FavorisDAO:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO favorites(id_user, id_recipe) VALUES "
-                        "(%(id_user)s, %(id_recipe)s) RETURNING id_recipe;",
+                        "INSERT INTO favorites(id_user, id_recipe, note) VALUES "
+                        "(%(id_user)s, %(id_recipe)s, %(note)s) RETURNING id_recipe;",
                         {
                             "id_user": id_utilisateur,
                             "id_recipe": id_cocktail,
+                            "note": note_perso,
                         },
                     )
                     res = cursor.fetchone()
@@ -108,7 +109,7 @@ class FavorisDAO:
 
         return res > 0
 
-    def lister_ts_fav(self, id_utilisateur: int) -> list[Cocktail]:
+    def lister_ts_fav(self, id_utilisateur: int) -> list[Favori]:
         """
         Méthode servant à lister l'intégralité des favoris d'un utilisateur
 
@@ -140,7 +141,7 @@ class FavorisDAO:
 
         if res:
             for ligne in res:
-                cocktail = Cocktail(
+                cocktail = Favori(
                     id=ligne["id_recipe"],
                     nom=ligne["recipe_name"],
                     nom_alt=None,
@@ -151,6 +152,7 @@ class FavorisDAO:
                     verre=ligne["glass_type"],
                     instructions=ligne["instruction"],
                     url_image=ligne["cocktail_pic_url"],
+                    note_perso=ligne["note"],
                 )
 
                 list_fav.append(cocktail)

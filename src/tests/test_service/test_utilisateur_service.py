@@ -1,28 +1,27 @@
-import sys
 import os
-import pytest
+import sys
 from unittest.mock import MagicMock
 
+import pytest
 
 # Ajoute le dossier src au chemin Python
 current_file = __file__
 tests_service_dir = os.path.dirname(current_file)  # dossier test_service
-tests_dir = os.path.dirname(tests_service_dir)     # dossier tests  
-src_dir = os.path.dirname(tests_dir)               # dossier src
+tests_dir = os.path.dirname(tests_service_dir)  # dossier tests
+src_dir = os.path.dirname(tests_dir)  # dossier src
 sys.path.insert(0, src_dir)  # Ajoute au début de la liste
 
 
-from service.utilisateur_service import UtilisateurService
-from dao.utilisateur_dao import UtilisateurDao
+from api.securite import get_password_hash
 from business_object.utilisateur import Utilisateur
-from utils.securite import hash_password
-
+from dao.utilisateur_dao import UtilisateurDao
+from service.utilisateur_service import UtilisateurService
 
 # Liste mock d'utilisateurs pour les tests
 liste_utilisateurs = [
-    Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean"),
-    Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie"),
-    Utilisateur(id=3, nom_utilisateur="pierre", mdp="hash_mdp_pierre"),
+    Utilisateur(id=1, nom_utilisateur="jean", mdp=get_password_hash("hash_mdp_jean")),
+    Utilisateur(id=2, nom_utilisateur="marie", mdp=get_password_hash("hash_mdp_marie")),
+    Utilisateur(id=3, nom_utilisateur="pierre", mdp=get_password_hash("hash_mdp_pierre")),
 ]
 
 
@@ -34,12 +33,12 @@ def test_creer_ok():
     UtilisateurDao().creer = MagicMock(return_value=True)
 
     # WHEN
-    utilisateur = UtilisateurService().creer(nom_utilisateur, mot_de_passe)
+    utilisateur = UtilisateurService().creer(nom_utilisateur, get_password_hash(mot_de_passe))
 
     # THEN
     assert utilisateur is not None
     assert utilisateur.nom_utilisateur == nom_utilisateur
-    expected_hash = hash_password(mot_de_passe, nom_utilisateur)
+    expected_hash = get_password_hash(mot_de_passe)
     assert utilisateur.mdp == expected_hash  # Compare avec le hash calculé
 
 
@@ -85,7 +84,7 @@ def test_lister_tous_inclure_mdp_false():
     # THEN
     assert len(res) == 3
     for utilisateur in res:
-        assert utilisateur.mdp is None 
+        assert utilisateur.mdp is None
 
 
 def test_nom_utilisateur_deja_utilise_oui():

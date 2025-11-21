@@ -1,8 +1,6 @@
 from business_object.cocktail import Cocktail
 from business_object.ingredient import Ingredient
 from dao.cocktail_dao import CocktailDAO
-from service.recherche_service import RechercheService
-from business_object.filtre_cocktail import FiltreCocktail
 
 
 class CocktailService:
@@ -30,8 +28,7 @@ class CocktailService:
         if not isinstance(id_cocktail, int):
             raise TypeError("id indiquée non conforme au format")
 
-        filtre = FiltreCocktail(id=id_cocktail)
-        cocktail = RechercheService().recherche_cocktail(filtre)
+        cocktail = CocktailDAO().verifier_cocktail(id_cocktail)
         if cocktail is None:
             raise ValueError("Pas de cocktail correspondant à cet id.")
 

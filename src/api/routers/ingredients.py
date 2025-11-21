@@ -36,4 +36,4 @@ def supprime_ing_inventaire(
     current_user: Annotated[Utilisateur, Depends(get_current_user)], id_ing: Annotated[int, Query]
 ):
     ingredient = IngredientService().verifier_ingredient(id_ing)
-    return IngredientUtilisateurService.supprimer_ingredient_utilisateur(current_user, ingredient)
+    return IngredientUtilisateurService().supprimer_ingredient_utilisateur(current_user, ingredient)

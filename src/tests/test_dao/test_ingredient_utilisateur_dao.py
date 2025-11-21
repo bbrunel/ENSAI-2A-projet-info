@@ -1,17 +1,5 @@
-import os
-import pytest
-
-from unittest.mock import patch
-from unittest.mock import MagicMock
-
-from utils.reset_database import ResetDatabase
-from utils.securite import hash_password
-
-from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
-
 from business_object.ingredient import Ingredient
-
-from dao.db_connection import DBConnection
+from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
 
 
 def test_ajouter_ok():
@@ -22,10 +10,7 @@ def test_ajouter_ok():
     id_ingredient = 513
 
     # WHEN
-    ajout = IngredientUtilisateurDao().ajouter(
-        id_utilisateur,
-        id_ingredient
-    )
+    ajout = IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient)
 
     # THEN
     print(ajout)
@@ -43,10 +28,7 @@ def test_ajouter_ko():
     id_ingredient = False
 
     # WHEN
-    ajout = IngredientUtilisateurDao().ajouter(
-        id_utilisateur, 
-        id_ingredient
-    )
+    ajout = IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient)
 
     # THEN
     assert ajout is None
@@ -60,10 +42,7 @@ def test_supprimer_ok():
     id_ingredient = 305
 
     # WHEN
-    suppression = IngredientUtilisateurDao().supprimer(
-        id_utilisateur, 
-        id_ingredient
-    )
+    suppression = IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
 
     # THEN
     assert suppression
@@ -77,10 +56,7 @@ def test_supprimer_ko():
     id_ingredient = 8888888888888
 
     # WHEN
-    suppression = IngredientUtilisateurDao().supprimer(
-        id_utilisateur,
-        id_ingredient
-    )
+    suppression = IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
 
     # THEN
     assert not suppression

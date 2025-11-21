@@ -1,4 +1,7 @@
-class Cocktail():
+from pydantic import BaseModel
+
+
+class Cocktail(BaseModel):
     """
     Liste de cocktails
 
@@ -27,31 +30,13 @@ class Cocktail():
         potentielle image d'illustration du cocktail
     """
 
-    def __init__(
-        self,
-        id: int,
-        nom: str,
-        nom_alt: str = None,
-        tags: str = None,
-        categorie: str = None,
-        iba: str = None,
-        alcolise: bool = True,
-        verre: str = None,
-        instructions: str = None,
-        url_image: str = None,
-    ):
-        self.id = id
-        self.nom = nom
-        self.nom_alt = nom_alt
-        self.tags = tags
-        self.categorie = categorie
-        self.iba = iba
-        self.alcolise = alcolise
-        self.verre = verre
-        self.instructions = instructions
-        self.url_image = url_image
-
-    def __str__(self):
-        """Permet de voir les caractéristiques du cocktail"""
-        return f'{self.id}, {self.nom}, {self.nom_alt}, {self.alcoolise}, {self.tags}, {self.iba}, \
-{self.categorie}, {self.verre}, {self.instructions}'
+    id: int
+    nom: str
+    nom_alt: str | None = None
+    tags: str | None = None
+    categorie: str | None = None
+    iba: str | None = None
+    alcoolise: bool | None = True
+    verre: str | None = None
+    instructions: str | None = None
+    url_image: str | None = None
