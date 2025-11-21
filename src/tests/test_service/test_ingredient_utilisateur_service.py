@@ -194,6 +194,22 @@ class Test_ing_utilisateur_service_integration:
         supprimer_ingredient_utilisateur
         liste_tous_ingredients_utilisateur
     """
+    def test_integ_list_ing_util_ok(self):
+        """
+        Teste si une erreur se lève bien dans le cas où l'utilisateur 
+        n'a aucun ingrédient à supprimer
+        """
+        #GIVEN
+        utilisateur = Utilisateur(2,'Hector', 
+        '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
+
+        #WHEN 
+        res = IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur)
+
+        #THEN
+        assert isinstance(res, list)
+        assert all([isinstance(ing, Ingredient) for ing in res])
+        assert res[0].nom == "Mint"
 
     def test_integ_aj_ing_ok(self):
         """
@@ -205,20 +221,64 @@ class Test_ing_utilisateur_service_integration:
         ingr = Ingredient(312, "Lime", "desc", "Fruit", False, 0)
 
         #WHEN
-        id_resultat = IngredientUtilisateurService().ajout_ingredient_utilisateur(utilisateur, ingr)
+        ingr_resultat = IngredientUtilisateurService().ajout_ingredient_utilisateur(utilisateur, ingr)
         ingr_util = IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur)
 
-        assert id_resultat == ingr.id
+        assert ingr_resultat.id == ingr.id
         assert 312 in [ingred.id for ingred in ingr_util]
 
 
 
-    def test_ing_suppr_ingredient_utilisateur_ok():
+    def test_integ_suppr_ingredient_utilisateur_ok(self):
+        """
+        Teste si la méthode supprime bien et renvoie un bool
+        """
+        #GIVEN
+        utilisateur = Utilisateur(2,'Hector', 
+        '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
+        ingr = Ingredient(312, "Lime", "desc", "Fruit", False, 0)
+
+        #WHEN
+        res = IngredientUtilisateurService().supprimer_ingredient_utilisateur(utilisateur, ingr)
+        ingr_util = IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur)
+
+        #THEN 
+        assert isinstance(res, bool)
+        assert 312 not in [ingred.id for ingred in ingr_util]
+        assert res
+
+    def test_integ_supp_tt_ing_util_ok(self):
+        """
+        Teste si la méthode supprime bien tous les ingrédients de l'utilisateur et renvoie True
+        """
+        #GIVEN
+        utilisateur = Utilisateur(2,'Hector', 
+        '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
+
+        #WHEN 
+        res = IngredientUtilisateurService().supprimer_tous(utilisateur)
+
+        #THEN 
+        assert isinstance(res, bool)
+        assert res
+        assert IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur) == []
+
+    def test_integ_list_ing_util_vide(self):
+        """
+        Teste si une erreur se lève bien dans le cas où l'utilisateur 
+        n'a aucun ingrédient à supprimer
+        """
+        #GIVEN
+        utilisateur = Utilisateur(2,'Hector', 
+        '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
+
+        #WHEN 
+        res = IngredientUtilisateurService().liste_tous_ingredients_utilisateur(utilisateur)
+
+        #THEN
+        assert res ==[]
 
 
-
-
-        
 if __name__ == "__main__":
     import pytest
 
