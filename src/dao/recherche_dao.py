@@ -4,7 +4,9 @@ from business_object.cocktail import Cocktail
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.ingredient import Ingredient
+
 from dao.db_connection import DBConnection
+
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
@@ -13,6 +15,14 @@ class RechercheDao(metaclass=Singleton):
     """
     Classe DAO regroupant les méthodes permettant de chercher ingrédients et cocktails dans la
     base de données
+
+    Methodes
+    ----------
+        recherche_cocktail
+        cocktails_faisables
+        nb_cocktail_faisables
+        recherche_ingredient
+        ingredients_cocktails_quasi_faisables
     """
 
     @log

@@ -1,14 +1,26 @@
-# importer le mock
-
 import logging
 
 from business_object.ingredient import Ingredient
+
 from dao.db_connection import DBConnection
+
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
 
 class IngredientUtilisateurDao(metaclass=Singleton):
+    """
+    Classe Dao faisant le lien avec la classe service et les ingrédients des utilisateurs
+    stockés dans la base de données.
+
+    Methodes
+    ----------
+        ajouter
+        supprimer
+        supprimer_tous
+        lister_tous
+    """
+
     @log
     def ajouter(self, id_utilisateur: int, id_ingredient: int) -> Ingredient:
         """Creation d'un ingredient dans le bar personnel.

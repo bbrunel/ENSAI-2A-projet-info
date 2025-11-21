@@ -7,6 +7,13 @@ from dao.db_connection import DBConnection
 class FavorisDAO:
     """
     Classe DAO regroupant les méthodes utiles à la gestion des favoris
+
+    Methodes
+    ----------
+        aj_fav
+        suppr_fav
+        supprimer_tous
+        lister_tous_fav
     """
 
     def aj_fav(self, id_utilisateur: int, id_cocktail: int, note_perso: str = None) -> bool:

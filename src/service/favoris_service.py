@@ -1,16 +1,20 @@
 from business_object.cocktail import Cocktail
 from business_object.favori import Favori
 
-##############################################################
 from dao.favoris_dao import FavorisDAO
 from service.cocktail_service import CocktailService
 
 
-#######################################################################
 class FavorisService:
     """
     Classe service pour les fonctions liées aux cocktails favoris
 
+    Methodes
+    ----------
+        aj_fav_cocktail
+        suppr_fav_cocktail
+        supprimer_tous
+        list_all_fav_cocktails
     """
 
     def aj_fav_cocktail(

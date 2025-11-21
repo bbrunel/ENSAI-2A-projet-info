@@ -1,17 +1,25 @@
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.utilisateur import Utilisateur
+
 from dao.recherche_dao import RechercheDao
+
 from service.ingredient_service import IngredientService
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
 
 
 class RechercheService:
-    """Permet de rechercher des cocktails et des ingrédients en appliquant un filte de recherche."""
-
-    def __init__(self):
-        pass
-
+    """
+    Permet de rechercher des cocktails et des ingrédients en appliquant un filte de recherche.
+    
+    Methodes
+    ----------
+        recherche_cocktail
+        recherche_ingredient
+        liste_cocktails_faisables
+        recherche_ingredients_optimaux
+            meilleur_ingredient
+    """
     def recherche_cocktail(self, filtre: FiltreCocktail = None):
         """Renvoie les cocktails correspondant aux filtres.
         Lève une erreur si aucun cocktail de la base de donnée ne correspond au filtre.

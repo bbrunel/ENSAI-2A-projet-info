@@ -1,7 +1,9 @@
 import logging
 
 from business_object.ingredient import Ingredient
+
 from dao.db_connection import DBConnection
+
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
@@ -10,6 +12,12 @@ class IngredientDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux ingrédients de la
     base de données.
 
+    Methodes
+    ----------
+        verifier_ingredient
+        ajouter
+        supprimer
+        id_ing_max
     """
 
     @log

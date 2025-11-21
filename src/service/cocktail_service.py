@@ -7,10 +7,13 @@ class CocktailService:
     """
     Classe service pour les cocktails
 
+    Methodes
+    ----------
+        verifier_cocktail
+        ingredient_cocktail
+        lister_tous_cocktail
+        nb_cocktails
     """
-
-    def __init__(self) -> None:
-        pass
 
     def verifier_cocktail(self, id_cocktail: int) -> Cocktail:
         """Vérifie si un cocktail existe bel et bien déjà.

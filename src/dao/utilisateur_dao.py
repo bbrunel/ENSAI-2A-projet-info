@@ -1,13 +1,26 @@
 import logging
 
 from business_object.utilisateur import Utilisateur
+
 from dao.db_connection import DBConnection
+
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
 
 class UtilisateurDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux Utilisateurs de la base de données"""
+    """
+    Classe contenant les méthodes pour accéder aux Utilisateurs de la base de données
+    
+    Methodes
+    ----------
+        creer
+        trouver_par_id
+        trouver_par_nom
+        lister_tous
+        modifier
+        supprimer
+    """
 
     @log
     def creer(self, utilisateur: Utilisateur) -> Utilisateur | None:

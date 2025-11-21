@@ -9,9 +9,9 @@ class IngredientService(metaclass=Singleton):
 
     Methods
     -------
-    ajout_ingredient
-    supprimer_ingredient
-    verifier_ingredient
+        ajout_ingredient
+        supprimer_ingredient
+        verifier_ingredient
     """
 
     @log

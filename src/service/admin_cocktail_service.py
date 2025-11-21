@@ -7,6 +7,11 @@ from src.service.recherche_service import RechercheService
 class AdminCocktailService:
     """
     Classe service des actions  destinées réservées aux administrateurs
+
+    Methodes
+    ----------
+        ajout_cocktail
+        supprimer_cocktail
     """
 
     def ajout_cocktail(
@@ -76,6 +81,7 @@ class AdminCocktailService:
         if ajout_reussi is not int:
             raise ValueError("Il y a eu un problème dans la création de ce nouvau cocktail.")
         return ajout_reussi
+
     def supprimer_cocktail(self, id_cocktail) -> Cocktail:
         """
         Supprime un cocktail pour un ADMINISTRATEUR

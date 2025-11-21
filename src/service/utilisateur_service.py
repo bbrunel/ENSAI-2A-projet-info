@@ -1,12 +1,27 @@
 from tabulate import tabulate
 
 from business_object.utilisateur import Utilisateur
+
 from dao.utilisateur_dao import UtilisateurDao
+
 from utils.log_decorator import log
 
 
 class UtilisateurService:
-    """Classe contenant les méthodes de service des utilisateurs"""
+    """
+    Classe contenant les méthodes de service des utilisateurs
+    
+    Methodes
+    ----------
+        creer
+        lister_tous
+        trouver_par_id
+        trouver_par_nom
+        modifier
+        supprimer
+        nom_utilisateur_deja_utilise
+        afficher_tous
+    """
 
     @staticmethod
     @log
