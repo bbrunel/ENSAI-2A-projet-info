@@ -9,8 +9,20 @@ from service.ingredient_service import IngredientService
 from service.recherche_service import RechercheService
 
 
-##TESTS UNITAIRES
+#Tests unitaires
+
 class Test_ingredient_service_unitaire:
+    """
+    Teste la classe IngredientService à travers des tests unitaires.
+    
+    Methodes testées
+    ----------
+        ajout_ingredient
+        supprimer_ingedient
+        verifier_ingredient
+    """
+    ##ajout_ingredient
+
     def test_ajout_ingredient_ok(self):
         """Ajout de l'ingredient réussi."""
 
@@ -41,6 +53,9 @@ class Test_ingredient_service_unitaire:
         # THEN
         assert nouvel_ingredient is None
 
+
+    ##supprimer_ingredient
+
     def test_supprimer_ingredient_ok(self):
         """Suppression de l'ingrédient réussie."""
 
@@ -64,6 +79,9 @@ class Test_ingredient_service_unitaire:
 
         # THEN
         assert not suppression
+
+
+    ##verifier_ingredient
 
     def test_verifier_ingredient_true(self):
         """Vérification de l'existence de l'ingrédient réussie."""
@@ -92,9 +110,19 @@ class Test_ingredient_service_unitaire:
             IngredientService().verifier_ingredient(id)
 
 
-##TESTS D'INTEGRATION
+#Tests d'intégration
+
 class Test_ingredient_service_integration:
-    """ """
+    """ 
+    Teste la classe IngredientService à travers des tests d'intégration.
+
+    Methodes testées
+    ----------
+        ajout_ingredient
+        supprimer_ingedient
+        verifier_ingredient
+    """
+    ##ajout_ingredient
 
     def test_ajout_ingredient_ok_integration(self):
         """Ajout de l'ingredient réussi dans la base de données."""
@@ -114,31 +142,8 @@ class Test_ingredient_service_integration:
         assert recherche_test != []
         assert recherche_test[0].nom == nom
 
-    def test_recherche_ingredient_filtre_id(self):
-        """
-        Teste si la fonction renvoie bien les cocktails dont le nom correspond à 'Mauresque'.
-        """
 
-        # GIVEN
-        filtre = FiltreIngredient(id=305)
-
-        # WHEN
-        recherche = RechercheService().recherche_ingredient(filtre)
-
-        # THEN
-        assert "Light Rum" in [ing.nom for ing in recherche]
-
-    def test_verifier_ingredient_true(self):
-        """Vérification de l'existence de l'ingrédient réussie."""
-
-        # GIVEN
-        id = 513
-
-        # WHEN
-        ingredient_verifie = IngredientService().verifier_ingredient(id)
-
-        # THEN
-        assert ingredient_verifie.nom == "Water"
+    #supprimer_ingredient
 
     def test_supprimer_ingredient_ok(self):
         """Suppression de l'ingrédient réussie."""
@@ -151,6 +156,21 @@ class Test_ingredient_service_integration:
 
         # THEN
         assert suppression
+    
+
+    #verifier_ingredient
+
+    def test_verifier_ingredient_true(self):
+        """Vérification de l'existence de l'ingrédient réussie."""
+
+        # GIVEN
+        id = 513
+
+        # WHEN
+        ingredient_verifie = IngredientService().verifier_ingredient(id)
+
+        # THEN
+        assert ingredient_verifie.nom == "Water"
 
     def test_verifier_ingredient_false(self):
         """Vérification de l'ingrédient échouée."""

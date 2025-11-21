@@ -16,7 +16,15 @@ from business_object.filtre_cocktail import FiltreCocktail
 class Test_cocktail_service_unitaire:
     """
     Teste la classe CocktailService à travers des tests unitaires.
+
+    Methodes testées
+    ----------
+        verifier_cocktail
+        ingredient_cocktail
+        nb_cocktails
+        list_tous_cocktails
     """
+    ##verifier_cocktail
     def test_verifier_cocktail_ingredient(self):
         """
         Teste si la méthode vérifie correctement l'existence d'un cocktail.
@@ -35,7 +43,6 @@ class Test_cocktail_service_unitaire:
         # THEN
         assert "Mojito" in [ckt.nom for ckt in cocktail]
 
-
     def test_verifier_cocktail_erreur(self):
         """
         Teste si un cocktail qui n'existe pas est recherché une erreur se
@@ -49,6 +56,8 @@ class Test_cocktail_service_unitaire:
         with pytest.raises(TypeError):
             CocktailService().verifier_cocktail(filtre)
 
+
+    ##ingredient_cocktail
 
     def test_ingredient_cocktail_ok(self):
         """
@@ -73,7 +82,6 @@ class Test_cocktail_service_unitaire:
         # THEN
         assert all([(ing.id in id_ingredients_mojito) for ing in ingredients])
 
-
     def test_ingredient_cocktail_ko(self):
         """
         Teste si la méthode renvoie bien les ingrédients qui composent un
@@ -97,6 +105,8 @@ class Test_cocktail_service_unitaire:
         assert all([(ing.id in id_ingredients_mojito) for ing in ingredients])
 
 
+    ##nb_cocktails
+
     def test_nb_cocktails_ok(self):
         """
         teste si ce qui est renvoyé est homogène à ce qui est attendu.
@@ -110,7 +120,6 @@ class Test_cocktail_service_unitaire:
         # THEN
         assert isinstance(res, int)
         assert res > 1
-
 
     def test_nb_cocktails_ko(self):
         """
@@ -126,6 +135,8 @@ class Test_cocktail_service_unitaire:
             assert not isinstance(res, int)
 
 
+    ##list_tous_cocktails
+    
     def test_list_tous_cocktails_ok(self):
         """
         Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base
@@ -148,7 +159,6 @@ class Test_cocktail_service_unitaire:
         assert len(tous_cocktails) > 1
         assert len(tous_cocktails) == 4
 
-
     def test_list_tous_cocktails_ko(self):
         """
         Vérifie si la fonction ne renvoie pas bien l'ensemble des cocktails de la base
@@ -170,7 +180,16 @@ class Test_cocktail_service_unitaire:
 class Test_cocktail_service_integration:
     """
     Teste la classe CocktailService à travers des tests d'intégration.
+
+    Methodes testées
+    ----------
+        verifier_cocktail
+        ingredient_cocktail
+        nb_cocktails
+        lister_tous_cocktails
     """
+    ##verifier_cocktail
+
     def test_verifier_cocktail_existence(self):
         """
         Teste si la méthode vérifie correctement l'existance d'un cocktail.
@@ -182,7 +201,6 @@ class Test_cocktail_service_integration:
 
         # THEN
         assert "Mojito" in [ckt.nom for ckt in cocktail]
-
 
     def test_verifier_cocktail_inexistence(self):
         """
@@ -199,6 +217,8 @@ class Test_cocktail_service_integration:
         with pytest.raises(TypeError):
             CocktailService().verifier_cocktail(filtre)
 
+
+    #ingredient_cocktail
 
     def test_ingredient_cocktail(self):
         """
@@ -220,12 +240,16 @@ class Test_cocktail_service_integration:
         )
 
 
+    #nb_cocktails
+
     def test_nb_cocktails(self):
         """
         teste si ce qui est renvoyé est homogène à ce qui est attendu.
         """
         assert isinstance(CocktailService().nb_cocktails(), int)
 
+
+    #lister_tous_cocktails
 
     def test_list_tous_cocktails(self):
         """
