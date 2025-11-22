@@ -16,7 +16,6 @@ In the following sections we will show you:
 - A [PostgreSQL](https://www.postgresql.org/) database
 - A Browser
 
-
 ## → Setting up the application
 
 - [ ] Open VSCode with port 9876 if working on Onyxia
