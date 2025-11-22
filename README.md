@@ -9,7 +9,7 @@ In the following sections we will show you:
 - how to launch the application
 - how to use it. 
 
-## :arrow_forward: Software and tools
+## → Software and tools
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Python 3.13](https://www.python.org/)
@@ -17,7 +17,7 @@ In the following sections we will show you:
 - A Browser
 
 
-## :arrow_forward: Mise en place de l'Application
+## → Setting up the application
 
 - [ ] Open VSCode with port 9876 if working on Onyxia
 - [ ] Open **Git Bash**
