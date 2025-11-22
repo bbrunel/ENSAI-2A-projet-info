@@ -72,7 +72,6 @@ class IngredientUtilisateurDao(metaclass=Singleton):
         -------
             True si l'ingredient a bien été supprimé.
         """
-
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:

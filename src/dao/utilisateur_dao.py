@@ -75,6 +75,7 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur : Utilisateur
             renvoie l'utilisateur que l'on cherche par id
         """
+        res = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:

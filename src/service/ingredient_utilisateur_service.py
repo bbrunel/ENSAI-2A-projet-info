@@ -39,15 +39,22 @@ class IngredientUtilisateurService(metaclass=Singleton):
         None
             Si l'ingrédient n'est pas ajouté.
         """
+        if not isinstance(utilisateur, Utilisateur):
+            raise TypeError("utilisateur de type inadéquate")
         id_utilisateur = utilisateur.id
+
+        if not isinstance(ingredient, Ingredient):
+            raise TypeError("ingredient de type inadéquate")
         id_ingredient = ingredient.id
+
         if IngredientUtilisateurDao().ajouter(
             id_utilisateur,
             id_ingredient
         ) == ingredient.id:
             return ingredient
+
         else:
-            return None
+            raise ValueError("id non existant")
 
     def supprimer_ingredient_utilisateur(
         self,
@@ -68,7 +75,12 @@ class IngredientUtilisateurService(metaclass=Singleton):
         bool
             True si l'ingrédient a bien été supprimé.
         """
+        if not isinstance(utilisateur, Utilisateur):
+            raise TypeError("utilisateur de type inadéquate")
         id_utilisateur = utilisateur.id
+
+        if not isinstance(ingredient, Ingredient):
+            raise TypeError("ingredient de type inadéquate")
         id_ingredient = ingredient.id
         return IngredientUtilisateurDao().supprimer(
             id_utilisateur,
@@ -87,6 +99,9 @@ class IngredientUtilisateurService(metaclass=Singleton):
         -------
             True si l'ingredient a bien été supprimé.
         """
+        if not isinstance(utilisateur, Utilisateur):
+            raise TypeError("utilisateur doit être de type Utilisateur")
+            
         return IngredientUtilisateurDao().supprimer_tous(utilisateur.id)
 
     def liste_tous_ingredients_utilisateur(
@@ -106,5 +121,8 @@ class IngredientUtilisateurService(metaclass=Singleton):
         liste_ingredients_utilisateur: list[Ingredient]
             La liste des ingrédients du bar personnel.
         """
+        if not isinstance(utilisateur, Utilisateur):
+            raise TypeError("L'utilisateur doit être de type Utilisateur")
+
         id_utilisateur = utilisateur.id
         return IngredientUtilisateurDao().lister_tous(id_utilisateur)
