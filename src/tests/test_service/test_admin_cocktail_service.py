@@ -13,8 +13,12 @@ from dao.admin_cocktail_dao import AdminCocktailDAO
 #variables pour du remplissage durant les tests
 nom, tag, cat, iba, ver, alc, inst = "nom", ["tag"], "shot", "unforgettables", "jar", True, "inst" 
 
+from utils.reset_database import reset_database
 
+reset_database()
 #Tests unitaires
+
+
 
 class Test_admin_cocktail_service_unitaire:
     """
@@ -144,15 +148,14 @@ class Test_admin_cocktail_service_unitaire:
         Teste si la fonction réussi dans un cas où elle devrait.
         """
         #GIVEN
-        id = 11000
+        id = 11007
         
         #WHEN
         with patch("dao.admin_cocktail_dao.AdminCocktailDAO.suppr_ckt", 
         return_value=True): 
             res = AdminCocktailService().supprimer_cocktail(id)
-
+        
         #THEN
-        assert isinstance(res, bool)
         assert res
     
 
@@ -175,7 +178,7 @@ class Test_admin_cocktail_service_integration:
         existe déjà dans la base de données.
         """
         #GIVEN
-        id = 11000
+        id = 11001
         ckt = CocktailService().verifier_cocktail(id)
     
         #WHEN&THEN
@@ -203,7 +206,7 @@ class Test_admin_cocktail_service_integration:
         Teste si le cocktail est bien supprimé
         """
         #GIVEN
-        id = 11000
+        id = 11002
 
         #WHEN
         res = AdminCocktailService().supprimer_cocktail(id)

@@ -58,7 +58,6 @@ class CocktailDAO:
         if res:
             for ligne in res:
                 filtre = FiltreIngredient(id=ligne["id_ingredient"])
-                print(filtre)
                 ingredient_sorti = RechercheService().recherche_ingredient(filtre)[0]
                 ingr = Ingredient(
                     id=ingredient_sorti.id,

@@ -48,7 +48,6 @@ class IngredientService(metaclass=Singleton):
             nouvel_ing.alcoolise,
             nouvel_ing.abv,
         )
-        print("id_nouvel_ing", id_nouvel_ing)
         if id_nouvel_ing:
             return IngredientDao.verifier_ingredient(id_nouvel_ing)
 
@@ -90,7 +89,6 @@ class IngredientService(metaclass=Singleton):
         if not isinstance(id_ingredient, int):
             raise TypeError("L'id indiquée n'est pas conforme au format.")
         ingredient = IngredientDao().verifier_ingredient(id_ingredient)
-        print(id_ingredient)
         if ingredient is None:
             raise ValueError("ingredient inexistant")
         return ingredient

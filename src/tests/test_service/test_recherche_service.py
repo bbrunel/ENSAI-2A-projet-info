@@ -353,13 +353,13 @@ class Test_recherche_service_integration:
         Teste si la fonction renvoie bien les ingrédients dont l'id correspond à 1.
         """
         # GIVEN
-        filtre = FiltreIngredient(id=1)
+        filtre = FiltreIngredient(id=3)
 
         # WHEN
         recherche = RechercheService().recherche_ingredient(filtre)
 
         # THEN
-        assert "Vodka" in [ing.nom for ing in recherche]
+        assert "Rum" in [ing.nom for ing in recherche]
 
     def test_recherche_ingredient_filtre_nom(self):
         """

@@ -51,7 +51,7 @@ class UtilisateurDao(metaclass=Singleton):
                             "admin": utilisateur.admin,
                         },
                     )
-                    print("test")
+                    
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)

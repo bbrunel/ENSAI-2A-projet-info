@@ -96,10 +96,11 @@ class AdminCocktailDAO:
         -------
         True si le cocktail a bien été supprimé de la base de données 
         """
-        
+        print("hello")
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    print("debut")
                     cursor.execute(
                         "DELETE"
                         "    FROM favorites"
@@ -113,8 +114,9 @@ class AdminCocktailDAO:
                         {
                             "id_recipe": id_cocktail},
                     )
+                    print('fin')
                     res = cursor.rowcount
         except Exception as e:
-            logging.info(e) 
+            logging.info(e)
 
         return res > 0

@@ -84,7 +84,6 @@ class AdminCocktailService:
         ajout_reussi = AdminCocktailDAO().ajouter_ckt(
             nom, tags, categorie, iba, alcolise, verre, instructions, url_image
         )
-        print(ajout_reussi)
         if not isinstance(ajout_reussi, int):
             raise ValueError("Il y a eu un problème dans la création de ce nouvau cocktail.")
 

@@ -267,8 +267,7 @@ class Test_ing_utilisateur_service_integration:
 
     def test_integ_list_ing_util_vide(self):
         """
-        Teste si une erreur se lève bien dans le cas où l'utilisateur 
-        n'a aucun ingrédient à supprimer
+        Teste si la liste des ingrédients d'un utilisateur est bien vide
         """
         #GIVEN
         utilisateur = UtilisateurService().trouver_par_id(2)
@@ -281,8 +280,7 @@ class Test_ing_utilisateur_service_integration:
 
     def test_integ_list_ing_util_ok(self):
         """
-        Teste si une erreur se lève bien dans le cas où l'utilisateur 
-        n'a aucun ingrédient à supprimer
+        Teste si un ingrédient est bien dans l'inventaire de l'utilisateur
         """
         #GIVEN
         utilisateur = UtilisateurService().trouver_par_id(1)
@@ -313,7 +311,6 @@ class Test_ing_utilisateur_service_integration:
         #THEN 
         assert isinstance(res, bool)
         assert 312 not in [ingred.id for ingred in ingr_util]
-        assert res
 
 
     

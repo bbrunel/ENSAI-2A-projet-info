@@ -8,6 +8,8 @@ from service.cocktail_service import CocktailService, CocktailDAO, Cocktail, Ing
 from service.recherche_service import RechercheService, FiltreCocktail, FiltreIngredient
 from service.favoris_service import FavorisService, FavorisDAO, Favori
 
+
+
 #Tests unitaires
 
 class Test_favoris_service_unitaires:

@@ -8,7 +8,9 @@ from dao.ingredient_dao import IngredientDao
 from service.ingredient_service import IngredientService
 from service.recherche_service import RechercheService
 
+from utils.reset_database import reset_database
 
+reset_database()
 #Tests unitaires
 
 class Test_ingredient_service_unitaire:
@@ -62,7 +64,7 @@ class Test_ingredient_service_unitaire:
         """Suppression de l'ingrédient réussie."""
 
         # GIVEN
-        ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
+        ingredient = Ingredient(88, "eau", "desc", "boisson", False, 0)
         with patch("dao.ingredient_dao.IngredientDao.supprimer", return_value=True):
             # WHEN
             suppression = IngredientService().supprimer_ingredient(ingredient)
@@ -89,8 +91,8 @@ class Test_ingredient_service_unitaire:
         """Vérification de l'existence de l'ingrédient réussie."""
 
         # GIVEN
-        id = 513
-        ingredient = Ingredient(513, "Eau", "", "boisson", False, 0)
+        id = 4
+        ingredient = Ingredient(4, "Eau", "", "boisson", False, 0)
         with patch(
             "service.recherche_service.RechercheService.recherche_ingredient",
             return_value=[ingredient],
@@ -99,7 +101,6 @@ class Test_ingredient_service_unitaire:
             ingredient_verifie = IngredientService().verifier_ingredient(id)
 
         # THEN
-        print(ingredient_verifie, ingredient)
         assert ingredient_verifie.id == ingredient.id
 
     def test_verifier_ingredient_false(self):
@@ -152,7 +153,7 @@ class Test_ingredient_service_integration:
         """Suppression de l'ingrédient réussie."""
 
         # GIVEN
-        ingredient = IngredientService().verifier_ingredient(513)
+        ingredient = IngredientService().verifier_ingredient(1)
 
         # WHEN
         suppression = IngredientService().supprimer_ingredient(ingredient)
