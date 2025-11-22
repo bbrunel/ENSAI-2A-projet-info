@@ -35,8 +35,7 @@ class UtilisateurService:
 
         Returns
         -------
-        bool
-            True si la création est un succès.
+            l'utilisateur si la création est un succès et None sinon.
         """
         nouvel_utilisateur = Utilisateur(None, nom_utilisateur, hash_mdp)
         return UtilisateurDao().creer(nouvel_utilisateur)

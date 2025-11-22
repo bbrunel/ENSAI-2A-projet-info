@@ -31,10 +31,9 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur : Utilisateur
 
         Returns
-        -------
-        created : bool
-            True si la création est un succès
-            False sinon
+        ------
+            l'utilisateur si la création est un succès
+            None sinon
         """
 
         res = None
