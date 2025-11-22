@@ -19,4 +19,4 @@ INSERT INTO have(id_user, id_ingredient) VALUES(3,305);
 INSERT INTO have(id_user, id_ingredient) VALUES(3,312);
 
 
-INSERT INTO favorites(id_user, id_recipe) VALUES(1,11000);
+INSERT INTO favorites(id_user, id_recipe, note) VALUES(1,11000,'Les mojitos c trop bon');
