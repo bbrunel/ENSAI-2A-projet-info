@@ -1,22 +1,21 @@
 import sys
+
 sys.path.append("../src")
 
-import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
+import pytest
+
+from business_object.ingredient import Ingredient
+from business_object.utilisateur import Utilisateur
+from service.ingredient_service import IngredientService
 from service.ingredient_utilisateur_service import IngredientUtilisateurService as IUS
 from service.utilisateur_service import UtilisateurService
-from service.ingredient_service import IngredientService
 
-from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
-
-from business_object.utilisateur import Utilisateur
-from business_object.ingredient import Ingredient
+# Tests
 
 
-# Tests 
-
-#Tests unitaires
+# Tests unitaires
 class Test_ing_utilisateur_service_unitaires:
     """
     Tests unitaires pour la classe IngredientUtilisateurService
@@ -28,6 +27,7 @@ class Test_ing_utilisateur_service_unitaires:
         supprimer_ingredient_utilisateur
         liste_tous_ingredients_utilisateur
     """
+
     ##ajout_ingredient_utilisateur
 
     def test_ajout_ingredient_utilisateur_erreur_type(self):
@@ -40,7 +40,7 @@ class Test_ing_utilisateur_service_unitaires:
         utilisateur = Utilisateur(id_utilisateur, "pseudo", "mdp")
         ingredient = Ingredient(id_ingredient, "eau", "", "boisson", False, 0)
 
-            # WHEN&THEN
+        # WHEN&THEN
         with pytest.raises(TypeError):
             IUS().ajout_ingredient_utilisateur(utilisateur, "ingredient")
             IUS().ajout_ingredient_utilisateur("utilisateur", ingredient)
@@ -48,7 +48,7 @@ class Test_ing_utilisateur_service_unitaires:
     def test_ajout_ingredient_utilisateur_ok(self):
         """
         Teste si la méthode réussi bien.
-        
+
         """
         # GIVEN
         id_utilisateur = 2
@@ -58,9 +58,8 @@ class Test_ing_utilisateur_service_unitaires:
 
         with patch(
             "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.ajouter",
-            return_value=ingredient.id
+            return_value=ingredient.id,
         ):
-
             # WHEN
             ingredient_ajoute = IUS().ajout_ingredient_utilisateur(utilisateur, ingredient)
 
@@ -79,13 +78,11 @@ class Test_ing_utilisateur_service_unitaires:
         ingredient = Ingredient(id_ingredient, "eau", "", "boisson", False, 0)
 
         with patch(
-            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.ajouter",
-            return_value=None
+            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.ajouter", return_value=None
         ):
             # WHEN&THEN
             with pytest.raises(ValueError):
                 IUS().ajout_ingredient_utilisateur(utilisateur, ingredient)
-
 
     ##supprimer_ingredient
 
@@ -115,8 +112,7 @@ class Test_ing_utilisateur_service_unitaires:
         ingredient = Ingredient(id_ingredient, "eau", "", "boisson", False, 0)
 
         with patch(
-            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.supprimer",
-            return_value=True
+            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.supprimer", return_value=True
         ):
             # WHEN
             resultat = IUS().supprimer_ingredient_utilisateur(utilisateur, ingredient)
@@ -135,15 +131,13 @@ class Test_ing_utilisateur_service_unitaires:
         ingredient = Ingredient(id_ingredient, "eau", "", "boisson", False, 0)
 
         with patch(
-            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.supprimer",
-            return_value=False
+            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.supprimer", return_value=False
         ):
             # WHEN
             resultat = IUS().supprimer_ingredient_utilisateur(utilisateur, ingredient)
 
         # THEN
         assert resultat is False
-
 
     ##liste_tous_ingrédients_utilisateur
 
@@ -171,12 +165,12 @@ class Test_ing_utilisateur_service_unitaires:
         liste_ingredients = [
             Ingredient(513, "eau", "", "boisson", False, 0),
             Ingredient(514, "sucre", "", "épice", False, 0),
-            Ingredient(515, "citron", "", "fruit", False, 0)
+            Ingredient(515, "citron", "", "fruit", False, 0),
         ]
 
         with patch(
             "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.lister_tous",
-            return_value=liste_ingredients
+            return_value=liste_ingredients,
         ):
             # WHEN
             resultat = IUS().liste_tous_ingredients_utilisateur(utilisateur)
@@ -189,7 +183,7 @@ class Test_ing_utilisateur_service_unitaires:
     def test_liste_tous_ingredients_utilisateur_ko(self):
         """
         Teste que la liste des ingrédients de l'utilisateur n'est pas retournée
-        (cas où le DAO retourne None, par exemple en cas d'erreur ou si l'utilisateur n'a 
+        (cas où le DAO retourne None, par exemple en cas d'erreur ou si l'utilisateur n'a
         aucun ingrédient).
         """
         # GIVEN
@@ -197,8 +191,7 @@ class Test_ing_utilisateur_service_unitaires:
         utilisateur = Utilisateur(id_utilisateur, "pseudo", "mdp")
 
         with patch(
-            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.lister_tous",
-            return_value=None
+            "dao.ingredient_utilisateur_dao.IngredientUtilisateurDao.lister_tous", return_value=None
         ):
             # WHEN
             resultat = IUS().liste_tous_ingredients_utilisateur(utilisateur)
@@ -207,7 +200,8 @@ class Test_ing_utilisateur_service_unitaires:
         assert resultat is None
 
 
-#Tests d'intégration
+# Tests d'intégration
+
 
 class Test_ing_utilisateur_service_integration:
     """
@@ -219,23 +213,23 @@ class Test_ing_utilisateur_service_integration:
         supprimer_ingredient_utilisateur
         liste_tous_ingredients_utilisateur
     """
+
     ##ajout_ingredient_utilisateur
 
     def test_integ_aj_ing_ok(self):
         """
         Teste si la méthode renvoie bien l'id du cocktail si l'ajout aux ingrédients réussi
         """
-        #GIVEN
+        # GIVEN
         utilisateur = UtilisateurService().trouver_par_id(2)
         ingr = IngredientService().verifier_ingredient(312)
 
-        #WHEN
+        # WHEN
         ingr_resultat = IUS().ajout_ingredient_utilisateur(utilisateur, ingr)
         ingr_util = IUS().liste_tous_ingredients_utilisateur(utilisateur)
 
         assert ingr_resultat.id == ingr.id
         assert 312 in [ingred.id for ingred in ingr_util]
-
 
     ##Supprimer_tous
 
@@ -243,69 +237,66 @@ class Test_ing_utilisateur_service_integration:
         """
         Teste si la méthode supprime bien tous les ingrédients de l'utilisateur et renvoie True
         """
-        #GIVEN
+        # GIVEN
         utilisateur = UtilisateurService().trouver_par_id(2)
 
-        #WHEN 
+        # WHEN
         res = IUS().supprimer_tous(utilisateur)
 
-        #THEN 
+        # THEN
         assert isinstance(res, bool)
         assert res
-        assert IUS().liste_tous_ingredients_utilisateur(utilisateur) == []    
+        assert IUS().liste_tous_ingredients_utilisateur(utilisateur) == []
 
-
-    #liste_tous_ingredients_utilisateur
+    # liste_tous_ingredients_utilisateur
 
     def test_integ_list_ing_util_vide(self):
         """
         Teste si la liste des ingrédients d'un utilisateur est bien vide
         """
-        #GIVEN
+        # GIVEN
         utilisateur = UtilisateurService().trouver_par_id(2)
 
-        #WHEN 
+        # WHEN
         res = IUS().liste_tous_ingredients_utilisateur(utilisateur)
 
-        #THEN
-        assert res ==[]
+        # THEN
+        assert res == []
 
     def test_integ_list_ing_util_ok(self):
         """
         Teste si un ingrédient est bien dans l'inventaire de l'utilisateur
         """
-        #GIVEN
+        # GIVEN
         utilisateur = UtilisateurService().trouver_par_id(1)
 
-        #WHEN 
+        # WHEN
         res = IUS().liste_tous_ingredients_utilisateur(utilisateur)
 
-        #THEN
+        # THEN
         assert isinstance(res, list)
         assert all([isinstance(ing, Ingredient) for ing in res])
         assert "Mint" in [ing.nom for ing in res]
 
-
-    #supprimer_ingredient_utilisateur
+    # supprimer_ingredient_utilisateur
 
     def test_integ_suppr_ingredient_utilisateur_ok(self):
         """
         Teste si la méthode supprime bien et renvoie un bool
         """
-        #GIVEN
+        # GIVEN
         utilisateur = UtilisateurService().trouver_par_id(1)
         ingr = IngredientService().verifier_ingredient(312)
 
-        #WHEN
+        # WHEN
         res = IUS().supprimer_ingredient_utilisateur(utilisateur, ingr)
         ingr_util = IUS().liste_tous_ingredients_utilisateur(utilisateur)
 
-        #THEN 
+        # THEN
         assert isinstance(res, bool)
         assert 312 not in [ingred.id for ingred in ingr_util]
 
 
-    
 if __name__ == "__main__":
     import pytest
 

@@ -1,9 +1,7 @@
 import logging
 
 from business_object.ingredient import Ingredient
-
 from dao.db_connection import DBConnection
-
 from utils.log_decorator import log
 from utils.singleton import Singleton
 

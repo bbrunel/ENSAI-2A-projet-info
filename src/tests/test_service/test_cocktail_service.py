@@ -1,17 +1,19 @@
 import sys
-sys.path.append('../src')
+
+sys.path.append("../src")
+
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import MagicMock, patch
+
+from business_object.cocktail import Cocktail
+from business_object.filtre_cocktail import FiltreCocktail
+from business_object.ingredient import Ingredient
 from service.cocktail_service import CocktailService
 from service.recherche_service import RechercheService
-from dao.cocktail_dao import CocktailDAO
-from business_object.cocktail import Cocktail
-from business_object.ingredient import Ingredient
-from business_object.filtre_cocktail import FiltreCocktail
-
 
 # Tests unitaires
+
 
 class Test_cocktail_service_unitaire:
     """
@@ -24,6 +26,7 @@ class Test_cocktail_service_unitaire:
         nb_cocktails
         list_tous_cocktails
     """
+
     ##verifier_cocktail
     def test_verifier_cocktail_ingredient(self):
         """
@@ -31,16 +34,16 @@ class Test_cocktail_service_unitaire:
         """
 
         # GIVEN
-        mojito = RechercheService().recherche_cocktail(FiltreCocktail(id = 11000))[0]
-        with patch('service.recherche_service.RechercheService.recherche_cocktail',
-            return_value=[mojito]):
-
+        mojito = RechercheService().recherche_cocktail(FiltreCocktail(id=11000))[0]
+        with patch(
+            "service.recherche_service.RechercheService.recherche_cocktail", return_value=[mojito]
+        ):
             # WHEN
             filtre = FiltreCocktail(id=11000)
             cocktail = CocktailService().verifier_cocktail(11000)
 
         # THEN
-        assert isinstance(cocktail, Cocktail) 
+        assert isinstance(cocktail, Cocktail)
         assert cocktail.nom == "Mojito"
 
     def test_verifier_cocktail_erreur(self):
@@ -56,7 +59,6 @@ class Test_cocktail_service_unitaire:
         with pytest.raises(TypeError):
             CocktailService().verifier_cocktail(filtre)
 
-
     ##ingredient_cocktail
 
     def test_ingredient_cocktail_ok(self):
@@ -68,14 +70,16 @@ class Test_cocktail_service_unitaire:
 
         # GIVEN
         id_ingredients_mojito = [337, 305, 312, 476, 455]
-        with patch('dao.cocktail_dao.CocktailDAO.ingredients_ckt', return_value=[
+        with patch(
+            "dao.cocktail_dao.CocktailDAO.ingredients_ckt",
+            return_value=[
                 Ingredient(305, "ingredient 1", "", "", False, 0),
                 Ingredient(312, "ingredient 2", "", "", False, 0),
                 Ingredient(337, "ingredient 3", "", "", False, 0),
                 Ingredient(455, "ingredient 4", "", "", False, 0),
-                Ingredient(476, "ingredient 5", "", "", False, 0)
-            ]):
-
+                Ingredient(476, "ingredient 5", "", "", False, 0),
+            ],
+        ):
             # WHEN
             ingredients = CocktailService().ingredient_cocktail(11000)
 
@@ -91,19 +95,20 @@ class Test_cocktail_service_unitaire:
 
         # GIVEN
         id_ingredients_mojito = [337, 305, 312, 476, 455]
-        with patch('dao.cocktail_dao.CocktailDAO.ingredients_ckt', return_value=[
+        with patch(
+            "dao.cocktail_dao.CocktailDAO.ingredients_ckt",
+            return_value=[
                 Ingredient(305, "ingredient 1", "", "", False, 0),
                 Ingredient(312, "ingredient 2", "", "", False, 0),
                 Ingredient(337, "ingredient 3", "", "", False, 0),
-                Ingredient(455, "ingredient 4", "", "", False, 0)
-            ]):
-
+                Ingredient(455, "ingredient 4", "", "", False, 0),
+            ],
+        ):
             # WHEN
             ingredients = CocktailService().ingredient_cocktail(11000)
 
         # THEN
         assert all([(ing.id in id_ingredients_mojito) for ing in ingredients])
-
 
     ##nb_cocktails
 
@@ -112,8 +117,7 @@ class Test_cocktail_service_unitaire:
         teste si ce qui est renvoyé est homogène à ce qui est attendu.
         """
         # GIVEN
-        with patch('dao.cocktail_dao.CocktailDAO.nb_cocktails', return_value=12000):
-
+        with patch("dao.cocktail_dao.CocktailDAO.nb_cocktails", return_value=12000):
             # WHEN
             res = CocktailService().nb_cocktails()
 
@@ -126,30 +130,30 @@ class Test_cocktail_service_unitaire:
         teste si ce qui est renvoyé n'est pas homogène à ce qui est attendu.
         """
         # GIVEN
-        with patch('dao.cocktail_dao.CocktailDAO.nb_cocktails', return_value=None):
-
+        with patch("dao.cocktail_dao.CocktailDAO.nb_cocktails", return_value=None):
             # WHEN
             res = CocktailService().nb_cocktails()
 
             # THEN
             assert not isinstance(res, int)
 
-
     ##list_tous_cocktails
-    
+
     def test_list_tous_cocktails_ok(self):
         """
         Vérifie si la fonction renvoiebien l'ensemble des cocktails de la base
         de données.
         """
         # GIVEN
-        with patch('dao.cocktail_dao.CocktailDAO.list_ts_cocktails', return_value=[
+        with patch(
+            "dao.cocktail_dao.CocktailDAO.list_ts_cocktails",
+            return_value=[
                 Cocktail(id=1, nom="cocktail 1"),
                 Cocktail(id=2, nom="cocktail 2"),
                 Cocktail(id=3, nom="cocktail 3"),
-                Cocktail(id=4, nom="cocktail 4")
-            ]):
-
+                Cocktail(id=4, nom="cocktail 4"),
+            ],
+        ):
             # WHEN
             tous_cocktails = CocktailService().lister_tous_cocktail()
 
@@ -165,8 +169,7 @@ class Test_cocktail_service_unitaire:
         de données.
         """
         # GIVEN
-        with patch('dao.cocktail_dao.CocktailDAO.list_ts_cocktails', return_value=[None]):
-
+        with patch("dao.cocktail_dao.CocktailDAO.list_ts_cocktails", return_value=[None]):
             # WHEN
             tous_cocktails = CocktailService().lister_tous_cocktail()
 
@@ -176,6 +179,7 @@ class Test_cocktail_service_unitaire:
 
 
 # Tests d'intégration
+
 
 class Test_cocktail_service_integration:
     """
@@ -188,6 +192,7 @@ class Test_cocktail_service_integration:
         nb_cocktails
         lister_tous_cocktails
     """
+
     ##verifier_cocktail
 
     def test_verifier_cocktail_existence(self):
@@ -217,8 +222,7 @@ class Test_cocktail_service_integration:
         with pytest.raises(TypeError):
             CocktailService().verifier_cocktail(filtre)
 
-
-    #ingredient_cocktail
+    # ingredient_cocktail
 
     def test_ingredient_cocktail(self):
         """
@@ -233,14 +237,9 @@ class Test_cocktail_service_integration:
         ingredients = CocktailService().ingredient_cocktail(11000)
 
         # THEN
-        assert all(
-            [
-                (ing.id in id_ingredients_mojito) for ing in ingredients
-            ]
-        )
+        assert all([(ing.id in id_ingredients_mojito) for ing in ingredients])
 
-
-    #nb_cocktails
+    # nb_cocktails
 
     def test_nb_cocktails(self):
         """
@@ -248,8 +247,7 @@ class Test_cocktail_service_integration:
         """
         assert isinstance(CocktailService().nb_cocktails(), int)
 
-
-    #lister_tous_cocktails
+    # lister_tous_cocktails
 
     def test_list_tous_cocktails(self):
         """

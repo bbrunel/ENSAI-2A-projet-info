@@ -1,22 +1,23 @@
-import sys
 import os
+import sys
+
 # Ajouter le chemin src au PYTHONPATH
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import MagicMock, patch
-from service.recherche_service import RechercheService
+
+from business_object.cocktail import Cocktail
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
-from business_object.utilisateur import Utilisateur
-from business_object.cocktail import Cocktail
 from business_object.ingredient import Ingredient
-from dao.recherche_dao import RechercheDao
-from service.ingredient_service import IngredientService
-from service.ingredient_utilisateur_service import IngredientUtilisateurService
+from business_object.utilisateur import Utilisateur
+from service.recherche_service import RechercheService
 from service.utilisateur_service import UtilisateurService
 
 # Tests unitaires
+
 
 class Test_recherche_service_unitaire:
     """
@@ -38,13 +39,11 @@ class Test_recherche_service_unitaire:
         """
         # GIVEN
         filtre = FiltreCocktail(id=11000)
-        cocktails_attendus = [
-            Cocktail(id=11000, nom="Mojito", alcoolise=True)
-        ]
-        
-        with patch('dao.recherche_dao.RechercheDao.recherche_cocktail', 
-                  return_value=cocktails_attendus):
-            
+        cocktails_attendus = [Cocktail(id=11000, nom="Mojito", alcoolise=True)]
+
+        with patch(
+            "dao.recherche_dao.RechercheDao.recherche_cocktail", return_value=cocktails_attendus
+        ):
             # WHEN
             resultat = RechercheService().recherche_cocktail(filtre)
 
@@ -70,10 +69,8 @@ class Test_recherche_service_unitaire:
         """
         # GIVEN
         filtre = FiltreCocktail(id=999999)
-        
-        with patch('dao.recherche_dao.RechercheDao.recherche_cocktail', 
-                  return_value=None):
 
+        with patch("dao.recherche_dao.RechercheDao.recherche_cocktail", return_value=None):
             # WHEN & THEN
             with pytest.raises(ValueError):
                 RechercheService().recherche_cocktail(filtre)
@@ -83,14 +80,21 @@ class Test_recherche_service_unitaire:
         Teste si la méthode accepte un filtre None.
         """
         # GIVEN
-        cocktails_attendus=[Cocktail(id=1, nom="cocktail 1",alcoolise=True),Cocktail(id=2, nom="cocktail 2",alcoolise=True),Cocktail(id=3, nom="cocktail 3",alcoolise=True),Cocktail(id=4, nom="cocktail 4",alcoolise=True)]
-        with patch('dao.recherche_dao.RechercheDao.recherche_cocktail', return_value=[
-                Cocktail(id=1, nom="cocktail 1",alcoolise=True),
-                Cocktail(id=2, nom="cocktail 2",alcoolise=True),
-                Cocktail(id=3, nom="cocktail 3",alcoolise=True),
-                Cocktail(id=4, nom="cocktail 4",alcoolise=True)
-            ]):
-
+        cocktails_attendus = [
+            Cocktail(id=1, nom="cocktail 1", alcoolise=True),
+            Cocktail(id=2, nom="cocktail 2", alcoolise=True),
+            Cocktail(id=3, nom="cocktail 3", alcoolise=True),
+            Cocktail(id=4, nom="cocktail 4", alcoolise=True),
+        ]
+        with patch(
+            "dao.recherche_dao.RechercheDao.recherche_cocktail",
+            return_value=[
+                Cocktail(id=1, nom="cocktail 1", alcoolise=True),
+                Cocktail(id=2, nom="cocktail 2", alcoolise=True),
+                Cocktail(id=3, nom="cocktail 3", alcoolise=True),
+                Cocktail(id=4, nom="cocktail 4", alcoolise=True),
+            ],
+        ):
             # WHEN
             resultat = RechercheService().recherche_cocktail(None)
 
@@ -105,13 +109,11 @@ class Test_recherche_service_unitaire:
         """
         # GIVEN
         filtre = FiltreIngredient(nom="Vodka")
-        ingredients_attendus = [
-            Ingredient(1, "Vodka", "", "", True, 40.0)
-        ]
-        
-        with patch('dao.recherche_dao.RechercheDao.recherche_ingredient', 
-                  return_value=ingredients_attendus):
-            
+        ingredients_attendus = [Ingredient(1, "Vodka", "", "", True, 40.0)]
+
+        with patch(
+            "dao.recherche_dao.RechercheDao.recherche_ingredient", return_value=ingredients_attendus
+        ):
             # WHEN
             resultat = RechercheService().recherche_ingredient(filtre)
 
@@ -137,10 +139,8 @@ class Test_recherche_service_unitaire:
         """
         # GIVEN
         filtre = FiltreIngredient(nom="IngredientInexistant")
-        
-        with patch('dao.recherche_dao.RechercheDao.recherche_ingredient', 
-                  return_value=None):
 
+        with patch("dao.recherche_dao.RechercheDao.recherche_ingredient", return_value=None):
             # WHEN & THEN
             with pytest.raises(ValueError):
                 RechercheService().recherche_ingredient(filtre)
@@ -154,15 +154,18 @@ class Test_recherche_service_unitaire:
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="Test")
         inventaire = [Ingredient(1, "Vodka", "", "", True, 40.0)]
-        cocktails_attendus = [
-            Cocktail(id=1, nom= "Vodka Martini",alcoolise=True)
-        ]
-        
-        with patch('service.ingredient_utilisateur_service.IngredientUtilisateurService.liste_tous_ingredients_utilisateur', 
-                  return_value=inventaire), \
-             patch('dao.recherche_dao.RechercheDao.cocktails_faisables', 
-                  return_value=cocktails_attendus):
+        cocktails_attendus = [Cocktail(id=1, nom="Vodka Martini", alcoolise=True)]
 
+        with (
+            patch(
+                "service.ingredient_utilisateur_service.IngredientUtilisateurService.liste_tous_ingredients_utilisateur",
+                return_value=inventaire,
+            ),
+            patch(
+                "dao.recherche_dao.RechercheDao.cocktails_faisables",
+                return_value=cocktails_attendus,
+            ),
+        ):
             # WHEN
             resultat = RechercheService().liste_cocktails_faisables(utilisateur, 0)
 
@@ -176,15 +179,18 @@ class Test_recherche_service_unitaire:
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="Test")
         inventaire = [Ingredient(1, "Vodka", "", "", True, 40.0)]
-        cocktails_attendus = [
-            Cocktail(id=2, nom="Mojito",alcoolise=True)
-        ]
-        
-        with patch('service.ingredient_utilisateur_service.IngredientUtilisateurService.liste_tous_ingredients_utilisateur', 
-                  return_value=inventaire), \
-             patch('dao.recherche_dao.RechercheDao.cocktails_faisables', 
-                  return_value=cocktails_attendus):
+        cocktails_attendus = [Cocktail(id=2, nom="Mojito", alcoolise=True)]
 
+        with (
+            patch(
+                "service.ingredient_utilisateur_service.IngredientUtilisateurService.liste_tous_ingredients_utilisateur",
+                return_value=inventaire,
+            ),
+            patch(
+                "dao.recherche_dao.RechercheDao.cocktails_faisables",
+                return_value=cocktails_attendus,
+            ),
+        ):
             # WHEN
             resultat = RechercheService().liste_cocktails_faisables(utilisateur, 1)
 
@@ -198,22 +204,42 @@ class Test_recherche_service_unitaire:
         """
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="Test")
-        
-        with patch('service.recherche_service.IngredientUtilisateurService') as mock_ius, \
-            patch('service.recherche_service.RechercheDao') as mock_dao, \
-            patch('service.recherche_service.IngredientService') as mock_is:
-            
+
+        with (
+            patch("service.recherche_service.IngredientUtilisateurService") as mock_ius,
+            patch("service.recherche_service.RechercheDao") as mock_dao,
+            patch("service.recherche_service.IngredientService") as mock_is,
+        ):
             mock_ius.return_value.liste_tous_ingredients_utilisateur.return_value = [
-                Ingredient(id=1, nom="Ing1", desc="Description 1", type_ing="liqueur", alcoolise=True, abv=40),
-                Ingredient(id=2, nom="Ing2", desc="Description 2", type_ing="liqueur", alcoolise=True, abv=40)
+                Ingredient(
+                    id=1,
+                    nom="Ing1",
+                    desc="Description 1",
+                    type_ing="liqueur",
+                    alcoolise=True,
+                    abv=40,
+                ),
+                Ingredient(
+                    id=2,
+                    nom="Ing2",
+                    desc="Description 2",
+                    type_ing="liqueur",
+                    alcoolise=True,
+                    abv=40,
+                ),
             ]
-            
+
             mock_dao.return_value.ingredients_cocktails_quasifaisables.return_value = [3, 4, 5]
             mock_dao.return_value.nb_cocktail_faisables.return_value = 5
-            
+
             mock_is.return_value.nb_cocktails.return_value = 10
             mock_is.return_value.verifier_ingredient.side_effect = lambda id: Ingredient(
-                id=id, nom=f"Ing{id}", desc=f"Description {id}", type_ing="liqueur", alcoolise=True, abv=40
+                id=id,
+                nom=f"Ing{id}",
+                desc=f"Description {id}",
+                type_ing="liqueur",
+                alcoolise=True,
+                abv=40,
             )
 
             # WHEN
@@ -223,7 +249,6 @@ class Test_recherche_service_unitaire:
         assert "Nombre de cocktails supplémentaires" in resultat
         assert "Liste de course" in resultat
         assert len(resultat["Liste de course"]) == 1
-
 
     def test_recherche_ingredients_optimaux_erreur_nb_ing_supp_trop_bas(self):
         """
@@ -249,6 +274,7 @@ class Test_recherche_service_unitaire:
 
 
 # Tests d'intégration
+
 
 class Test_recherche_service_integration:
     """
@@ -389,7 +415,6 @@ class Test_recherche_service_integration:
         assert all(ing.alcoolise for ing in recherche)
         assert "Gin" in [ing.nom for ing in recherche]
 
-
     def test_recherche_ingredient_erreur_filtre_incorrect(self):
         """
         Teste que la fonction lève une erreur quand le filtre n'est pas du bon type.
@@ -443,6 +468,7 @@ class Test_recherche_service_integration:
         """
         # GIVEN
         from service.utilisateur_service import UtilisateurService
+
         utilisateur = UtilisateurService().trouver_par_nom("Gerald")
 
         # WHEN
@@ -459,4 +485,5 @@ class Test_recherche_service_integration:
 
 if __name__ == "__main__":
     import pytest
+
     pytest.main([__file__])

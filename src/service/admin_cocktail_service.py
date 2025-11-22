@@ -1,9 +1,7 @@
 from business_object.cocktail import Cocktail
-
 from dao.admin_cocktail_dao import AdminCocktailDAO
-
 from service.cocktail_service import CocktailService
-from service.recherche_service import RechercheService, FiltreCocktail
+from service.recherche_service import FiltreCocktail, RechercheService
 
 
 class AdminCocktailService:
@@ -32,21 +30,21 @@ class AdminCocktailService:
 
         Paramètres
         ----------
-            nom : str 
+            nom : str
                 nom usuel d'un cocktail
             tags : str
                 Les tags attribués au cocktail
-            categorie : str 
+            categorie : str
                 catégorie du cocktail
-            iba : str 
+            iba : str
                 type de cocktail considéré par l'IBA(the International Bartender Association)
             alcolise : bool
-                booléen indiquant si le cocktail contient de l'alcool 
-            verre : str 
+                booléen indiquant si le cocktail contient de l'alcool
+            verre : str
                 type de verre utilisé pour faire le cocktail
             instructions : str
                 instructions pour réaliser le cocktail
-            url_image : str 
+            url_image : str
                 potentielle image d'illustration du cocktail
 
         Retour
@@ -73,10 +71,11 @@ class AdminCocktailService:
         if url_image is not None:
             if not isinstance(url_image, str):
                 raise TypeError("Le lien URL doit être un string.")
-        
+
         verif_pas_deja_existant = RechercheService().recherche_cocktail(
-            FiltreCocktail(nom=nom, alcoolise=alcolise, categorie=categorie, 
-            iba=iba, verre=verre, tags=tags)
+            FiltreCocktail(
+                nom=nom, alcoolise=alcolise, categorie=categorie, iba=iba, verre=verre, tags=tags
+            )
         )
         if verif_pas_deja_existant != []:
             raise ValueError("Ce cocktail existe déjà.")
@@ -110,4 +109,4 @@ class AdminCocktailService:
         suppression = AdminCocktailDAO().suppr_ckt(id_cocktail)
         if not suppression:
             raise ValueError("Aucun cocktail possédant cette id n'a été supprimé")
-        return  suppression
+        return suppression

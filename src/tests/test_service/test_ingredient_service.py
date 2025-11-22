@@ -7,22 +7,23 @@ from business_object.ingredient import Ingredient
 from dao.ingredient_dao import IngredientDao
 from service.ingredient_service import IngredientService
 from service.recherche_service import RechercheService
-
 from utils.reset_database import reset_database
 
 reset_database()
-#Tests unitaires
+# Tests unitaires
+
 
 class Test_ingredient_service_unitaire:
     """
     Teste la classe IngredientService à travers des tests unitaires.
-    
+
     Methodes testées
     ----------
         ajout_ingredient
         supprimer_ingedient
         verifier_ingredient
     """
+
     ##ajout_ingredient
 
     def test_ajout_ingredient_ok(self):
@@ -31,12 +32,11 @@ class Test_ingredient_service_unitaire:
         # GIVEN
         rose = RechercheService().recherche_ingredient(FiltreIngredient(id=615))[0]
         with patch("dao.ingredient_dao.IngredientDao.ajouter", return_value=rose.id):
-            with patch("dao.ingredient_dao.IngredientDao.verifier_ingredient",
-            return_value=rose):
+            with patch("dao.ingredient_dao.IngredientDao.verifier_ingredient", return_value=rose):
                 # WHEN
                 nouvel_ingredient = IngredientService().ajout_ingredient(
                     rose.nom, rose.desc, rose.type_ing, rose.alcoolise, rose.abv
-            )
+                )
             filtre = FiltreIngredient(id=rose.id)
             nouvel_ing = RechercheService().recherche_ingredient(filtre)[0]
 
@@ -56,7 +56,6 @@ class Test_ingredient_service_unitaire:
 
         # THEN
         assert nouvel_ingredient is None
-
 
     ##supprimer_ingredient
 
@@ -83,7 +82,6 @@ class Test_ingredient_service_unitaire:
 
         # THEN
         assert not suppression
-
 
     ##verifier_ingredient
 
@@ -114,10 +112,11 @@ class Test_ingredient_service_unitaire:
             IngredientService().verifier_ingredient(id)
 
 
-#Tests d'intégration
+# Tests d'intégration
+
 
 class Test_ingredient_service_integration:
-    """ 
+    """
     Teste la classe IngredientService à travers des tests d'intégration.
 
     Methodes testées
@@ -126,6 +125,7 @@ class Test_ingredient_service_integration:
         supprimer_ingedient
         verifier_ingredient
     """
+
     ##ajout_ingredient
 
     def test_ajout_ingredient_ok_integration(self):
@@ -146,8 +146,7 @@ class Test_ingredient_service_integration:
         assert recherche_test != []
         assert recherche_test[0].nom == nom
 
-
-    #supprimer_ingredient
+    # supprimer_ingredient
 
     def test_supprimer_ingredient_ok(self):
         """Suppression de l'ingrédient réussie."""
@@ -160,9 +159,8 @@ class Test_ingredient_service_integration:
 
         # THEN
         assert suppression
-    
 
-    #verifier_ingredient
+    # verifier_ingredient
 
     def test_verifier_ingredient_true(self):
         """Vérification de l'existence de l'ingrédient réussie."""

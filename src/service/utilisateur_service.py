@@ -1,16 +1,14 @@
 from tabulate import tabulate
 
 from business_object.utilisateur import Utilisateur
-
 from dao.utilisateur_dao import UtilisateurDao
-
 from utils.log_decorator import log
 
 
 class UtilisateurService:
     """
     Classe contenant les méthodes de service des utilisateurs
-    
+
     Methodes
     ----------
         creer
@@ -107,7 +105,7 @@ class UtilisateurService:
 
         Returns
         -------
-        
+
         """
         return utilisateur if UtilisateurDao().modifier(utilisateur) else None
 
@@ -124,7 +122,7 @@ class UtilisateurService:
         Returns
         -------
         bool
-            True si le compte a bien été supprimé.        
+            True si le compte a bien été supprimé.
         """
         return UtilisateurDao().supprimer(utilisateur)
 

@@ -1,9 +1,7 @@
 import logging
 
 from business_object.utilisateur import Utilisateur
-
 from dao.db_connection import DBConnection
-
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
@@ -11,7 +9,7 @@ from utils.singleton import Singleton
 class UtilisateurDao(metaclass=Singleton):
     """
     Classe contenant les méthodes pour accéder aux Utilisateurs de la base de données
-    
+
     Methodes
     ----------
         creer
@@ -51,7 +49,7 @@ class UtilisateurDao(metaclass=Singleton):
                             "admin": utilisateur.admin,
                         },
                     )
-                    
+
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)

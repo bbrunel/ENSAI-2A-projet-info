@@ -12,6 +12,7 @@ class AdminCocktailDAO:
         ajouter
         suppr_ckt
     """
+
     def ajouter_ckt(
         self,
         nom: str,
@@ -80,7 +81,7 @@ class AdminCocktailDAO:
 
         if res:
             res = res["id_recipe"]
-            
+
         return res
 
     def suppr_ckt(self, id_cocktail) -> bool:
@@ -89,12 +90,12 @@ class AdminCocktailDAO:
 
         Paramètres
         ----------
-        id_cocktail : int 
+        id_cocktail : int
             id du cocktail à supprimer des cocktails
 
         Retour
         -------
-        True si le cocktail a bien été supprimé de la base de données 
+        True si le cocktail a bien été supprimé de la base de données
         """
         print("hello")
         try:
@@ -111,10 +112,9 @@ class AdminCocktailDAO:
                         "DELETE "
                         "    FROM cocktails                   "
                         " WHERE id_recipe = %(id_recipe)s;      ",
-                        {
-                            "id_recipe": id_cocktail},
+                        {"id_recipe": id_cocktail},
                     )
-                    print('fin')
+                    print("fin")
                     res = cursor.rowcount
         except Exception as e:
             logging.info(e)

@@ -1,15 +1,18 @@
-import sys
 import os
+import sys
+
 # Ajouter le chemin src au PYTHONPATH
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import MagicMock, patch
-from service.utilisateur_service import UtilisateurService
+
 from business_object.utilisateur import Utilisateur
-from dao.utilisateur_dao import UtilisateurDao
+from service.utilisateur_service import UtilisateurService
 
 # Tests unitaires
+
 
 class Test_utilisateur_service_unitaire:
     """
@@ -36,10 +39,8 @@ class Test_utilisateur_service_unitaire:
         # GIVEN
         nom_utilisateur, hash_mdp = "nouvel_utilisateur", "hash_password"
         utilisateur_attendu = Utilisateur(id=1, nom_utilisateur=nom_utilisateur, mdp=hash_mdp)
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.creer', 
-                  return_value=utilisateur_attendu):
-            
+
+        with patch("dao.utilisateur_dao.UtilisateurDao.creer", return_value=utilisateur_attendu):
             # WHEN
             resultat = UtilisateurService.creer(nom_utilisateur, hash_mdp)
 
@@ -53,10 +54,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         nom_utilisateur, hash_mdp = "nouvel_utilisateur", "hash_password"
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.creer', 
-                  return_value=None):
 
+        with patch("dao.utilisateur_dao.UtilisateurDao.creer", return_value=None):
             # WHEN
             resultat = UtilisateurService.creer(nom_utilisateur, hash_mdp)
 
@@ -74,10 +73,10 @@ class Test_utilisateur_service_unitaire:
             Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean"),
             Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie"),
         ]
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.lister_tous', 
-                  return_value=utilisateurs_attendus):
-            
+
+        with patch(
+            "dao.utilisateur_dao.UtilisateurDao.lister_tous", return_value=utilisateurs_attendus
+        ):
             # WHEN
             resultat = UtilisateurService.lister_tous(inclure_mdp=True)
 
@@ -94,10 +93,10 @@ class Test_utilisateur_service_unitaire:
             Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean"),
             Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie"),
         ]
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.lister_tous', 
-                  return_value=utilisateurs_attendus):
-            
+
+        with patch(
+            "dao.utilisateur_dao.UtilisateurDao.lister_tous", return_value=utilisateurs_attendus
+        ):
             # WHEN
             resultat = UtilisateurService.lister_tous(inclure_mdp=False)
 
@@ -113,10 +112,10 @@ class Test_utilisateur_service_unitaire:
         # GIVEN
         id_utilisateur = 2
         utilisateur_attendu = Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie")
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.trouver_par_id', 
-                  return_value=utilisateur_attendu):
-            
+
+        with patch(
+            "dao.utilisateur_dao.UtilisateurDao.trouver_par_id", return_value=utilisateur_attendu
+        ):
             # WHEN
             resultat = UtilisateurService.trouver_par_id(id_utilisateur)
 
@@ -131,10 +130,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         id_utilisateur = 999999999
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.trouver_par_id', 
-                  return_value=None):
 
+        with patch("dao.utilisateur_dao.UtilisateurDao.trouver_par_id", return_value=None):
             # WHEN
             resultat = UtilisateurService.trouver_par_id(id_utilisateur)
 
@@ -150,10 +147,10 @@ class Test_utilisateur_service_unitaire:
         # GIVEN
         nom_utilisateur = "marie"
         utilisateur_attendu = Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie")
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.trouver_par_nom', 
-                  return_value=utilisateur_attendu):
-            
+
+        with patch(
+            "dao.utilisateur_dao.UtilisateurDao.trouver_par_nom", return_value=utilisateur_attendu
+        ):
             # WHEN
             resultat = UtilisateurService.trouver_par_nom(nom_utilisateur)
 
@@ -167,10 +164,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         nom_utilisateur = "utilisateur_inexistant"
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.trouver_par_nom', 
-                  return_value=None):
 
+        with patch("dao.utilisateur_dao.UtilisateurDao.trouver_par_nom", return_value=None):
             # WHEN
             resultat = UtilisateurService.trouver_par_nom(nom_utilisateur)
 
@@ -185,10 +180,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="jean", mdp="nouveau_mdp")
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.modifier', 
-                  return_value=True):
-            
+
+        with patch("dao.utilisateur_dao.UtilisateurDao.modifier", return_value=True):
             # WHEN
             resultat = UtilisateurService.modifier(utilisateur)
 
@@ -202,10 +195,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="jean", mdp="nouveau_mdp")
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.modifier', 
-                  return_value=False):
 
+        with patch("dao.utilisateur_dao.UtilisateurDao.modifier", return_value=False):
             # WHEN
             resultat = UtilisateurService.modifier(utilisateur)
 
@@ -220,10 +211,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean")
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.supprimer', 
-                  return_value=True):
-            
+
+        with patch("dao.utilisateur_dao.UtilisateurDao.supprimer", return_value=True):
             # WHEN
             resultat = UtilisateurService.supprimer(utilisateur)
 
@@ -236,10 +225,8 @@ class Test_utilisateur_service_unitaire:
         """
         # GIVEN
         utilisateur = Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean")
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.supprimer', 
-                  return_value=False):
 
+        with patch("dao.utilisateur_dao.UtilisateurDao.supprimer", return_value=False):
             # WHEN
             resultat = UtilisateurService.supprimer(utilisateur)
 
@@ -258,10 +245,8 @@ class Test_utilisateur_service_unitaire:
             Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean"),
             Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie"),
         ]
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.lister_tous', 
-                  return_value=utilisateurs):
-            
+
+        with patch("dao.utilisateur_dao.UtilisateurDao.lister_tous", return_value=utilisateurs):
             # WHEN
             resultat = UtilisateurService.nom_utilisateur_deja_utilise(nom_utilisateur)
 
@@ -278,10 +263,8 @@ class Test_utilisateur_service_unitaire:
             Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean"),
             Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie"),
         ]
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.lister_tous', 
-                  return_value=utilisateurs):
-            
+
+        with patch("dao.utilisateur_dao.UtilisateurDao.lister_tous", return_value=utilisateurs):
             # WHEN
             resultat = UtilisateurService.nom_utilisateur_deja_utilise(nom_utilisateur)
 
@@ -299,10 +282,8 @@ class Test_utilisateur_service_unitaire:
             Utilisateur(id=1, nom_utilisateur="jean", mdp="hash_mdp_jean"),
             Utilisateur(id=2, nom_utilisateur="marie", mdp="hash_mdp_marie"),
         ]
-        
-        with patch('dao.utilisateur_dao.UtilisateurDao.lister_tous', 
-                  return_value=utilisateurs):
-            
+
+        with patch("dao.utilisateur_dao.UtilisateurDao.lister_tous", return_value=utilisateurs):
             # WHEN
             resultat = UtilisateurService.afficher_tous()
 
@@ -314,6 +295,7 @@ class Test_utilisateur_service_unitaire:
 
 
 # Tests d'intégration
+
 
 class Test_utilisateur_service_integration:
     """
@@ -413,7 +395,9 @@ class Test_utilisateur_service_integration:
         assert isinstance(resultat, list)
         assert len(resultat) >= 3  # Au moins Gerald, Hector, Bastien
         # Au moins un utilisateur devrait avoir un mot de passe hashé
-        assert any(utilisateur.mdp is not None and len(utilisateur.mdp) > 0 for utilisateur in resultat)
+        assert any(
+            utilisateur.mdp is not None and len(utilisateur.mdp) > 0 for utilisateur in resultat
+        )
 
     ## nom_utilisateur_deja_utilise
 

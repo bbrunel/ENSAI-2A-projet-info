@@ -1,8 +1,6 @@
-from business_object.utilisateur import Utilisateur
 from business_object.ingredient import Ingredient
-
+from business_object.utilisateur import Utilisateur
 from dao.ingredient_utilisateur_dao import IngredientUtilisateurDao
-
 from utils.singleton import Singleton
 
 
@@ -18,11 +16,7 @@ class IngredientUtilisateurService(metaclass=Singleton):
         liste_tous_ingredient_utilisateur
     """
 
-    def ajout_ingredient_utilisateur(
-        self,
-        utilisateur: Utilisateur,
-        ingredient: Ingredient
-    ) -> int:
+    def ajout_ingredient_utilisateur(self, utilisateur: Utilisateur, ingredient: Ingredient) -> int:
         """Ajoute un ingrédient au bar personnel de l'utilisateur.
 
         Parameters
@@ -47,19 +41,14 @@ class IngredientUtilisateurService(metaclass=Singleton):
             raise TypeError("ingredient de type inadéquate")
         id_ingredient = ingredient.id
 
-        if IngredientUtilisateurDao().ajouter(
-            id_utilisateur,
-            id_ingredient
-        ) == ingredient.id:
+        if IngredientUtilisateurDao().ajouter(id_utilisateur, id_ingredient) == ingredient.id:
             return ingredient
 
         else:
             raise ValueError("id non existant")
 
     def supprimer_ingredient_utilisateur(
-        self,
-        utilisateur: Utilisateur,
-        ingredient: Ingredient
+        self, utilisateur: Utilisateur, ingredient: Ingredient
     ) -> bool:
         """Supprime un ingrédient du bar personnel de l'utilisateur.
 
@@ -82,10 +71,7 @@ class IngredientUtilisateurService(metaclass=Singleton):
         if not isinstance(ingredient, Ingredient):
             raise TypeError("ingredient de type inadéquate")
         id_ingredient = ingredient.id
-        return IngredientUtilisateurDao().supprimer(
-            id_utilisateur,
-            id_ingredient
-        )
+        return IngredientUtilisateurDao().supprimer(id_utilisateur, id_ingredient)
 
     def supprimer_tous(self, utilisateur: Utilisateur):
         """Supprime de tous les ingrédients dans le bar personnel.
@@ -101,13 +87,10 @@ class IngredientUtilisateurService(metaclass=Singleton):
         """
         if not isinstance(utilisateur, Utilisateur):
             raise TypeError("utilisateur doit être de type Utilisateur")
-            
+
         return IngredientUtilisateurDao().supprimer_tous(utilisateur.id)
 
-    def liste_tous_ingredients_utilisateur(
-        self,
-        utilisateur: Utilisateur
-    ) -> list[Ingredient]:
+    def liste_tous_ingredients_utilisateur(self, utilisateur: Utilisateur) -> list[Ingredient]:
         """Liste les ingrédients du bar personnel de l'utilisateur.
 
         Parameters

@@ -3,11 +3,8 @@ import logging
 from business_object.cocktail import Cocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.ingredient import Ingredient
-
 from dao.db_connection import DBConnection
-
 from service.recherche_service import RechercheService
-
 from utils.log_decorator import log
 
 

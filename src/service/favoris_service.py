@@ -1,6 +1,5 @@
 from business_object.cocktail import Cocktail
 from business_object.favori import Favori
-
 from dao.favoris_dao import FavorisDAO
 from service.cocktail_service import CocktailService
 

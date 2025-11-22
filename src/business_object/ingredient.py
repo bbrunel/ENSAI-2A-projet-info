@@ -1,6 +1,5 @@
 class Ingredient:
-    """Objets représentant des ingrédients.
-    """
+    """Objets représentant des ingrédients."""
 
     def __init__(self, id: int, nom: str, desc: str, type_ing: str, alcoolise: bool, abv: int):
         self.id = id
