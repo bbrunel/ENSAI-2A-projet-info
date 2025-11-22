@@ -4,9 +4,7 @@ from business_object.cocktail import Cocktail
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.ingredient import Ingredient
-
 from dao.db_connection import DBConnection
-
 from utils.log_decorator import log
 from utils.singleton import Singleton
 
@@ -112,10 +110,6 @@ class RechercheDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # La requete cherche dans la table composition les couple cocktail/ingredient
-                    # dont l'ingredient n'est PAS dans la liste des ingredients possédés, ensuite
-                    # on garde uniquement les cocktails dont le nombre d'occurence (donc le nombre
-                    # d'ingredient supplementaire à utiliser) est inférieur à nb_manquants.
                     query = (
                         "SELECT c1.* FROM cocktails c1"
                         " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
@@ -130,6 +124,11 @@ class RechercheDao(metaclass=Singleton):
                     cursor.execute(query, params)
                     res = cursor.fetchall()
                     if nb_manquants > 0:
+                        # La requete cherche dans la table composition des couples
+                        # cocktail/ingredient dont l'ingredient n'est PAS dans la liste des
+                        # ingredients possédés, ensuite on garde uniquement les cocktails dont
+                        # le nombre d'occurence (donc le nombre
+                        # d'ingredient supplementaire à utiliser) est inférieur à nb_manquants.
                         query = (
                             "SELECT c1.*, count(*) as nb_missing FROM cocktails c1"
                             " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
@@ -197,7 +196,7 @@ class RechercheDao(metaclass=Singleton):
                     res = cursor.fetchall()
         except Exception as e:
             logging.info(e)
-        if res:
+        if res is not None:
             return len(res)
         return None
 
