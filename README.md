@@ -1,4 +1,4 @@
-# Projet informatique de 2ème année ENSAI
+# Projet informatique de 2e année ENSAI
 
 This application is a REST API used to query a database of cocktails and ingredients 
 to find recipe ideas based on the ingredients you have. The user can create an 
@@ -9,15 +9,14 @@ In the following sections we will show you:
 - how to launch the application
 - how to use it. 
 
-## :arrow_forward: Software and tools
+## → Software and tools
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Python 3.13](https://www.python.org/)
 - A [PostgreSQL](https://www.postgresql.org/) database
 - A Browser
 
-
-## :arrow_forward: Mise en place de l'Application
+## → Setting up the application
 
 - [ ] Open VSCode with port 9876 if working on Onyxia
 - [ ] Open **Git Bash**
@@ -61,17 +60,18 @@ POSTGRES_USER=
 POSTGRES_PASSWORD=
 ```
 
-## :arrow_forward: Launch the App
+## → Launch the App
 
-- You must first initialize the PostgreSQL database using::
+- You must first initialize the PostgreSQL database using one of the following commands:
 ```bash
-    uv run src/utils/init_database.sql
+python src/utils/init_database.py
+uv run src/utils/init_database.py
 ```
 
-- To launch the API, run one of the following commands::
+- To launch the API, run one of the following commands:
 ```bash
-uv run src/main.py
 python src/main.py
+uv run src/main.py
 ```
 
 - Normally, if you are using the Onyxia Datalab, a small window will appear at the bottom right; click “Open in Browser” to open the application page in your browser.
@@ -79,7 +79,7 @@ python src/main.py
 
 
 
-## :arrow_forward: Using the App
+## → Using the App
 
 You can now access the different endpoints of the application:
 ![Schéma](doc/image/endpoints.png)
