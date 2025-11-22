@@ -207,14 +207,6 @@ class Test_ing_utilisateur_service_unitaires:
         assert resultat is None
 
 
-#user = Utilisateur(1,'Gerald', 
-#'$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
-#user2 = Utilisateur(2,'Hector', 
-#    '$argon2id$v=19$m=65536,t=3,p=4$bdMsTHecGs62+Qr0hY6REg$qt2ezNuDbMuyvXqKhB0Riys9WRSFElXBJiWh2XHSkgk')
-
-#ingredient = Ingredient(513, "eau", "desc", "boisson", False, 0)
-#ingredient = Ingredient(312, "Lime", "desc", "Fruit", False, 0)
-
 #Tests d'intégration
 
 class Test_ing_utilisateur_service_integration:
