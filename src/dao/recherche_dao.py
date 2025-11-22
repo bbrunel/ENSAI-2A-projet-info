@@ -279,7 +279,7 @@ class RechercheDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     query = (
                         "SELECT id_ingredient FROM composition WHERE id_recipe IN"
-                        "(SELECT c2.id_recipe FROM cocktails c1"
+                        "(SELECT DISTINCT c2.id_recipe FROM cocktails c1"
                         " JOIN composition c2 ON c1.id_recipe = c2.id_recipe"
                         " WHERE NOT c2.id_ingredient IN %(liste_id_ing)s"
                         " GROUP BY  c2.id_recipe HAVING count(*) <= %(nb_max)s)"

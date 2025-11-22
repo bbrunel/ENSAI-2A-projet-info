@@ -20,7 +20,6 @@ class IngredientDao(metaclass=Singleton):
 
     @log
     def verifier_ingredient(self, id_ingredient: int) -> Ingredient:
-        
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -108,7 +107,6 @@ class IngredientDao(metaclass=Singleton):
 
         if res:
             res = res["id_ingredient"]
-
         return res
 
     def supprimer(self, id_ingredient: int) -> bool:
