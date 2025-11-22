@@ -45,7 +45,7 @@ pip install -r requirements.txt
 
 ###  Environment variables
 
-You are now going to define environment variables to declare the database (and webservice to which you are going to connect your python application ? )
+You are now going to define environment variables to declare the database 
 
 At the root of the project :
 
