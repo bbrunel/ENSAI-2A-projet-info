@@ -38,10 +38,10 @@ class Test_cocktail_service_unitaire:
             # WHEN
             filtre = FiltreCocktail(id=11000)
             cocktail = CocktailService().verifier_cocktail(11000)
-            print(cocktail)
 
         # THEN
-        assert "Mojito" in [ckt.nom for ckt in cocktail]
+        assert isinstance(cocktail, Cocktail) 
+        assert cocktail.nom == "Mojito"
 
     def test_verifier_cocktail_erreur(self):
         """
@@ -144,10 +144,10 @@ class Test_cocktail_service_unitaire:
         """
         # GIVEN
         with patch('dao.cocktail_dao.CocktailDAO.list_ts_cocktails', return_value=[
-                Cocktail(1, "cocktail 1", "", "", "", "", True, "", "", ""),
-                Cocktail(2, "cocktail 2", "", "", "", "", True, "", "", ""),
-                Cocktail(3, "cocktail 3", "", "", "", "", True, "", "", ""),
-                Cocktail(4, "cocktail 4", "", "", "", "", True, "", "", "")
+                Cocktail(id=1, nom="cocktail 1"),
+                Cocktail(id=2, nom="cocktail 2"),
+                Cocktail(id=3, nom="cocktail 3"),
+                Cocktail(id=4, nom="cocktail 4")
             ]):
 
             # WHEN
@@ -200,7 +200,7 @@ class Test_cocktail_service_integration:
         cocktail = CocktailService().verifier_cocktail(11000)
 
         # THEN
-        assert "Mojito" in [ckt.nom for ckt in cocktail]
+        assert cocktail.nom == "Mojito"
 
     def test_verifier_cocktail_inexistence(self):
         """

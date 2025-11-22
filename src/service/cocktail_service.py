@@ -34,7 +34,6 @@ class CocktailService:
         cocktail = CocktailDAO().verifier_cocktail(id_cocktail)
         if cocktail is None:
             raise ValueError("Pas de cocktail correspondant à cet id.")
-
         return cocktail
 
     def ingredient_cocktail(self, id_cocktail: int) -> list[Ingredient]:
