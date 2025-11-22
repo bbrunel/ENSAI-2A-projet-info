@@ -20,7 +20,7 @@ class IngredientDao(metaclass=Singleton):
 
     @log
     def verifier_ingredient(self, id_ingredient: int) -> Ingredient:
-        res = None
+        
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -31,6 +31,7 @@ class IngredientDao(metaclass=Singleton):
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
+            raise
         if res:
             return Ingredient(
                 id=res["id_ingredient"],

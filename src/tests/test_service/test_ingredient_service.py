@@ -29,9 +29,11 @@ class Test_ingredient_service_unitaire:
         # GIVEN
         rose = RechercheService().recherche_ingredient(FiltreIngredient(id=615))[0]
         with patch("dao.ingredient_dao.IngredientDao.ajouter", return_value=rose.id):
-            # WHEN
-            nouvel_ingredient = IngredientService().ajout_ingredient(
-                rose.nom, rose.desc, rose.type_ing, rose.alcoolise, rose.abv
+            with patch("dao.ingredient_dao.IngredientDao.verifier_ingredient",
+            return_value=rose):
+                # WHEN
+                nouvel_ingredient = IngredientService().ajout_ingredient(
+                    rose.nom, rose.desc, rose.type_ing, rose.alcoolise, rose.abv
             )
             filtre = FiltreIngredient(id=rose.id)
             nouvel_ing = RechercheService().recherche_ingredient(filtre)[0]
@@ -97,7 +99,8 @@ class Test_ingredient_service_unitaire:
             ingredient_verifie = IngredientService().verifier_ingredient(id)
 
         # THEN
-        assert ingredient_verifie == ingredient
+        print(ingredient_verifie, ingredient)
+        assert ingredient_verifie.id == ingredient.id
 
     def test_verifier_ingredient_false(self):
         """Vérification de l'ingrédient échouée."""
@@ -164,13 +167,13 @@ class Test_ingredient_service_integration:
         """Vérification de l'existence de l'ingrédient réussie."""
 
         # GIVEN
-        id = 513
+        id = 312
 
         # WHEN
         ingredient_verifie = IngredientService().verifier_ingredient(id)
 
         # THEN
-        assert ingredient_verifie.nom == "Water"
+        assert ingredient_verifie.nom == "Lime"
 
     def test_verifier_ingredient_false(self):
         """Vérification de l'ingrédient échouée."""

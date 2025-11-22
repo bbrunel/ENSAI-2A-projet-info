@@ -28,7 +28,7 @@ gantt
     Coder une v0                 :done,    2025-09-29, 15d
     Gestion base de données      :done,    2025-09-29, 7d
     Code des classes             :done,    2025-10-07, 2025-11-22
-    Tests unitaires              :done,    2025-10-13, 2025-11-22
+    Tests                        :done,    2025-10-13, 2025-11-22
     Endpoints                    :done,    2025-11-04, 2025-11-22
     Rédaction                    :done,    2025-11-04, 2025-11-22
     Rendu                        :milestone, 2025-11-22,

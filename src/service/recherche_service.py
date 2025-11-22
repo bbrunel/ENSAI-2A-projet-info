@@ -1,6 +1,7 @@
 from business_object.filtre_cocktail import FiltreCocktail
 from business_object.filtre_ingredient import FiltreIngredient
 from business_object.utilisateur import Utilisateur
+from business_object.cocktail import Cocktail
 from dao.recherche_dao import RechercheDao
 from service.ingredient_service import IngredientService
 from service.ingredient_utilisateur_service import IngredientUtilisateurService
